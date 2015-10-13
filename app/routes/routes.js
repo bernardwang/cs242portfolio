@@ -12,7 +12,7 @@ module.exports = {
 				console.log("Error loading commit");
 				return;
 			}
-			
+			console.log(commits);
 		});
 		
 		/*// Render React to a string, passing in our fetched tweets

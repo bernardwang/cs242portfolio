@@ -32,7 +32,7 @@ var parseCommits = function(err, data, callback) {
 
 var parseXML = function(err, file, callback) {
 	var parser = new xmltojs.Parser();
-	parser.parseString(file, function(err,data) {
+	parser.parseString(file, function(err, data) {
 		if(err) {
 			console.log('Error parsing log xml');
 			callback(err);
@@ -42,7 +42,8 @@ var parseXML = function(err, file, callback) {
 }
 
 var openXML = function(err, path, callback) {
-	fs.readFile(path, function(file) {
+	//path = __dirname+'/../data/svn_log.xml';
+	fs.readFile(path, function(err, file) {
 		if(err) {
 			console.log('Error reading log file');
 			callback(err);
@@ -55,15 +56,15 @@ commit.statics.loadCommits = function(err, path, callback) {
 	if(err){
 		callback(err);	
 	}
-	openXML(path, function(err, file){
+	openXML(null, path, function(err, file){
 		if(err) {
 			callback(err);
 		}
-		parseXML(file, function(err, data){
+		parseXML(null, file, function(err, data){
 			if(err) {
 				callback(err);
 			}
-			parseCommits(data, function(err, commits){
+			parseCommits(null, data, function(err, commits){
 				if(err) {
 					callback(err);
 				}
