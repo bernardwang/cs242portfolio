@@ -3,7 +3,7 @@ var express = require('express');
 var handlebars = require('express-handlebars');
 var http = require('http');
 var mongoose = require('mongoose');
-var routes = require('./routes');
+var routes = require('./app/routes/routes');
 var db = require('./config/db');
 
 // create express instance, set port
@@ -29,5 +29,5 @@ app.use("/", express.static(__dirname + "/public/"));
 
 // start server
 var server = http.createServer(app).listen(port, function() {
-	console.log('server listening on port ' + port);
+	console.log('Server listening on port ' + port);
 });
