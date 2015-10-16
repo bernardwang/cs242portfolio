@@ -13,7 +13,7 @@ var Commit = require('../models/Commit');
 module.exports = {
 	index: function(req, res) {
 		
-		// Gets list of commits from xml file
+		// Gets commits from xml file
 		var path = __dirname+'/../data/svn_log.xml';
 		Commit.loadSVN(null, path, function(err, svnCommits){
 			if(err){
@@ -24,7 +24,6 @@ module.exports = {
 			// Pass commits as parameter and render CommitsApp component to string
 			var markup = ReactDOMServer.renderToString(
 				CommitsApp({ commits : svnCommits })
-				//CommitsApp({ test : "ASd" })
 			);
 		
 			// Render home handlebars template

@@ -5,13 +5,17 @@
 //
 
 var React = require('react');
+var CommitDetail = require('./CommitDetail');
 
 var CommitEntry = React.createClass({
+	
   render: function() {
 		var entry = this.props.entry;
 		return (
 			<li className={"entry"}>
-				<p>{entry.msg}</p>
+				<h2>{entry.msg}</h2>
+				<h3>{entry.date}</h3>
+				<CommitDetail open = {false} entry = {entry} />
       </li>
 		)
   }
