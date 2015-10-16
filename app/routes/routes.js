@@ -15,7 +15,7 @@ module.exports = {
 		
 		// Gets list of commits from xml file
 		var path = __dirname+'/../data/svn_log.xml';
-		Commit.loadSVN(null, path, function(err, svn){
+		Commit.loadSVN(null, path, function(err, svnCommits){
 			if(err){
 				console.log("Error loading commit");
 				return;
@@ -23,7 +23,8 @@ module.exports = {
 
 			// Pass commits as parameter and render CommitsApp component to string
 			var markup = ReactDOMServer.renderToString(
-				CommitsApp({ test: 1 })
+				CommitsApp({ commits : svnCommits })
+				//CommitsApp({ test : "ASd" })
 			);
 		
 			// Render home handlebars template

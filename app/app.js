@@ -12,6 +12,6 @@ var CommitsApp = require('./components/CommitsApp.react');
 // Render the components, picking up where react left off on the server
 React.renderComponent(
   //<CommitsApp commits={initialState}/>,
-	//<CommitsApp teststate={initialState}/>,
+	//<CommitsApp commits = {initialState}/>
   //document.getElementById('react-app')
 );
