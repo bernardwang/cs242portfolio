@@ -11,9 +11,9 @@ var CommitHistory = React.createClass({
   render: function() {
 		
 		// Build list of CommitEntry
-    var history = this.props.history.map(function(entry){
+    var history = this.props.history.map(function(entry, i){
       return (
-        <CommitEntry key={entry.revision} entry={entry} />
+        <CommitEntry key={i} entry={entry} />
       )
     });
 

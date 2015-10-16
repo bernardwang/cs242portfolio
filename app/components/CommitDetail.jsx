@@ -17,9 +17,9 @@ var CommitDetail = React.createClass({
 		
 		// Build list of file changes
 		var entry = this.props.entry;
-		var changes = entry.changes.map(function(change){
+		var changes = entry.changes.map(function(change, i){
       return (
-				<li key={entry.revision}>
+				<li key={i}>
 					<p>{change}</p>
       	</li>
       )

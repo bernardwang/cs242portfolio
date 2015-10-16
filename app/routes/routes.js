@@ -8,14 +8,14 @@ var JSX = require('node-jsx').install({ extension: ".jsx" });
 var React = require('react');
 var ReactDOMServer = require('react-dom/server');
 var CommitsApp = React.createFactory(require('../components/CommitsApp'));
-var Commit = require('../models/Commit');		
+var SVNCommit = require('../models/SVNCommit');		
 
 module.exports = {
 	index: function(req, res) {
 		
 		// Gets commits from xml file
 		var path = __dirname+'/../data/svn_log.xml';
-		Commit.loadSVN(null, path, function(err, svnCommits){
+		SVNCommit.loadCommits(null, path, function(err, commits){
 			if(err){
 				console.log("Error loading commit");
 				return;
@@ -23,7 +23,7 @@ module.exports = {
 
 			// Pass commits as parameter and render CommitsApp component to string
 			var markup = ReactDOMServer.renderToString(
-				CommitsApp({ commits : svnCommits })
+				CommitsApp({ commits : commits })
 			);
 		
 			// Render home handlebars template

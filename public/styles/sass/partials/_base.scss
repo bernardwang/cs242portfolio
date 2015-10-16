@@ -1,0 +1,10 @@
+@font-face {
+    font-family: Dosis;
+    src: url(https://fonts.googleapis.com/css?family=Dosis);
+    font-weight: 400;
+}
+
+$small: 500px;
+$medium: 800px;
+
+@import "modules/all";

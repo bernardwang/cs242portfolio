@@ -1,5 +1,5 @@
 //
-//	Commit.js
+//	SVNCommit.js
 //
 //	Mongoose schema used in MongoDB
 //
@@ -8,7 +8,7 @@ var mongoose = require('mongoose');
 var xmltojs = require('xml2js');
 var fs = require('fs');
 
-var commit = new mongoose.Schema({
+var svnCommit = new mongoose.Schema({
 	revision	: Number,
 	msg				: String,
 	date			: String,
@@ -69,7 +69,7 @@ var openXML = function(err, path, callback) {
 /**
  * Returns list of commits loaded from specified file
  */
-commit.statics.loadSVN = function(err, path, callback) {	
+svnCommit.statics.loadCommits = function(err, path, callback) {	
 	if(err) {
 		callback(err);	
 	}
@@ -94,7 +94,7 @@ commit.statics.loadSVN = function(err, path, callback) {
 /**
  * Returns list of commits from database
  */
-commit.statics.getCommits = function(err, callback) {
+svnCommit.statics.getCommits = function(err, callback) {
   var commits = [];
 	Commit.find(function(err, res) {
   	if(err) {
@@ -106,4 +106,4 @@ commit.statics.getCommits = function(err, callback) {
 	});
 };
 
-module.exports = Commit = mongoose.model('Commit', commit);
+module.exports = SVNCommit = mongoose.model('SVNCommit', svnCommit);
