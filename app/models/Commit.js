@@ -1,3 +1,9 @@
+//
+//	Commit.js
+//
+//	Mongoose schema used in MongoDB
+//
+
 var mongoose = require('mongoose');
 var xmltojs = require('xml2js');
 var fs = require('fs');
@@ -9,6 +15,9 @@ var commit = new mongoose.Schema({
 	changes		: [String,String]
 });
 
+/**
+ * Returns list of parsed commits
+ */
 var parseCommits = function(err, data, callback) {
 	var commits = [];
 	var svn_log = data['log']['logentry'];
@@ -30,6 +39,9 @@ var parseCommits = function(err, data, callback) {
 	callback(null, commits);
 }
 
+/**
+ * Returns xml2js parser
+ */
 var parseXML = function(err, file, callback) {
 	var parser = new xmltojs.Parser();
 	parser.parseString(file, function(err, data) {
@@ -41,8 +53,10 @@ var parseXML = function(err, file, callback) {
 	});
 }
 
+/**
+ * Returns file handler
+ */
 var openXML = function(err, path, callback) {
-	//path = __dirname+'/../data/svn_log.xml';
 	fs.readFile(path, function(err, file) {
 		if(err) {
 			console.log('Error reading log file');
@@ -52,8 +66,11 @@ var openXML = function(err, path, callback) {
 	});
 }
 
-commit.statics.loadCommits = function(err, path, callback) {	
-	if(err){
+/**
+ * Returns list of commits loaded from specified file
+ */
+commit.statics.loadSVN = function(err, path, callback) {	
+	if(err) {
 		callback(err);	
 	}
 	openXML(null, path, function(err, file){
@@ -74,17 +91,19 @@ commit.statics.loadCommits = function(err, path, callback) {
 	});
 }
 
-commit.statics.getCommits = function(callback) {
+/**
+ * Returns list of commits from database
+ */
+commit.statics.getCommits = function(err, callback) {
   var commits = [];
-	callback(commits);
-	/*Commit.find(function(err, res) {
-  	if (err) {
-			// error mesg
+	Commit.find(function(err, res) {
+  	if(err) {
+			console.log('Error getting commits');
+			callback(err);
 		}
     commits = res;
-		callback(commits);
+		callback(null, commits);
 	});
-	*/
 };
 
 module.exports = Commit = mongoose.model('Commit', commit);

@@ -1,47 +1,37 @@
-var JSX = require('node-jsx').install();
+//
+//	routes.js
+//	
+//	Routes, views, data controller
+//
+
+var JSX = require('node-jsx').install({ extension: ".jsx" });
 var React = require('react');
-var CommitsApp = require('../components/CommitsApp.react');
+var ReactDOMServer = require('react-dom/server');
+var CommitsApp = React.createFactory(require('../components/CommitsApp'));
 var Commit = require('../models/Commit');		
 
 module.exports = {
 	index: function(req, res) {
 		
+		// Gets list of commits from xml file
 		var path = __dirname+'/../data/svn_log.xml';
-		Commit.loadCommits(null, path, function(err, commits){
+		Commit.loadSVN(null, path, function(err, svn){
 			if(err){
 				console.log("Error loading commit");
 				return;
 			}
-			console.log(commits);
+
+			// Pass commits as parameter and render CommitsApp component to string
+			var markup = ReactDOMServer.renderToString(
+				CommitsApp({ test: 1 })
+			);
+		
+			// Render home handlebars template
+			res.render('home', {
+				markup: markup, // Pass rendered react markup
+				//state: JSON.stringify(commits) // Pass current state to client side
+			});
 		});
 		
-		/*// Render React to a string, passing in our fetched tweets
-		var markup = React.renderComponentToString(
-			CommitsApp({
-				commits: commits
-			})
-		);
-		
-		// Render our 'home' template
-		res.render('home', {
-			markup: markup, // Pass rendered react markup
-			state: JSON.stringify(commits) // Pass current state to client side
-		});
-		
-		/*Commit.getCommits(function(commits) {
-    	// Render React to a string, passing in our fetched tweets
-    	var markup = React.renderComponentToString(
-				CommitsApp({
-      		commits: commits
-    		})
-   		);
-		
-    	// Render our 'home' template
-    	res.render('home', {
-    		markup: markup, // Pass rendered react markup
-      	state: JSON.stringify(commits) // Pass current state to client side
-    	});
-		
-  	});*/
 	}
 } 
