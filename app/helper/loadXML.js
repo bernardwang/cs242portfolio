@@ -23,7 +23,7 @@ var parseCommits = function(err, data, callback) {
 		}
 		// initialize commit object with array of changes
 		var commit = {
-			revision	: curr['revision'],
+			_id				: curr['$']['revision'],
 			msg				: curr['msg'],
 			date			: curr['date'],
 			changes		: paths
@@ -40,7 +40,6 @@ var parseXML = function(err, file, callback) {
 	var parser = new xmltojs.Parser();
 	parser.parseString(file, function(err, data) {
 		if(err) {
-			console.log('Error parsing log xml');
 			callback(err);
 		}
 		callback(null, data);
@@ -53,7 +52,6 @@ var parseXML = function(err, file, callback) {
 var openXML = function(err, path, callback) {
 	fs.readFile(path, function(err, file) {
 		if(err) {
-			console.log('Error reading log file');
 			callback(err);
 		}
 		callback(null, file);
@@ -69,14 +67,17 @@ var loadCommits = function(err, path, callback) {
 	}
 	openXML(null, path, function(err, file){
 		if(err) {
+			console.log('Error reading log file');
 			callback(err);
 		}
 		parseXML(null, file, function(err, data){
 			if(err) {
+				console.log('Error creating xml2js parser');
 				callback(err);
 			}
 			parseCommits(null, data, function(err, commits){
 				if(err) {
+					console.log('Error parsing xml');
 					callback(err);
 				}
 				callback(null, commits);

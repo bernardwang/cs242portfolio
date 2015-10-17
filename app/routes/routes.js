@@ -4,25 +4,35 @@
 //	Routes, views, data controller
 //
 
-var JSX = require('node-jsx').install({ extension: ".jsx" });
 var React = require('react');
 var ReactDOMServer = require('react-dom/server');
+var JSX = require('node-jsx').install({ extension: ".jsx" });
 var CommitsApp = React.createFactory(require('../components/CommitsApp'));
-var SVNCommit = require('../models/SVNCommit');	
-var loadSVN = require('../helper/loadSVN');
+var Commit = require('../models/Commit');	
+var loadXML = require('../helper/loadXML');
 
 module.exports = {
 	index: function(req, res) {
 		
-		// Gets commits from xml file
-		var path = __dirname+'/../data/svn_log.xml';
-		loadSVN(null, path, function(err, commits){
+		// Gets and stores commits from xml file
+		/*var path = __dirname+'/../data/svn_log.xml';
+		loadXML(null, path, function(err, commits){
 			if(err){
-				console.log("Error loading commit");
+				console.log("Error loading commits from xml");
 				return;
 			}
+			Commit.storeCommits(null, commits, function(err) {
+				if(err){
+					console.log(err);
+					console.log("Error storing commit");
+					return;
+				}
+			});
+		});*/
+			
+			
 
-			// Pass commits as parameter and render CommitsApp component to string
+		/*	// Pass commits as parameter and render CommitsApp component to string
 			var markup = ReactDOMServer.renderToString(
 				CommitsApp({ commits : commits })
 			);
@@ -32,7 +42,7 @@ module.exports = {
 				markup: markup, // Pass rendered react markup
 				//state: JSON.stringify(commits) // Pass current state to client side
 			});
-		});
+		});*/
 		
 	}
 } 
