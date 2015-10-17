@@ -8,14 +8,15 @@ var JSX = require('node-jsx').install({ extension: ".jsx" });
 var React = require('react');
 var ReactDOMServer = require('react-dom/server');
 var CommitsApp = React.createFactory(require('../components/CommitsApp'));
-var SVNCommit = require('../models/SVNCommit');		
+var SVNCommit = require('../models/SVNCommit');	
+var loadSVN = require('../helper/loadSVN');
 
 module.exports = {
 	index: function(req, res) {
 		
 		// Gets commits from xml file
 		var path = __dirname+'/../data/svn_log.xml';
-		SVNCommit.loadCommits(null, path, function(err, commits){
+		loadSVN(null, path, function(err, commits){
 			if(err){
 				console.log("Error loading commit");
 				return;
