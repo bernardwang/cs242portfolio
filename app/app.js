@@ -4,7 +4,7 @@
 //	Client side React rendering
 
 var React = require('react');
-var CommitsApp = require('./components/CommitsApp.react');
+var CommitsApp = require('./components/CommitsApp');
 
 // Snag the initial state that was passed from the server side
 //var initialState = JSON.parse(document.getElementById('initial-state').innerHTML)

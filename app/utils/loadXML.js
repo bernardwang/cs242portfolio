@@ -19,7 +19,7 @@ var parseCommits = function(err, data, callback) {
 		var curr = svn_log[i];
 		var curr_paths = curr['paths'][0]['path'];
 		for(var p = 0; p < curr_paths.length; p++) {
-			paths.push([curr_paths[p]['_'],curr_paths[p]['$']['kind']]);
+			paths.push(curr_paths[p]['_']);
 		}
 		// initialize commit object with array of changes
 		var commit = {
@@ -62,9 +62,6 @@ var openXML = function(err, path, callback) {
  * Returns list of commits loaded from specified xml file
  */
 var loadCommits = function(err, path, callback) {	
-	if(err) {
-		callback(err);	
-	}
 	openXML(null, path, function(err, file){
 		if(err) {
 			console.log('Error reading log file');

@@ -10,52 +10,48 @@ var CommitSchema = new mongoose.Schema({
 	_id				: Number,
 	msg				: String,
 	date			: String,
-	changes		: [[String,String]]
+	changes		: [String]
 });
 
+
+/**
+ * Returns list of commits from database
+ */
 CommitSchema.statics.storeCommits = function(err, data, callback) {
-	//for(var i = 0, var len = myArray.length; i < len; i++) {
-	if(err) {
-			
-	}
 	data.forEach(function(item){
-		console.log(item._id);
 		Commit.create({
 			_id				: item._id,
 			msg				: item.msg,
 			date			: item.date,
 			changes		: item.changes  
-		}, function(err, todo) {
+		}, function(err) {
 			if(err) {
 				callback(err);
 			}
 		});
 	});	
+	callback(null);
 };
 
 /**
  * Returns list of commits from database
  */
 CommitSchema.statics.getCommits = function(err, callback) {
-	if(err) {
-			
-	}
-  var commits = [];
 	Commit.find(function(err, res) {
   	if(err) {
-			console.log('Error getting commits');
 			callback(err);
 		}
-    commits = res;
-		callback(null, commits);
+		callback(null, res);
 	});
 };
 
 /**
  * Deletes entire database contents
  */
-CommitSchema.statics.deleteCommits = function(err, callback) {
-	Commit.find().remove().exec();
+CommitSchema.statics.deleteCommits = function(err) {
+	Commit.find().remove().exec(); // nukes db, pretty lazy
+	console.log('Database cleared :O');
 };
 
-module.exports = Commit = mongoose.model('Commit', CommitSchema);
+var Commit = mongoose.model('Commit', CommitSchema);
+module.exports = Commit;

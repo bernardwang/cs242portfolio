@@ -27,7 +27,7 @@ var CommitDetail = React.createClass({
 		
 		return (
 			<div className={"detail"}>
-				<h3>{entry.revision}</h3>
+				<h3>{entry._id}</h3>
 				<ul>
 					{changes}
 				</ul>

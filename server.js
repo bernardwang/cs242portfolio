@@ -1,16 +1,16 @@
 //
 //	server.js
 //
-//	Serve side main
+//	Server side main
 //
 
 // dependencies
 var express = require('express');
 var handlebars = require('express-handlebars');
-var http = require('http');
 var mongoose = require('mongoose');
 var routes = require('./app/routes/routes');
 var db = require('./config/db');
+var http = require('http');
 
 // create express instance, set port
 var app = express();
@@ -31,7 +31,7 @@ mongoose.connection.once('open', function() {
 app.get('/', routes.index);
 
 // set static content directory
-app.use("/", express.static(__dirname + "/public/"));
+app.use('/', express.static(__dirname + "/public/"));
 
 // start server
 var server = http.createServer(app).listen(port, function() {

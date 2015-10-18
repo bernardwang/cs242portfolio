@@ -1,13 +1,13 @@
+// breakpoints
+$small-bp: 500px;
+$medium-bp: 800px;
+
 // webfonts
 @font-face {
 	font-family: Dosis;
 	src: url(https://fonts.googleapis.com/css?family=Dosis);
 	font-weight: 400;
 }
-
-// breakpoints
-$small-bp: 500px;
-$medium-bp: 800px;
 
 // font and line height consistency
 $base-font-size: 1rem;
@@ -47,4 +47,7 @@ $type-settings: (
   line-height: line-height($level);
 }
 
-@import "modules/all";
+@import "layout/all";
+@import "components/all";
+@import "utils/all";
+@import "vendor/all";

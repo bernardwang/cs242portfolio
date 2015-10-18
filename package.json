@@ -3,14 +3,14 @@
   "version": "0.0.0",
   "description": "CS242 SVN Portfolio",
   "scripts": {
-    "watch": "watchify /app/app.js -o public/js/bundle.js -v",
-    "browserify": "browserify app.js | uglifyjs > public/js/bundle.js",
-    "build": "npm run browserify ",
+    "watch": "watchify app/app.js -o public/js/bundle.js -v",
+    "browserify": "browserify --extension=.jsx app/app.js | uglifyjs > public/js/bundle.js",
     "start": "npm run watch & nodemon server.js"
   },
   "author": "Bernard Wang",
   "license": "MIT",
   "dependencies": {
+    "babel": "^5.8.23",
     "express": "~4.13.3",
     "express-handlebars": "~2.0.1",
     "mongoose": "^4.1.10",
@@ -28,7 +28,7 @@
   },
   "browserify": {
     "transform": [
-      "reactify"
+    	["reactify", {"es6": true}]
     ]
   }
 }
