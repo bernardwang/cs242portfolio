@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "description": "CS242 SVN Portfolio",
   "scripts": {
-    "watch": "watchify app/app.js -o public/js/bundle.js -v",
-    "browserify": "browserify --extension=.jsx app/app.js | uglifyjs > public/js/bundle.js",
+    "watch": "watchify app/app.jsx --extension=.jsx -o public/js/bundle.js -v",
+    "browserify": "browserify app/app.jsx --extension=.jsx | uglifyjs > public/js/bundle.js",
     "start": "npm run watch & nodemon server.js"
   },
   "author": "Bernard Wang",

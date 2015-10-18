@@ -15,6 +15,7 @@ var CommitEntry = React.createClass({
 			<li className={"entry"}>
 				<h2>{entry.msg}</h2>
 				<h3>{entry.date}</h3>
+				<button className={"toggle"}>toggle</button>
 				<CommitDetail open = {false} entry = {entry} />
       </li>
 		)

@@ -15,6 +15,9 @@ var CommitDetail = React.createClass({
 	
   render: function() {
 		
+		var open = this.state.open;
+		console.log(open);
+		
 		// Build list of file changes
 		var entry = this.props.entry;
 		var changes = entry.changes.map(function(change, i){

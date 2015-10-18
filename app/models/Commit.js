@@ -48,9 +48,9 @@ CommitSchema.statics.getCommits = function(err, callback) {
 /**
  * Deletes entire database contents
  */
-CommitSchema.statics.deleteCommits = function(err) {
+CommitSchema.statics.deleteCommits = function(err, callback) {
 	Commit.find().remove().exec(); // nukes db, pretty lazy
-	console.log('Database cleared :O');
+	callback(null);
 };
 
 var Commit = mongoose.model('Commit', CommitSchema);
