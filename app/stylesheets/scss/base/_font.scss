@@ -1,7 +1,3 @@
-// breakpoints
-$small-bp: 500px;
-$medium-bp: 800px;
-
 // webfonts
 @font-face {
 	font-family: Dosis;
@@ -46,8 +42,3 @@ $type-settings: (
   font-size: type-scale($level);
   line-height: line-height($level);
 }
-
-@import "layout/all";
-@import "components/all";
-@import "utils/all";
-@import "vendor/all";

@@ -1,91 +1,67 @@
 // *************************************
 //
-//	gulpfile
-//
-// *************************************
+//	gulpfile.js
 //
 //	tasks:
 //  	`gulp`
 //   	`gulp sass`
 //   	`gulp css`
-//   	`gulp lint`
-//   	`gulp js`
-//   	`gulp img`
-//   	`gulp imports`
-//   	`gulp sync`
-//   	`gulp serve`
-//   	`gulp prod`
 //
 // *************************************
 
 // *************************************
 //
-//	modules
+//	Modules
 //
 // *************************************
 
 var gulp					= require('gulp');
 var sass					= require('gulp-sass');
+var sourcemaps 		= require('gulp-sourcemaps');
 var min						= require('gulp-minify-css');
 var concatCSS 		= require('gulp-concat-css');
 var lint          = require('gulp-jshint');
-var concat				= require('gulp-concat');
 var uglify 				= require('gulp-uglify');
-var html_replace	= require('gulp-html-replace');
-var watch 				= require('gulp-watch')
-var source 				= require('vinyl-source-stream');
+var notify        = require('gulp-notify');
 var browserify 		= require('browserify');
 var reactify 			= require('reactify');
 var watchify 			= require('watchify');
-var notify        = require('gulp-notify');
-var del 					= require('del');
-var sync          = require('browser-sync').create();
 
 // *************************************
 //
-//	file constants
+//	File constants
 //
 // *************************************
 
-var DIST_CSS			= './dist/styles/css/';
-var DIST_JS				= './dist/js/';
-var DIST_JS_LIB		= './dist/js/lib';
-var DIST_IMG			= './dist/img/';
+var	ALL_SCSS 			= './app/stylesheets/scss/**/*.scss'; 
+var ALL_CSS				= './app/stylesheets/css/*.css'; 
+var DEST_CSS			= './app/stylesheets/css/'; 
+var	DIST_CSS			= './public/css/';
 
-var	ALL_SCSS 			= './public/styles/sass/**/*.scss'; 
-var ALL_CSS 			= './public/styles/css/*.css';
-var	DEST_CSS 			= './public/styles/css/';
-
-var REACT					= './app/*.js';
-var DEST_REACT		= './public/';
-
-var ALL_JS_CORE		= './public/js/*.js';
-var ALL_JS_LIB		= './public/js/lib/*.js';
-var DEST_REACT		= './public/';
-var DEST_JS_CORE	= './public/js/';
-var DEST_JS_LIB		= './public/js/lib/';
+var ALL_JS				= './app/*.js';
+var DIST_JS				= './public/';
 
 // *************************************
 //
-//	tasks
+//	Tasks
 //
 // *************************************
 
 // convert sass to css
 gulp.task('sass', function(){
 	gulp.src(ALL_SCSS)
-  	.pipe(sass())
+  	.pipe(sass({ outputStyle: 'compressed' }))
   	.pipe(gulp.dest(DEST_CSS))
   	.pipe(notify({ message: 'sass complete' }));
 });
 
 // concat & min css, pipe to dist/css
-gulp.task('css', ['sass'],  function(){
+gulp.task('style', ['sass'],  function(){
 	gulp.src(ALL_CSS)
   	.pipe(concatCSS('bundle.min.css'))
   	.pipe(min())
   	.pipe(gulp.dest(DIST_CSS))
-  	.pipe(notify({ message: 'dist/css complete' }));
+  	.pipe(notify({ message: 'styles complete' }));
 });
 
 // browserify js
@@ -96,7 +72,7 @@ gulp.task('browserify', function () {
 		debug: true, 
 		fullPaths: true
   });
-	var watcher  = watchify(bundler);
+	var watcher = watchify(bundler);
 	return watcher
     .on('update', function () { // When any files update
         var updateStart = Date.now();
@@ -112,4 +88,4 @@ gulp.task('browserify', function () {
     .pipe(gulp.dest('./build/'));
 });
 
-gulp.task('default', ['sass']);
+gulp.task('default', ['style']);

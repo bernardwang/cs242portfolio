@@ -25,29 +25,21 @@ React.renderComponent(
 var React = require('react');
 
 var CommitDetail = React.createClass({displayName: 'CommitDetail',
-	getInitialState: function() {
-    return {
-      open: false
-    };
-  },
 	
   render: function() {
-		
-		var open = this.state.open;
-		console.log(open);
-		
 		// Build list of file changes
+		var classname = this.props.show ? 'detail' : 'detail hidden';
 		var entry = this.props.entry;
 		var changes = entry.changes.map(function(change, i){
-      return (
+     	return (
 				React.DOM.li({key: i}, 
 					React.DOM.p(null, change)
-      	)
-      )
+     		)
+     	)
     });
 		
 		return (
-			React.DOM.div({className: "detail"}, 
+			React.DOM.div({className: classname}, 
 				React.DOM.h3(null, entry._id), 
 				React.DOM.ul(null, 
 					changes
@@ -71,14 +63,29 @@ var CommitDetail = require('./CommitDetail');
 
 var CommitEntry = React.createClass({displayName: 'CommitEntry',
 	
+	getInitialState: function() {
+    return {
+      showDetail: false
+    };
+  },
+	 
+	onToggleClick: function() {
+    this.setState({ 
+			showDetail: !this.state.showDetail
+    })
+				console.log(1);
+  },
+	
   render: function() {
 		var entry = this.props.entry;
+		
+		// Hides CommitDetail based on state
 		return (
 			React.DOM.li({className: "entry"}, 
 				React.DOM.h2(null, entry.msg), 
 				React.DOM.h3(null, entry.date), 
-				React.DOM.button({className: "toggle"}, "toggle"), 
-				CommitDetail({open: false, entry: entry})
+				React.DOM.button({className: "toggle", onClick: this.onToggleClick}, "toggle"), 
+				CommitDetail({show: this.state.showDetail, entry: entry})
       )
 		)
   }

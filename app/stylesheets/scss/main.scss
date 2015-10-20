@@ -1,12 +1,10 @@
-@import "base";
-
+@import 'base/all';
+@import 'layout/all';
+@import 'components/all';
+@import 'utils/all';
 
 html,body{
-  height: 100vh;
-  margin: 0;
-  padding: 0;
 	font-family: Dosis;
-	font-size: 62.5%;
 }
 
 #wrapper {
