@@ -11,7 +11,6 @@ var CommitsApp = React.createFactory(require('../components/CommitsApp'));
 var Commit = require('../models/Commit');	
 var loadXML = require('../utils/loadXML');
 
-
 // Deletes database, and repopulates from xml file
 var reloadDB = function() {
 	Commit.deleteCommits(null, function(err) {

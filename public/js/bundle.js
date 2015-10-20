@@ -1,22 +1,25 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"/Users/bernardwang/Documents/code/github/cs242portfolio/app/app.jsx":[function(require,module,exports){
-/** @jsx React.DOM *///
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+//
 //	app.js
 //
 //	Client side React rendering
 
 var React = require('react');
+var ReactDOM = require('react-dom');
 var CommitsApp = require('./components/CommitsApp');
 
-// Snag the initial state that was passed from the server side
+// Get initial state that was passed from the server side
 var initialState = JSON.parse(document.getElementById('initial-state').innerHTML);
+// DOM node react component will be added to
+var mountNode = document.getElementById('react-app');
 
-// Render the components, picking up where react left off on the server
-React.renderComponent(
-	CommitsApp({commits: initialState}),
-  document.getElementById('react-app')
+// Render the app, picking up where react left off on the server
+ReactDOM.render(
+	React.createElement(CommitsApp, {commits: initialState}), mountNode
 );
-},{"./components/CommitsApp":"/Users/bernardwang/Documents/code/github/cs242portfolio/app/components/CommitsApp.jsx","react":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/react.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/app/components/CommitDetail.jsx":[function(require,module,exports){
-/** @jsx React.DOM */// 
+
+},{"./components/CommitsApp":5,"react":162,"react-dom":7}],2:[function(require,module,exports){
+// 
 //	CommitDetails.jsx
 //
 //	Single commit detail component
@@ -24,35 +27,35 @@ React.renderComponent(
 
 var React = require('react');
 
-var CommitDetail = React.createClass({displayName: 'CommitDetail',
+var CommitDetail = React.createClass({displayName: "CommitDetail",
 	
   render: function() {
+		
 		// Build list of file changes
 		var classname = this.props.show ? 'detail' : 'detail hidden';
 		var entry = this.props.entry;
 		var changes = entry.changes.map(function(change, i){
      	return (
-				React.DOM.li({key: i}, 
-					React.DOM.p(null, change)
+				React.createElement("li", {key: i}, 
+					React.createElement("p", null, change)
      		)
      	)
     });
 		
 		return (
-			React.DOM.div({className: classname}, 
-				React.DOM.h3(null, entry._id), 
-				React.DOM.ul(null, 
-					changes
-				)
+			React.createElement("div", {className: classname}, 
+				React.createElement("h3", null, entry._id), 
+				React.createElement("ul", null, changes)
 			)
 		)
+		
   }
 });
 
 module.exports = CommitDetail;
 
-},{"react":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/react.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/app/components/CommitEntry.jsx":[function(require,module,exports){
-/** @jsx React.DOM */// 
+},{"react":162}],3:[function(require,module,exports){
+// 
 //	CommitEntry.jsx
 //
 //	Single commit entry component
@@ -61,19 +64,19 @@ module.exports = CommitDetail;
 var React = require('react');
 var CommitDetail = require('./CommitDetail');
 
-var CommitEntry = React.createClass({displayName: 'CommitEntry',
+var CommitEntry = React.createClass({displayName: "CommitEntry",
 	
 	getInitialState: function() {
     return {
       showDetail: false
     };
   },
-	 
-	onToggleClick: function() {
+	
+	// toggles show detail state
+	onToggleClick: function(evt) {
     this.setState({ 
 			showDetail: !this.state.showDetail
     })
-				console.log(1);
   },
 	
   render: function() {
@@ -81,11 +84,13 @@ var CommitEntry = React.createClass({displayName: 'CommitEntry',
 		
 		// Hides CommitDetail based on state
 		return (
-			React.DOM.li({className: "entry"}, 
-				React.DOM.h2(null, entry.msg), 
-				React.DOM.h3(null, entry.date), 
-				React.DOM.button({className: "toggle", onClick: this.onToggleClick}, "toggle"), 
-				CommitDetail({show: this.state.showDetail, entry: entry})
+			React.createElement("li", {className: "entry"}, 
+				React.createElement("div", {onClick: this.onClick}), 
+				React.createElement("p", null, this.state.showDetail), 
+				React.createElement("h2", null, entry.msg), 
+				React.createElement("h3", null, entry.date), 
+				React.createElement("button", {className: "toggle-detail", onClick: this.onToggleClick}, "Details"), 
+				React.createElement(CommitDetail, {show: this.state.showDetail, entry: entry})
       )
 		)
   }
@@ -93,8 +98,8 @@ var CommitEntry = React.createClass({displayName: 'CommitEntry',
 
 module.exports = CommitEntry;
 
-},{"./CommitDetail":"/Users/bernardwang/Documents/code/github/cs242portfolio/app/components/CommitDetail.jsx","react":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/react.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/app/components/CommitHistory.jsx":[function(require,module,exports){
-/** @jsx React.DOM */// 
+},{"./CommitDetail":2,"react":162}],4:[function(require,module,exports){
+// 
 //	CommitHistory.jsx
 //
 //	Entire commit history component
@@ -103,18 +108,18 @@ module.exports = CommitEntry;
 var React = require('react');
 var CommitEntry = require('./CommitEntry');
 
-var CommitHistory = React.createClass({displayName: 'CommitHistory',
+var CommitHistory = React.createClass({displayName: "CommitHistory",
   render: function() {
 		
 		// Build list of CommitEntry
     var history = this.props.history.map(function(entry, i){
       return (
-        CommitEntry({key: i, entry: entry})
+        React.createElement(CommitEntry, {key: i, entry: entry})
       )
     });
 
     return (
-      React.DOM.ul({className: "history"}, 
+      React.createElement("ul", {className: "history"}, 
 				history
 			)
     )
@@ -124,8 +129,8 @@ var CommitHistory = React.createClass({displayName: 'CommitHistory',
 
 module.exports = CommitHistory;
 
-},{"./CommitEntry":"/Users/bernardwang/Documents/code/github/cs242portfolio/app/components/CommitEntry.jsx","react":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/react.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/app/components/CommitsApp.jsx":[function(require,module,exports){
-/** @jsx React.DOM */// 
+},{"./CommitEntry":3,"react":162}],5:[function(require,module,exports){
+// 
 //	CommitsApp.jsx
 //
 //	Main react app component
@@ -134,19 +139,120 @@ module.exports = CommitHistory;
 var React = require('react');
 var CommitHistory = require('./CommitHistory');
 
-var CommitsApp = React.createClass({displayName: 'CommitsApp',
+var CommitsApp = React.createClass({displayName: "CommitsApp",
  
 	render: function() {
+		
 		return (
-			React.DOM.div({className: "react-app"}, 
-				CommitHistory({history: this.props.commits})
+			React.createElement("div", {className: "react-app"}, 
+				React.createElement(CommitHistory, {history: this.props.commits})
 			)
-		);	
+		);
+		
   }
 });
 
 module.exports = CommitsApp;
-},{"./CommitHistory":"/Users/bernardwang/Documents/code/github/cs242portfolio/app/components/CommitHistory.jsx","react":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/react.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/AutoFocusUtils.js":[function(require,module,exports){
+
+},{"./CommitHistory":4,"react":162}],6:[function(require,module,exports){
+// shim for using process in browser
+
+var process = module.exports = {};
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = setTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    clearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        setTimeout(drainQueue, 0);
+    }
+};
+
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
+
+},{}],7:[function(require,module,exports){
+'use strict';
+
+module.exports = require('react/lib/ReactDOM');
+
+},{"react/lib/ReactDOM":42}],8:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -183,7 +289,7 @@ var AutoFocusUtils = {
 };
 
 module.exports = AutoFocusUtils;
-},{"./ReactMount":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactMount.js","./findDOMNode":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/findDOMNode.js","fbjs/lib/focusNode":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/focusNode.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/BeforeInputEventPlugin.js":[function(require,module,exports){
+},{"./ReactMount":72,"./findDOMNode":114,"fbjs/lib/focusNode":144}],9:[function(require,module,exports){
 /**
  * Copyright 2013-2015 Facebook, Inc.
  * All rights reserved.
@@ -589,7 +695,7 @@ var BeforeInputEventPlugin = {
 };
 
 module.exports = BeforeInputEventPlugin;
-},{"./EventConstants":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/EventConstants.js","./EventPropagators":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/EventPropagators.js","./FallbackCompositionState":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/FallbackCompositionState.js","./SyntheticCompositionEvent":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/SyntheticCompositionEvent.js","./SyntheticInputEvent":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/SyntheticInputEvent.js","fbjs/lib/ExecutionEnvironment":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/ExecutionEnvironment.js","fbjs/lib/keyOf":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/keyOf.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/CSSProperty.js":[function(require,module,exports){
+},{"./EventConstants":21,"./EventPropagators":25,"./FallbackCompositionState":26,"./SyntheticCompositionEvent":97,"./SyntheticInputEvent":101,"fbjs/lib/ExecutionEnvironment":136,"fbjs/lib/keyOf":154}],10:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -729,7 +835,7 @@ var CSSProperty = {
 };
 
 module.exports = CSSProperty;
-},{}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/CSSPropertyOperations.js":[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -907,7 +1013,7 @@ ReactPerf.measureMethods(CSSPropertyOperations, 'CSSPropertyOperations', {
 
 module.exports = CSSPropertyOperations;
 }).call(this,require('_process'))
-},{"./CSSProperty":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/CSSProperty.js","./ReactPerf":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactPerf.js","./dangerousStyleValue":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/dangerousStyleValue.js","_process":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/watchify/node_modules/browserify/node_modules/process/browser.js","fbjs/lib/ExecutionEnvironment":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/ExecutionEnvironment.js","fbjs/lib/camelizeStyleName":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/camelizeStyleName.js","fbjs/lib/hyphenateStyleName":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/hyphenateStyleName.js","fbjs/lib/memoizeStringOnly":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/memoizeStringOnly.js","fbjs/lib/warning":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/warning.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/CallbackQueue.js":[function(require,module,exports){
+},{"./CSSProperty":10,"./ReactPerf":78,"./dangerousStyleValue":111,"_process":6,"fbjs/lib/ExecutionEnvironment":136,"fbjs/lib/camelizeStyleName":138,"fbjs/lib/hyphenateStyleName":149,"fbjs/lib/memoizeStringOnly":156,"fbjs/lib/warning":161}],12:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -1003,7 +1109,7 @@ PooledClass.addPoolingTo(CallbackQueue);
 
 module.exports = CallbackQueue;
 }).call(this,require('_process'))
-},{"./Object.assign":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/Object.assign.js","./PooledClass":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/PooledClass.js","_process":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/watchify/node_modules/browserify/node_modules/process/browser.js","fbjs/lib/invariant":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/invariant.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ChangeEventPlugin.js":[function(require,module,exports){
+},{"./Object.assign":29,"./PooledClass":30,"_process":6,"fbjs/lib/invariant":150}],13:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -1323,7 +1429,7 @@ var ChangeEventPlugin = {
 };
 
 module.exports = ChangeEventPlugin;
-},{"./EventConstants":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/EventConstants.js","./EventPluginHub":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/EventPluginHub.js","./EventPropagators":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/EventPropagators.js","./ReactUpdates":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactUpdates.js","./SyntheticEvent":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/SyntheticEvent.js","./getEventTarget":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/getEventTarget.js","./isEventSupported":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/isEventSupported.js","./isTextInputElement":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/isTextInputElement.js","fbjs/lib/ExecutionEnvironment":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/ExecutionEnvironment.js","fbjs/lib/keyOf":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/keyOf.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ClientReactRootIndex.js":[function(require,module,exports){
+},{"./EventConstants":21,"./EventPluginHub":22,"./EventPropagators":25,"./ReactUpdates":90,"./SyntheticEvent":99,"./getEventTarget":120,"./isEventSupported":125,"./isTextInputElement":126,"fbjs/lib/ExecutionEnvironment":136,"fbjs/lib/keyOf":154}],14:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -1347,7 +1453,7 @@ var ClientReactRootIndex = {
 };
 
 module.exports = ClientReactRootIndex;
-},{}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/DOMChildrenOperations.js":[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -1479,7 +1585,7 @@ ReactPerf.measureMethods(DOMChildrenOperations, 'DOMChildrenOperations', {
 
 module.exports = DOMChildrenOperations;
 }).call(this,require('_process'))
-},{"./Danger":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/Danger.js","./ReactMultiChildUpdateTypes":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactMultiChildUpdateTypes.js","./ReactPerf":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactPerf.js","./setInnerHTML":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/setInnerHTML.js","./setTextContent":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/setTextContent.js","_process":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/watchify/node_modules/browserify/node_modules/process/browser.js","fbjs/lib/invariant":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/invariant.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/DOMProperty.js":[function(require,module,exports){
+},{"./Danger":18,"./ReactMultiChildUpdateTypes":74,"./ReactPerf":78,"./setInnerHTML":130,"./setTextContent":131,"_process":6,"fbjs/lib/invariant":150}],16:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -1716,7 +1822,7 @@ var DOMProperty = {
 
 module.exports = DOMProperty;
 }).call(this,require('_process'))
-},{"_process":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/watchify/node_modules/browserify/node_modules/process/browser.js","fbjs/lib/invariant":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/invariant.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/DOMPropertyOperations.js":[function(require,module,exports){
+},{"_process":6,"fbjs/lib/invariant":150}],17:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -1944,7 +2050,7 @@ ReactPerf.measureMethods(DOMPropertyOperations, 'DOMPropertyOperations', {
 
 module.exports = DOMPropertyOperations;
 }).call(this,require('_process'))
-},{"./DOMProperty":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/DOMProperty.js","./ReactPerf":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactPerf.js","./quoteAttributeValueForBrowser":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/quoteAttributeValueForBrowser.js","_process":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/watchify/node_modules/browserify/node_modules/process/browser.js","fbjs/lib/warning":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/warning.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/Danger.js":[function(require,module,exports){
+},{"./DOMProperty":16,"./ReactPerf":78,"./quoteAttributeValueForBrowser":128,"_process":6,"fbjs/lib/warning":161}],18:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -2092,7 +2198,7 @@ var Danger = {
 
 module.exports = Danger;
 }).call(this,require('_process'))
-},{"_process":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/watchify/node_modules/browserify/node_modules/process/browser.js","fbjs/lib/ExecutionEnvironment":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/ExecutionEnvironment.js","fbjs/lib/createNodesFromMarkup":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/createNodesFromMarkup.js","fbjs/lib/emptyFunction":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/emptyFunction.js","fbjs/lib/getMarkupWrap":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/getMarkupWrap.js","fbjs/lib/invariant":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/invariant.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/DefaultEventPluginOrder.js":[function(require,module,exports){
+},{"_process":6,"fbjs/lib/ExecutionEnvironment":136,"fbjs/lib/createNodesFromMarkup":141,"fbjs/lib/emptyFunction":142,"fbjs/lib/getMarkupWrap":146,"fbjs/lib/invariant":150}],19:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -2120,7 +2226,7 @@ var keyOf = require('fbjs/lib/keyOf');
 var DefaultEventPluginOrder = [keyOf({ ResponderEventPlugin: null }), keyOf({ SimpleEventPlugin: null }), keyOf({ TapEventPlugin: null }), keyOf({ EnterLeaveEventPlugin: null }), keyOf({ ChangeEventPlugin: null }), keyOf({ SelectEventPlugin: null }), keyOf({ BeforeInputEventPlugin: null })];
 
 module.exports = DefaultEventPluginOrder;
-},{"fbjs/lib/keyOf":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/keyOf.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/EnterLeaveEventPlugin.js":[function(require,module,exports){
+},{"fbjs/lib/keyOf":154}],20:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -2245,7 +2351,7 @@ var EnterLeaveEventPlugin = {
 };
 
 module.exports = EnterLeaveEventPlugin;
-},{"./EventConstants":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/EventConstants.js","./EventPropagators":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/EventPropagators.js","./ReactMount":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactMount.js","./SyntheticMouseEvent":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/SyntheticMouseEvent.js","fbjs/lib/keyOf":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/keyOf.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/EventConstants.js":[function(require,module,exports){
+},{"./EventConstants":21,"./EventPropagators":25,"./ReactMount":72,"./SyntheticMouseEvent":103,"fbjs/lib/keyOf":154}],21:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -2338,7 +2444,7 @@ var EventConstants = {
 };
 
 module.exports = EventConstants;
-},{"fbjs/lib/keyMirror":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/keyMirror.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/EventPluginHub.js":[function(require,module,exports){
+},{"fbjs/lib/keyMirror":153}],22:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -2620,7 +2726,7 @@ var EventPluginHub = {
 
 module.exports = EventPluginHub;
 }).call(this,require('_process'))
-},{"./EventPluginRegistry":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/EventPluginRegistry.js","./EventPluginUtils":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/EventPluginUtils.js","./ReactErrorUtils":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactErrorUtils.js","./accumulateInto":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/accumulateInto.js","./forEachAccumulated":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/forEachAccumulated.js","_process":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/watchify/node_modules/browserify/node_modules/process/browser.js","fbjs/lib/invariant":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/invariant.js","fbjs/lib/warning":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/warning.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/EventPluginRegistry.js":[function(require,module,exports){
+},{"./EventPluginRegistry":23,"./EventPluginUtils":24,"./ReactErrorUtils":63,"./accumulateInto":109,"./forEachAccumulated":116,"_process":6,"fbjs/lib/invariant":150,"fbjs/lib/warning":161}],23:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -2843,7 +2949,7 @@ var EventPluginRegistry = {
 
 module.exports = EventPluginRegistry;
 }).call(this,require('_process'))
-},{"_process":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/watchify/node_modules/browserify/node_modules/process/browser.js","fbjs/lib/invariant":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/invariant.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/EventPluginUtils.js":[function(require,module,exports){
+},{"_process":6,"fbjs/lib/invariant":150}],24:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -3048,7 +3154,7 @@ var EventPluginUtils = {
 
 module.exports = EventPluginUtils;
 }).call(this,require('_process'))
-},{"./EventConstants":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/EventConstants.js","./ReactErrorUtils":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactErrorUtils.js","_process":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/watchify/node_modules/browserify/node_modules/process/browser.js","fbjs/lib/invariant":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/invariant.js","fbjs/lib/warning":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/warning.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/EventPropagators.js":[function(require,module,exports){
+},{"./EventConstants":21,"./ReactErrorUtils":63,"_process":6,"fbjs/lib/invariant":150,"fbjs/lib/warning":161}],25:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -3186,7 +3292,7 @@ var EventPropagators = {
 
 module.exports = EventPropagators;
 }).call(this,require('_process'))
-},{"./EventConstants":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/EventConstants.js","./EventPluginHub":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/EventPluginHub.js","./accumulateInto":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/accumulateInto.js","./forEachAccumulated":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/forEachAccumulated.js","_process":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/watchify/node_modules/browserify/node_modules/process/browser.js","fbjs/lib/warning":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/warning.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/FallbackCompositionState.js":[function(require,module,exports){
+},{"./EventConstants":21,"./EventPluginHub":22,"./accumulateInto":109,"./forEachAccumulated":116,"_process":6,"fbjs/lib/warning":161}],26:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -3282,7 +3388,7 @@ assign(FallbackCompositionState.prototype, {
 PooledClass.addPoolingTo(FallbackCompositionState);
 
 module.exports = FallbackCompositionState;
-},{"./Object.assign":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/Object.assign.js","./PooledClass":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/PooledClass.js","./getTextContentAccessor":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/getTextContentAccessor.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/HTMLDOMPropertyConfig.js":[function(require,module,exports){
+},{"./Object.assign":29,"./PooledClass":30,"./getTextContentAccessor":123}],27:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -3507,7 +3613,7 @@ var HTMLDOMPropertyConfig = {
 };
 
 module.exports = HTMLDOMPropertyConfig;
-},{"./DOMProperty":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/DOMProperty.js","fbjs/lib/ExecutionEnvironment":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/ExecutionEnvironment.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/LinkedValueUtils.js":[function(require,module,exports){
+},{"./DOMProperty":16,"fbjs/lib/ExecutionEnvironment":136}],28:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -3644,7 +3750,7 @@ var LinkedValueUtils = {
 
 module.exports = LinkedValueUtils;
 }).call(this,require('_process'))
-},{"./ReactPropTypeLocations":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactPropTypeLocations.js","./ReactPropTypes":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactPropTypes.js","_process":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/watchify/node_modules/browserify/node_modules/process/browser.js","fbjs/lib/invariant":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/invariant.js","fbjs/lib/warning":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/warning.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/Object.assign.js":[function(require,module,exports){
+},{"./ReactPropTypeLocations":80,"./ReactPropTypes":81,"_process":6,"fbjs/lib/invariant":150,"fbjs/lib/warning":161}],29:[function(require,module,exports){
 /**
  * Copyright 2014-2015, Facebook, Inc.
  * All rights reserved.
@@ -3692,7 +3798,7 @@ function assign(target, sources) {
 }
 
 module.exports = assign;
-},{}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/PooledClass.js":[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -3814,7 +3920,7 @@ var PooledClass = {
 
 module.exports = PooledClass;
 }).call(this,require('_process'))
-},{"_process":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/watchify/node_modules/browserify/node_modules/process/browser.js","fbjs/lib/invariant":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/invariant.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/React.js":[function(require,module,exports){
+},{"_process":6,"fbjs/lib/invariant":150}],31:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -3854,7 +3960,7 @@ assign(React, {
 React.__SECRET_DOM_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = ReactDOM;
 
 module.exports = React;
-},{"./Object.assign":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/Object.assign.js","./ReactDOM":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactDOM.js","./ReactDOMServer":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactDOMServer.js","./ReactIsomorphic":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactIsomorphic.js","./deprecated":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/deprecated.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactBrowserComponentMixin.js":[function(require,module,exports){
+},{"./Object.assign":29,"./ReactDOM":42,"./ReactDOMServer":52,"./ReactIsomorphic":70,"./deprecated":112}],32:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -3893,7 +3999,7 @@ var ReactBrowserComponentMixin = {
 
 module.exports = ReactBrowserComponentMixin;
 }).call(this,require('_process'))
-},{"./ReactInstanceMap":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactInstanceMap.js","./findDOMNode":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/findDOMNode.js","_process":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/watchify/node_modules/browserify/node_modules/process/browser.js","fbjs/lib/warning":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/warning.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactBrowserEventEmitter.js":[function(require,module,exports){
+},{"./ReactInstanceMap":69,"./findDOMNode":114,"_process":6,"fbjs/lib/warning":161}],33:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -4218,7 +4324,7 @@ ReactPerf.measureMethods(ReactBrowserEventEmitter, 'ReactBrowserEventEmitter', {
 });
 
 module.exports = ReactBrowserEventEmitter;
-},{"./EventConstants":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/EventConstants.js","./EventPluginHub":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/EventPluginHub.js","./EventPluginRegistry":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/EventPluginRegistry.js","./Object.assign":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/Object.assign.js","./ReactEventEmitterMixin":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactEventEmitterMixin.js","./ReactPerf":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactPerf.js","./ViewportMetrics":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ViewportMetrics.js","./isEventSupported":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/isEventSupported.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactChildReconciler.js":[function(require,module,exports){
+},{"./EventConstants":21,"./EventPluginHub":22,"./EventPluginRegistry":23,"./Object.assign":29,"./ReactEventEmitterMixin":64,"./ReactPerf":78,"./ViewportMetrics":108,"./isEventSupported":125}],34:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -4343,7 +4449,7 @@ var ReactChildReconciler = {
 
 module.exports = ReactChildReconciler;
 }).call(this,require('_process'))
-},{"./ReactReconciler":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactReconciler.js","./instantiateReactComponent":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/instantiateReactComponent.js","./shouldUpdateReactComponent":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/shouldUpdateReactComponent.js","./traverseAllChildren":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/traverseAllChildren.js","_process":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/watchify/node_modules/browserify/node_modules/process/browser.js","fbjs/lib/warning":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/warning.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactChildren.js":[function(require,module,exports){
+},{"./ReactReconciler":83,"./instantiateReactComponent":124,"./shouldUpdateReactComponent":132,"./traverseAllChildren":133,"_process":6,"fbjs/lib/warning":161}],35:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -4526,7 +4632,7 @@ var ReactChildren = {
 };
 
 module.exports = ReactChildren;
-},{"./PooledClass":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/PooledClass.js","./ReactElement":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactElement.js","./traverseAllChildren":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/traverseAllChildren.js","fbjs/lib/emptyFunction":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/emptyFunction.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactClass.js":[function(require,module,exports){
+},{"./PooledClass":30,"./ReactElement":59,"./traverseAllChildren":133,"fbjs/lib/emptyFunction":142}],36:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -5300,7 +5406,7 @@ var ReactClass = {
 
 module.exports = ReactClass;
 }).call(this,require('_process'))
-},{"./Object.assign":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/Object.assign.js","./ReactComponent":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactComponent.js","./ReactElement":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactElement.js","./ReactNoopUpdateQueue":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactNoopUpdateQueue.js","./ReactPropTypeLocationNames":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactPropTypeLocationNames.js","./ReactPropTypeLocations":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactPropTypeLocations.js","_process":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/watchify/node_modules/browserify/node_modules/process/browser.js","fbjs/lib/emptyObject":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/emptyObject.js","fbjs/lib/invariant":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/invariant.js","fbjs/lib/keyMirror":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/keyMirror.js","fbjs/lib/keyOf":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/keyOf.js","fbjs/lib/warning":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/warning.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactComponent.js":[function(require,module,exports){
+},{"./Object.assign":29,"./ReactComponent":37,"./ReactElement":59,"./ReactNoopUpdateQueue":76,"./ReactPropTypeLocationNames":79,"./ReactPropTypeLocations":80,"_process":6,"fbjs/lib/emptyObject":143,"fbjs/lib/invariant":150,"fbjs/lib/keyMirror":153,"fbjs/lib/keyOf":154,"fbjs/lib/warning":161}],37:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -5426,7 +5532,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 module.exports = ReactComponent;
 }).call(this,require('_process'))
-},{"./ReactNoopUpdateQueue":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactNoopUpdateQueue.js","_process":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/watchify/node_modules/browserify/node_modules/process/browser.js","fbjs/lib/emptyObject":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/emptyObject.js","fbjs/lib/invariant":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/invariant.js","fbjs/lib/warning":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/warning.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactComponentBrowserEnvironment.js":[function(require,module,exports){
+},{"./ReactNoopUpdateQueue":76,"_process":6,"fbjs/lib/emptyObject":143,"fbjs/lib/invariant":150,"fbjs/lib/warning":161}],38:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -5468,7 +5574,7 @@ var ReactComponentBrowserEnvironment = {
 };
 
 module.exports = ReactComponentBrowserEnvironment;
-},{"./ReactDOMIDOperations":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactDOMIDOperations.js","./ReactMount":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactMount.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactComponentEnvironment.js":[function(require,module,exports){
+},{"./ReactDOMIDOperations":47,"./ReactMount":72}],39:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -5522,7 +5628,7 @@ var ReactComponentEnvironment = {
 
 module.exports = ReactComponentEnvironment;
 }).call(this,require('_process'))
-},{"_process":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/watchify/node_modules/browserify/node_modules/process/browser.js","fbjs/lib/invariant":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/invariant.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactCompositeComponent.js":[function(require,module,exports){
+},{"_process":6,"fbjs/lib/invariant":150}],40:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -6219,7 +6325,7 @@ var ReactCompositeComponent = {
 
 module.exports = ReactCompositeComponent;
 }).call(this,require('_process'))
-},{"./Object.assign":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/Object.assign.js","./ReactComponentEnvironment":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactComponentEnvironment.js","./ReactCurrentOwner":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactCurrentOwner.js","./ReactElement":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactElement.js","./ReactInstanceMap":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactInstanceMap.js","./ReactPerf":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactPerf.js","./ReactPropTypeLocationNames":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactPropTypeLocationNames.js","./ReactPropTypeLocations":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactPropTypeLocations.js","./ReactReconciler":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactReconciler.js","./ReactUpdateQueue":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactUpdateQueue.js","./shouldUpdateReactComponent":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/shouldUpdateReactComponent.js","_process":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/watchify/node_modules/browserify/node_modules/process/browser.js","fbjs/lib/emptyObject":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/emptyObject.js","fbjs/lib/invariant":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/invariant.js","fbjs/lib/warning":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/warning.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactCurrentOwner.js":[function(require,module,exports){
+},{"./Object.assign":29,"./ReactComponentEnvironment":39,"./ReactCurrentOwner":41,"./ReactElement":59,"./ReactInstanceMap":69,"./ReactPerf":78,"./ReactPropTypeLocationNames":79,"./ReactPropTypeLocations":80,"./ReactReconciler":83,"./ReactUpdateQueue":89,"./shouldUpdateReactComponent":132,"_process":6,"fbjs/lib/emptyObject":143,"fbjs/lib/invariant":150,"fbjs/lib/warning":161}],41:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -6250,7 +6356,7 @@ var ReactCurrentOwner = {
 };
 
 module.exports = ReactCurrentOwner;
-},{}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactDOM.js":[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -6345,7 +6451,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 module.exports = React;
 }).call(this,require('_process'))
-},{"./ReactCurrentOwner":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactCurrentOwner.js","./ReactDOMTextComponent":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactDOMTextComponent.js","./ReactDefaultInjection":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactDefaultInjection.js","./ReactInstanceHandles":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactInstanceHandles.js","./ReactMount":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactMount.js","./ReactPerf":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactPerf.js","./ReactReconciler":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactReconciler.js","./ReactUpdates":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactUpdates.js","./ReactVersion":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactVersion.js","./findDOMNode":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/findDOMNode.js","./renderSubtreeIntoContainer":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/renderSubtreeIntoContainer.js","_process":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/watchify/node_modules/browserify/node_modules/process/browser.js","fbjs/lib/ExecutionEnvironment":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/ExecutionEnvironment.js","fbjs/lib/warning":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/warning.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactDOMButton.js":[function(require,module,exports){
+},{"./ReactCurrentOwner":41,"./ReactDOMTextComponent":53,"./ReactDefaultInjection":56,"./ReactInstanceHandles":68,"./ReactMount":72,"./ReactPerf":78,"./ReactReconciler":83,"./ReactUpdates":90,"./ReactVersion":91,"./findDOMNode":114,"./renderSubtreeIntoContainer":129,"_process":6,"fbjs/lib/ExecutionEnvironment":136,"fbjs/lib/warning":161}],43:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -6396,7 +6502,7 @@ var ReactDOMButton = {
 };
 
 module.exports = ReactDOMButton;
-},{}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactDOMComponent.js":[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -7359,7 +7465,7 @@ assign(ReactDOMComponent.prototype, ReactDOMComponent.Mixin, ReactMultiChild.Mix
 
 module.exports = ReactDOMComponent;
 }).call(this,require('_process'))
-},{"./AutoFocusUtils":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/AutoFocusUtils.js","./CSSPropertyOperations":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/CSSPropertyOperations.js","./DOMProperty":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/DOMProperty.js","./DOMPropertyOperations":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/DOMPropertyOperations.js","./EventConstants":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/EventConstants.js","./Object.assign":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/Object.assign.js","./ReactBrowserEventEmitter":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactBrowserEventEmitter.js","./ReactComponentBrowserEnvironment":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactComponentBrowserEnvironment.js","./ReactDOMButton":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactDOMButton.js","./ReactDOMInput":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactDOMInput.js","./ReactDOMOption":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactDOMOption.js","./ReactDOMSelect":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactDOMSelect.js","./ReactDOMTextarea":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactDOMTextarea.js","./ReactMount":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactMount.js","./ReactMultiChild":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactMultiChild.js","./ReactPerf":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactPerf.js","./ReactUpdateQueue":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactUpdateQueue.js","./escapeTextContentForBrowser":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/escapeTextContentForBrowser.js","./isEventSupported":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/isEventSupported.js","./setInnerHTML":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/setInnerHTML.js","./setTextContent":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/setTextContent.js","./validateDOMNesting":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/validateDOMNesting.js","_process":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/watchify/node_modules/browserify/node_modules/process/browser.js","fbjs/lib/invariant":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/invariant.js","fbjs/lib/keyOf":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/keyOf.js","fbjs/lib/shallowEqual":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/shallowEqual.js","fbjs/lib/warning":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/warning.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactDOMFactories.js":[function(require,module,exports){
+},{"./AutoFocusUtils":8,"./CSSPropertyOperations":11,"./DOMProperty":16,"./DOMPropertyOperations":17,"./EventConstants":21,"./Object.assign":29,"./ReactBrowserEventEmitter":33,"./ReactComponentBrowserEnvironment":38,"./ReactDOMButton":43,"./ReactDOMInput":48,"./ReactDOMOption":49,"./ReactDOMSelect":50,"./ReactDOMTextarea":54,"./ReactMount":72,"./ReactMultiChild":73,"./ReactPerf":78,"./ReactUpdateQueue":89,"./escapeTextContentForBrowser":113,"./isEventSupported":125,"./setInnerHTML":130,"./setTextContent":131,"./validateDOMNesting":134,"_process":6,"fbjs/lib/invariant":150,"fbjs/lib/keyOf":154,"fbjs/lib/shallowEqual":159,"fbjs/lib/warning":161}],45:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -7539,7 +7645,7 @@ var ReactDOMFactories = mapObject({
 
 module.exports = ReactDOMFactories;
 }).call(this,require('_process'))
-},{"./ReactElement":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactElement.js","./ReactElementValidator":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactElementValidator.js","_process":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/watchify/node_modules/browserify/node_modules/process/browser.js","fbjs/lib/mapObject":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/mapObject.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactDOMFeatureFlags.js":[function(require,module,exports){
+},{"./ReactElement":59,"./ReactElementValidator":60,"_process":6,"fbjs/lib/mapObject":155}],46:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -7558,7 +7664,7 @@ var ReactDOMFeatureFlags = {
 };
 
 module.exports = ReactDOMFeatureFlags;
-},{}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactDOMIDOperations.js":[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -7655,7 +7761,7 @@ ReactPerf.measureMethods(ReactDOMIDOperations, 'ReactDOMIDOperations', {
 
 module.exports = ReactDOMIDOperations;
 }).call(this,require('_process'))
-},{"./DOMChildrenOperations":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/DOMChildrenOperations.js","./DOMPropertyOperations":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/DOMPropertyOperations.js","./ReactMount":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactMount.js","./ReactPerf":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactPerf.js","_process":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/watchify/node_modules/browserify/node_modules/process/browser.js","fbjs/lib/invariant":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/invariant.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactDOMInput.js":[function(require,module,exports){
+},{"./DOMChildrenOperations":15,"./DOMPropertyOperations":17,"./ReactMount":72,"./ReactPerf":78,"_process":6,"fbjs/lib/invariant":150}],48:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -7811,7 +7917,7 @@ function _handleChange(event) {
 
 module.exports = ReactDOMInput;
 }).call(this,require('_process'))
-},{"./LinkedValueUtils":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/LinkedValueUtils.js","./Object.assign":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/Object.assign.js","./ReactDOMIDOperations":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactDOMIDOperations.js","./ReactMount":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactMount.js","./ReactUpdates":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactUpdates.js","_process":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/watchify/node_modules/browserify/node_modules/process/browser.js","fbjs/lib/invariant":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/invariant.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactDOMOption.js":[function(require,module,exports){
+},{"./LinkedValueUtils":28,"./Object.assign":29,"./ReactDOMIDOperations":47,"./ReactMount":72,"./ReactUpdates":90,"_process":6,"fbjs/lib/invariant":150}],49:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -7900,7 +8006,7 @@ var ReactDOMOption = {
 
 module.exports = ReactDOMOption;
 }).call(this,require('_process'))
-},{"./Object.assign":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/Object.assign.js","./ReactChildren":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactChildren.js","./ReactDOMSelect":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactDOMSelect.js","_process":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/watchify/node_modules/browserify/node_modules/process/browser.js","fbjs/lib/warning":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/warning.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactDOMSelect.js":[function(require,module,exports){
+},{"./Object.assign":29,"./ReactChildren":35,"./ReactDOMSelect":50,"_process":6,"fbjs/lib/warning":161}],50:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -8091,7 +8197,7 @@ function _handleChange(event) {
 
 module.exports = ReactDOMSelect;
 }).call(this,require('_process'))
-},{"./LinkedValueUtils":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/LinkedValueUtils.js","./Object.assign":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/Object.assign.js","./ReactMount":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactMount.js","./ReactUpdates":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactUpdates.js","_process":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/watchify/node_modules/browserify/node_modules/process/browser.js","fbjs/lib/warning":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/warning.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactDOMSelection.js":[function(require,module,exports){
+},{"./LinkedValueUtils":28,"./Object.assign":29,"./ReactMount":72,"./ReactUpdates":90,"_process":6,"fbjs/lib/warning":161}],51:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -8304,7 +8410,7 @@ var ReactDOMSelection = {
 };
 
 module.exports = ReactDOMSelection;
-},{"./getNodeForCharacterOffset":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/getNodeForCharacterOffset.js","./getTextContentAccessor":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/getTextContentAccessor.js","fbjs/lib/ExecutionEnvironment":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/ExecutionEnvironment.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactDOMServer.js":[function(require,module,exports){
+},{"./getNodeForCharacterOffset":122,"./getTextContentAccessor":123,"fbjs/lib/ExecutionEnvironment":136}],52:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -8331,7 +8437,7 @@ var ReactDOMServer = {
 };
 
 module.exports = ReactDOMServer;
-},{"./ReactDefaultInjection":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactDefaultInjection.js","./ReactServerRendering":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactServerRendering.js","./ReactVersion":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactVersion.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactDOMTextComponent.js":[function(require,module,exports){
+},{"./ReactDefaultInjection":56,"./ReactServerRendering":87,"./ReactVersion":91}],53:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -8461,7 +8567,7 @@ assign(ReactDOMTextComponent.prototype, {
 
 module.exports = ReactDOMTextComponent;
 }).call(this,require('_process'))
-},{"./DOMChildrenOperations":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/DOMChildrenOperations.js","./DOMPropertyOperations":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/DOMPropertyOperations.js","./Object.assign":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/Object.assign.js","./ReactComponentBrowserEnvironment":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactComponentBrowserEnvironment.js","./ReactMount":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactMount.js","./escapeTextContentForBrowser":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/escapeTextContentForBrowser.js","./setTextContent":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/setTextContent.js","./validateDOMNesting":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/validateDOMNesting.js","_process":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/watchify/node_modules/browserify/node_modules/process/browser.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactDOMTextarea.js":[function(require,module,exports){
+},{"./DOMChildrenOperations":15,"./DOMPropertyOperations":17,"./Object.assign":29,"./ReactComponentBrowserEnvironment":38,"./ReactMount":72,"./escapeTextContentForBrowser":113,"./setTextContent":131,"./validateDOMNesting":134,"_process":6}],54:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -8577,7 +8683,7 @@ function _handleChange(event) {
 
 module.exports = ReactDOMTextarea;
 }).call(this,require('_process'))
-},{"./LinkedValueUtils":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/LinkedValueUtils.js","./Object.assign":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/Object.assign.js","./ReactDOMIDOperations":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactDOMIDOperations.js","./ReactUpdates":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactUpdates.js","_process":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/watchify/node_modules/browserify/node_modules/process/browser.js","fbjs/lib/invariant":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/invariant.js","fbjs/lib/warning":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/warning.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactDefaultBatchingStrategy.js":[function(require,module,exports){
+},{"./LinkedValueUtils":28,"./Object.assign":29,"./ReactDOMIDOperations":47,"./ReactUpdates":90,"_process":6,"fbjs/lib/invariant":150,"fbjs/lib/warning":161}],55:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -8645,7 +8751,7 @@ var ReactDefaultBatchingStrategy = {
 };
 
 module.exports = ReactDefaultBatchingStrategy;
-},{"./Object.assign":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/Object.assign.js","./ReactUpdates":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactUpdates.js","./Transaction":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/Transaction.js","fbjs/lib/emptyFunction":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/emptyFunction.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactDefaultInjection.js":[function(require,module,exports){
+},{"./Object.assign":29,"./ReactUpdates":90,"./Transaction":107,"fbjs/lib/emptyFunction":142}],56:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -8745,7 +8851,7 @@ module.exports = {
   inject: inject
 };
 }).call(this,require('_process'))
-},{"./BeforeInputEventPlugin":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/BeforeInputEventPlugin.js","./ChangeEventPlugin":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ChangeEventPlugin.js","./ClientReactRootIndex":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ClientReactRootIndex.js","./DefaultEventPluginOrder":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/DefaultEventPluginOrder.js","./EnterLeaveEventPlugin":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/EnterLeaveEventPlugin.js","./HTMLDOMPropertyConfig":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/HTMLDOMPropertyConfig.js","./ReactBrowserComponentMixin":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactBrowserComponentMixin.js","./ReactComponentBrowserEnvironment":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactComponentBrowserEnvironment.js","./ReactDOMComponent":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactDOMComponent.js","./ReactDOMTextComponent":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactDOMTextComponent.js","./ReactDefaultBatchingStrategy":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactDefaultBatchingStrategy.js","./ReactDefaultPerf":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactDefaultPerf.js","./ReactEventListener":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactEventListener.js","./ReactInjection":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactInjection.js","./ReactInstanceHandles":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactInstanceHandles.js","./ReactMount":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactMount.js","./ReactReconcileTransaction":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactReconcileTransaction.js","./SVGDOMPropertyConfig":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/SVGDOMPropertyConfig.js","./SelectEventPlugin":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/SelectEventPlugin.js","./ServerReactRootIndex":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ServerReactRootIndex.js","./SimpleEventPlugin":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/SimpleEventPlugin.js","_process":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/watchify/node_modules/browserify/node_modules/process/browser.js","fbjs/lib/ExecutionEnvironment":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/ExecutionEnvironment.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactDefaultPerf.js":[function(require,module,exports){
+},{"./BeforeInputEventPlugin":9,"./ChangeEventPlugin":13,"./ClientReactRootIndex":14,"./DefaultEventPluginOrder":19,"./EnterLeaveEventPlugin":20,"./HTMLDOMPropertyConfig":27,"./ReactBrowserComponentMixin":32,"./ReactComponentBrowserEnvironment":38,"./ReactDOMComponent":44,"./ReactDOMTextComponent":53,"./ReactDefaultBatchingStrategy":55,"./ReactDefaultPerf":57,"./ReactEventListener":65,"./ReactInjection":66,"./ReactInstanceHandles":68,"./ReactMount":72,"./ReactReconcileTransaction":82,"./SVGDOMPropertyConfig":92,"./SelectEventPlugin":93,"./ServerReactRootIndex":94,"./SimpleEventPlugin":95,"_process":6,"fbjs/lib/ExecutionEnvironment":136}],57:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -8983,7 +9089,7 @@ var ReactDefaultPerf = {
 };
 
 module.exports = ReactDefaultPerf;
-},{"./DOMProperty":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/DOMProperty.js","./ReactDefaultPerfAnalysis":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactDefaultPerfAnalysis.js","./ReactMount":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactMount.js","./ReactPerf":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactPerf.js","fbjs/lib/performanceNow":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/performanceNow.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactDefaultPerfAnalysis.js":[function(require,module,exports){
+},{"./DOMProperty":16,"./ReactDefaultPerfAnalysis":58,"./ReactMount":72,"./ReactPerf":78,"fbjs/lib/performanceNow":158}],58:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -9183,7 +9289,7 @@ var ReactDefaultPerfAnalysis = {
 };
 
 module.exports = ReactDefaultPerfAnalysis;
-},{"./Object.assign":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/Object.assign.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactElement.js":[function(require,module,exports){
+},{"./Object.assign":29}],59:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -9442,7 +9548,7 @@ ReactElement.isValidElement = function (object) {
 
 module.exports = ReactElement;
 }).call(this,require('_process'))
-},{"./Object.assign":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/Object.assign.js","./ReactCurrentOwner":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactCurrentOwner.js","_process":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/watchify/node_modules/browserify/node_modules/process/browser.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactElementValidator.js":[function(require,module,exports){
+},{"./Object.assign":29,"./ReactCurrentOwner":41,"_process":6}],60:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -9727,7 +9833,7 @@ var ReactElementValidator = {
 
 module.exports = ReactElementValidator;
 }).call(this,require('_process'))
-},{"./ReactCurrentOwner":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactCurrentOwner.js","./ReactElement":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactElement.js","./ReactPropTypeLocationNames":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactPropTypeLocationNames.js","./ReactPropTypeLocations":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactPropTypeLocations.js","./getIteratorFn":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/getIteratorFn.js","_process":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/watchify/node_modules/browserify/node_modules/process/browser.js","fbjs/lib/invariant":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/invariant.js","fbjs/lib/warning":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/warning.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactEmptyComponent.js":[function(require,module,exports){
+},{"./ReactCurrentOwner":41,"./ReactElement":59,"./ReactPropTypeLocationNames":79,"./ReactPropTypeLocations":80,"./getIteratorFn":121,"_process":6,"fbjs/lib/invariant":150,"fbjs/lib/warning":161}],61:[function(require,module,exports){
 /**
  * Copyright 2014-2015, Facebook, Inc.
  * All rights reserved.
@@ -9779,7 +9885,7 @@ assign(ReactEmptyComponent.prototype, {
 ReactEmptyComponent.injection = ReactEmptyComponentInjection;
 
 module.exports = ReactEmptyComponent;
-},{"./Object.assign":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/Object.assign.js","./ReactElement":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactElement.js","./ReactEmptyComponentRegistry":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactEmptyComponentRegistry.js","./ReactReconciler":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactReconciler.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactEmptyComponentRegistry.js":[function(require,module,exports){
+},{"./Object.assign":29,"./ReactElement":59,"./ReactEmptyComponentRegistry":62,"./ReactReconciler":83}],62:[function(require,module,exports){
 /**
  * Copyright 2014-2015, Facebook, Inc.
  * All rights reserved.
@@ -9828,7 +9934,7 @@ var ReactEmptyComponentRegistry = {
 };
 
 module.exports = ReactEmptyComponentRegistry;
-},{}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactErrorUtils.js":[function(require,module,exports){
+},{}],63:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -9905,7 +10011,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 module.exports = ReactErrorUtils;
 }).call(this,require('_process'))
-},{"_process":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/watchify/node_modules/browserify/node_modules/process/browser.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactEventEmitterMixin.js":[function(require,module,exports){
+},{"_process":6}],64:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -9944,7 +10050,7 @@ var ReactEventEmitterMixin = {
 };
 
 module.exports = ReactEventEmitterMixin;
-},{"./EventPluginHub":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/EventPluginHub.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactEventListener.js":[function(require,module,exports){
+},{"./EventPluginHub":22}],65:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -10156,7 +10262,7 @@ var ReactEventListener = {
 };
 
 module.exports = ReactEventListener;
-},{"./Object.assign":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/Object.assign.js","./PooledClass":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/PooledClass.js","./ReactInstanceHandles":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactInstanceHandles.js","./ReactMount":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactMount.js","./ReactUpdates":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactUpdates.js","./getEventTarget":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/getEventTarget.js","fbjs/lib/EventListener":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/EventListener.js","fbjs/lib/ExecutionEnvironment":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/ExecutionEnvironment.js","fbjs/lib/getUnboundedScrollPosition":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/getUnboundedScrollPosition.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactInjection.js":[function(require,module,exports){
+},{"./Object.assign":29,"./PooledClass":30,"./ReactInstanceHandles":68,"./ReactMount":72,"./ReactUpdates":90,"./getEventTarget":120,"fbjs/lib/EventListener":135,"fbjs/lib/ExecutionEnvironment":136,"fbjs/lib/getUnboundedScrollPosition":147}],66:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -10195,7 +10301,7 @@ var ReactInjection = {
 };
 
 module.exports = ReactInjection;
-},{"./DOMProperty":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/DOMProperty.js","./EventPluginHub":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/EventPluginHub.js","./ReactBrowserEventEmitter":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactBrowserEventEmitter.js","./ReactClass":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactClass.js","./ReactComponentEnvironment":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactComponentEnvironment.js","./ReactEmptyComponent":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactEmptyComponent.js","./ReactNativeComponent":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactNativeComponent.js","./ReactPerf":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactPerf.js","./ReactRootIndex":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactRootIndex.js","./ReactUpdates":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactUpdates.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactInputSelection.js":[function(require,module,exports){
+},{"./DOMProperty":16,"./EventPluginHub":22,"./ReactBrowserEventEmitter":33,"./ReactClass":36,"./ReactComponentEnvironment":39,"./ReactEmptyComponent":61,"./ReactNativeComponent":75,"./ReactPerf":78,"./ReactRootIndex":85,"./ReactUpdates":90}],67:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -10320,7 +10426,7 @@ var ReactInputSelection = {
 };
 
 module.exports = ReactInputSelection;
-},{"./ReactDOMSelection":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactDOMSelection.js","fbjs/lib/containsNode":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/containsNode.js","fbjs/lib/focusNode":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/focusNode.js","fbjs/lib/getActiveElement":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/getActiveElement.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactInstanceHandles.js":[function(require,module,exports){
+},{"./ReactDOMSelection":51,"fbjs/lib/containsNode":139,"fbjs/lib/focusNode":144,"fbjs/lib/getActiveElement":145}],68:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -10625,7 +10731,7 @@ var ReactInstanceHandles = {
 
 module.exports = ReactInstanceHandles;
 }).call(this,require('_process'))
-},{"./ReactRootIndex":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactRootIndex.js","_process":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/watchify/node_modules/browserify/node_modules/process/browser.js","fbjs/lib/invariant":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/invariant.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactInstanceMap.js":[function(require,module,exports){
+},{"./ReactRootIndex":85,"_process":6,"fbjs/lib/invariant":150}],69:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -10673,7 +10779,7 @@ var ReactInstanceMap = {
 };
 
 module.exports = ReactInstanceMap;
-},{}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactIsomorphic.js":[function(require,module,exports){
+},{}],70:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -10750,7 +10856,7 @@ var React = {
 
 module.exports = React;
 }).call(this,require('_process'))
-},{"./Object.assign":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/Object.assign.js","./ReactChildren":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactChildren.js","./ReactClass":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactClass.js","./ReactComponent":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactComponent.js","./ReactDOMFactories":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactDOMFactories.js","./ReactElement":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactElement.js","./ReactElementValidator":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactElementValidator.js","./ReactPropTypes":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactPropTypes.js","./ReactVersion":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactVersion.js","./onlyChild":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/onlyChild.js","_process":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/watchify/node_modules/browserify/node_modules/process/browser.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactMarkupChecksum.js":[function(require,module,exports){
+},{"./Object.assign":29,"./ReactChildren":35,"./ReactClass":36,"./ReactComponent":37,"./ReactDOMFactories":45,"./ReactElement":59,"./ReactElementValidator":60,"./ReactPropTypes":81,"./ReactVersion":91,"./onlyChild":127,"_process":6}],71:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -10796,7 +10902,7 @@ var ReactMarkupChecksum = {
 };
 
 module.exports = ReactMarkupChecksum;
-},{"./adler32":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/adler32.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactMount.js":[function(require,module,exports){
+},{"./adler32":110}],72:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -11644,7 +11750,7 @@ ReactPerf.measureMethods(ReactMount, 'ReactMount', {
 
 module.exports = ReactMount;
 }).call(this,require('_process'))
-},{"./DOMProperty":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/DOMProperty.js","./Object.assign":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/Object.assign.js","./ReactBrowserEventEmitter":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactBrowserEventEmitter.js","./ReactCurrentOwner":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactCurrentOwner.js","./ReactDOMFeatureFlags":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactDOMFeatureFlags.js","./ReactElement":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactElement.js","./ReactEmptyComponentRegistry":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactEmptyComponentRegistry.js","./ReactInstanceHandles":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactInstanceHandles.js","./ReactInstanceMap":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactInstanceMap.js","./ReactMarkupChecksum":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactMarkupChecksum.js","./ReactPerf":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactPerf.js","./ReactReconciler":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactReconciler.js","./ReactUpdateQueue":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactUpdateQueue.js","./ReactUpdates":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactUpdates.js","./instantiateReactComponent":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/instantiateReactComponent.js","./setInnerHTML":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/setInnerHTML.js","./shouldUpdateReactComponent":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/shouldUpdateReactComponent.js","./validateDOMNesting":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/validateDOMNesting.js","_process":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/watchify/node_modules/browserify/node_modules/process/browser.js","fbjs/lib/containsNode":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/containsNode.js","fbjs/lib/emptyObject":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/emptyObject.js","fbjs/lib/invariant":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/invariant.js","fbjs/lib/warning":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/warning.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactMultiChild.js":[function(require,module,exports){
+},{"./DOMProperty":16,"./Object.assign":29,"./ReactBrowserEventEmitter":33,"./ReactCurrentOwner":41,"./ReactDOMFeatureFlags":46,"./ReactElement":59,"./ReactEmptyComponentRegistry":62,"./ReactInstanceHandles":68,"./ReactInstanceMap":69,"./ReactMarkupChecksum":71,"./ReactPerf":78,"./ReactReconciler":83,"./ReactUpdateQueue":89,"./ReactUpdates":90,"./instantiateReactComponent":124,"./setInnerHTML":130,"./shouldUpdateReactComponent":132,"./validateDOMNesting":134,"_process":6,"fbjs/lib/containsNode":139,"fbjs/lib/emptyObject":143,"fbjs/lib/invariant":150,"fbjs/lib/warning":161}],73:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -12143,7 +12249,7 @@ var ReactMultiChild = {
 
 module.exports = ReactMultiChild;
 }).call(this,require('_process'))
-},{"./ReactChildReconciler":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactChildReconciler.js","./ReactComponentEnvironment":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactComponentEnvironment.js","./ReactCurrentOwner":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactCurrentOwner.js","./ReactMultiChildUpdateTypes":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactMultiChildUpdateTypes.js","./ReactReconciler":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactReconciler.js","./flattenChildren":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/flattenChildren.js","_process":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/watchify/node_modules/browserify/node_modules/process/browser.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactMultiChildUpdateTypes.js":[function(require,module,exports){
+},{"./ReactChildReconciler":34,"./ReactComponentEnvironment":39,"./ReactCurrentOwner":41,"./ReactMultiChildUpdateTypes":74,"./ReactReconciler":83,"./flattenChildren":115,"_process":6}],74:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -12176,7 +12282,7 @@ var ReactMultiChildUpdateTypes = keyMirror({
 });
 
 module.exports = ReactMultiChildUpdateTypes;
-},{"fbjs/lib/keyMirror":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/keyMirror.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactNativeComponent.js":[function(require,module,exports){
+},{"fbjs/lib/keyMirror":153}],75:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -12273,7 +12379,7 @@ var ReactNativeComponent = {
 
 module.exports = ReactNativeComponent;
 }).call(this,require('_process'))
-},{"./Object.assign":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/Object.assign.js","_process":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/watchify/node_modules/browserify/node_modules/process/browser.js","fbjs/lib/invariant":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/invariant.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactNoopUpdateQueue.js":[function(require,module,exports){
+},{"./Object.assign":29,"_process":6,"fbjs/lib/invariant":150}],76:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2015, Facebook, Inc.
@@ -12394,7 +12500,7 @@ var ReactNoopUpdateQueue = {
 
 module.exports = ReactNoopUpdateQueue;
 }).call(this,require('_process'))
-},{"_process":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/watchify/node_modules/browserify/node_modules/process/browser.js","fbjs/lib/warning":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/warning.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactOwner.js":[function(require,module,exports){
+},{"_process":6,"fbjs/lib/warning":161}],77:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -12488,7 +12594,7 @@ var ReactOwner = {
 
 module.exports = ReactOwner;
 }).call(this,require('_process'))
-},{"_process":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/watchify/node_modules/browserify/node_modules/process/browser.js","fbjs/lib/invariant":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/invariant.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactPerf.js":[function(require,module,exports){
+},{"_process":6,"fbjs/lib/invariant":150}],78:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -12587,7 +12693,7 @@ function _noMeasure(objName, fnName, func) {
 
 module.exports = ReactPerf;
 }).call(this,require('_process'))
-},{"_process":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/watchify/node_modules/browserify/node_modules/process/browser.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactPropTypeLocationNames.js":[function(require,module,exports){
+},{"_process":6}],79:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -12614,7 +12720,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 module.exports = ReactPropTypeLocationNames;
 }).call(this,require('_process'))
-},{"_process":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/watchify/node_modules/browserify/node_modules/process/browser.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactPropTypeLocations.js":[function(require,module,exports){
+},{"_process":6}],80:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -12637,7 +12743,7 @@ var ReactPropTypeLocations = keyMirror({
 });
 
 module.exports = ReactPropTypeLocations;
-},{"fbjs/lib/keyMirror":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/keyMirror.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactPropTypes.js":[function(require,module,exports){
+},{"fbjs/lib/keyMirror":153}],81:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -12994,7 +13100,7 @@ function getClassName(propValue) {
 }
 
 module.exports = ReactPropTypes;
-},{"./ReactElement":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactElement.js","./ReactPropTypeLocationNames":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactPropTypeLocationNames.js","./getIteratorFn":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/getIteratorFn.js","fbjs/lib/emptyFunction":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/emptyFunction.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactReconcileTransaction.js":[function(require,module,exports){
+},{"./ReactElement":59,"./ReactPropTypeLocationNames":79,"./getIteratorFn":121,"fbjs/lib/emptyFunction":142}],82:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -13146,7 +13252,7 @@ assign(ReactReconcileTransaction.prototype, Transaction.Mixin, Mixin);
 PooledClass.addPoolingTo(ReactReconcileTransaction);
 
 module.exports = ReactReconcileTransaction;
-},{"./CallbackQueue":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/CallbackQueue.js","./Object.assign":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/Object.assign.js","./PooledClass":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/PooledClass.js","./ReactBrowserEventEmitter":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactBrowserEventEmitter.js","./ReactDOMFeatureFlags":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactDOMFeatureFlags.js","./ReactInputSelection":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactInputSelection.js","./Transaction":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/Transaction.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactReconciler.js":[function(require,module,exports){
+},{"./CallbackQueue":12,"./Object.assign":29,"./PooledClass":30,"./ReactBrowserEventEmitter":33,"./ReactDOMFeatureFlags":46,"./ReactInputSelection":67,"./Transaction":107}],83:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -13254,7 +13360,7 @@ var ReactReconciler = {
 };
 
 module.exports = ReactReconciler;
-},{"./ReactRef":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactRef.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactRef.js":[function(require,module,exports){
+},{"./ReactRef":84}],84:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -13333,7 +13439,7 @@ ReactRef.detachRefs = function (instance, element) {
 };
 
 module.exports = ReactRef;
-},{"./ReactOwner":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactOwner.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactRootIndex.js":[function(require,module,exports){
+},{"./ReactOwner":77}],85:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -13363,7 +13469,7 @@ var ReactRootIndex = {
 };
 
 module.exports = ReactRootIndex;
-},{}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactServerBatchingStrategy.js":[function(require,module,exports){
+},{}],86:[function(require,module,exports){
 /**
  * Copyright 2014-2015, Facebook, Inc.
  * All rights reserved.
@@ -13387,7 +13493,7 @@ var ReactServerBatchingStrategy = {
 };
 
 module.exports = ReactServerBatchingStrategy;
-},{}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactServerRendering.js":[function(require,module,exports){
+},{}],87:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -13473,7 +13579,7 @@ module.exports = {
   renderToStaticMarkup: renderToStaticMarkup
 };
 }).call(this,require('_process'))
-},{"./ReactDefaultBatchingStrategy":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactDefaultBatchingStrategy.js","./ReactElement":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactElement.js","./ReactInstanceHandles":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactInstanceHandles.js","./ReactMarkupChecksum":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactMarkupChecksum.js","./ReactServerBatchingStrategy":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactServerBatchingStrategy.js","./ReactServerRenderingTransaction":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactServerRenderingTransaction.js","./ReactUpdates":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactUpdates.js","./instantiateReactComponent":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/instantiateReactComponent.js","_process":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/watchify/node_modules/browserify/node_modules/process/browser.js","fbjs/lib/emptyObject":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/emptyObject.js","fbjs/lib/invariant":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/invariant.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactServerRenderingTransaction.js":[function(require,module,exports){
+},{"./ReactDefaultBatchingStrategy":55,"./ReactElement":59,"./ReactInstanceHandles":68,"./ReactMarkupChecksum":71,"./ReactServerBatchingStrategy":86,"./ReactServerRenderingTransaction":88,"./ReactUpdates":90,"./instantiateReactComponent":124,"_process":6,"fbjs/lib/emptyObject":143,"fbjs/lib/invariant":150}],88:[function(require,module,exports){
 /**
  * Copyright 2014-2015, Facebook, Inc.
  * All rights reserved.
@@ -13561,7 +13667,7 @@ assign(ReactServerRenderingTransaction.prototype, Transaction.Mixin, Mixin);
 PooledClass.addPoolingTo(ReactServerRenderingTransaction);
 
 module.exports = ReactServerRenderingTransaction;
-},{"./CallbackQueue":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/CallbackQueue.js","./Object.assign":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/Object.assign.js","./PooledClass":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/PooledClass.js","./Transaction":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/Transaction.js","fbjs/lib/emptyFunction":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/emptyFunction.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactUpdateQueue.js":[function(require,module,exports){
+},{"./CallbackQueue":12,"./Object.assign":29,"./PooledClass":30,"./Transaction":107,"fbjs/lib/emptyFunction":142}],89:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2015, Facebook, Inc.
@@ -13821,7 +13927,7 @@ var ReactUpdateQueue = {
 
 module.exports = ReactUpdateQueue;
 }).call(this,require('_process'))
-},{"./Object.assign":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/Object.assign.js","./ReactCurrentOwner":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactCurrentOwner.js","./ReactElement":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactElement.js","./ReactInstanceMap":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactInstanceMap.js","./ReactUpdates":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactUpdates.js","_process":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/watchify/node_modules/browserify/node_modules/process/browser.js","fbjs/lib/invariant":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/invariant.js","fbjs/lib/warning":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/warning.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactUpdates.js":[function(require,module,exports){
+},{"./Object.assign":29,"./ReactCurrentOwner":41,"./ReactElement":59,"./ReactInstanceMap":69,"./ReactUpdates":90,"_process":6,"fbjs/lib/invariant":150,"fbjs/lib/warning":161}],90:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -14047,7 +14153,7 @@ var ReactUpdates = {
 
 module.exports = ReactUpdates;
 }).call(this,require('_process'))
-},{"./CallbackQueue":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/CallbackQueue.js","./Object.assign":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/Object.assign.js","./PooledClass":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/PooledClass.js","./ReactPerf":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactPerf.js","./ReactReconciler":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactReconciler.js","./Transaction":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/Transaction.js","_process":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/watchify/node_modules/browserify/node_modules/process/browser.js","fbjs/lib/invariant":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/invariant.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactVersion.js":[function(require,module,exports){
+},{"./CallbackQueue":12,"./Object.assign":29,"./PooledClass":30,"./ReactPerf":78,"./ReactReconciler":83,"./Transaction":107,"_process":6,"fbjs/lib/invariant":150}],91:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -14062,7 +14168,7 @@ module.exports = ReactUpdates;
 'use strict';
 
 module.exports = '0.14.0';
-},{}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/SVGDOMPropertyConfig.js":[function(require,module,exports){
+},{}],92:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -14190,7 +14296,7 @@ var SVGDOMPropertyConfig = {
 };
 
 module.exports = SVGDOMPropertyConfig;
-},{"./DOMProperty":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/DOMProperty.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/SelectEventPlugin.js":[function(require,module,exports){
+},{"./DOMProperty":16}],93:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -14392,7 +14498,7 @@ var SelectEventPlugin = {
 };
 
 module.exports = SelectEventPlugin;
-},{"./EventConstants":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/EventConstants.js","./EventPropagators":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/EventPropagators.js","./ReactInputSelection":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactInputSelection.js","./SyntheticEvent":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/SyntheticEvent.js","./isTextInputElement":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/isTextInputElement.js","fbjs/lib/ExecutionEnvironment":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/ExecutionEnvironment.js","fbjs/lib/getActiveElement":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/getActiveElement.js","fbjs/lib/keyOf":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/keyOf.js","fbjs/lib/shallowEqual":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/shallowEqual.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ServerReactRootIndex.js":[function(require,module,exports){
+},{"./EventConstants":21,"./EventPropagators":25,"./ReactInputSelection":67,"./SyntheticEvent":99,"./isTextInputElement":126,"fbjs/lib/ExecutionEnvironment":136,"fbjs/lib/getActiveElement":145,"fbjs/lib/keyOf":154,"fbjs/lib/shallowEqual":159}],94:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -14422,7 +14528,7 @@ var ServerReactRootIndex = {
 };
 
 module.exports = ServerReactRootIndex;
-},{}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/SimpleEventPlugin.js":[function(require,module,exports){
+},{}],95:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -15012,7 +15118,7 @@ var SimpleEventPlugin = {
 
 module.exports = SimpleEventPlugin;
 }).call(this,require('_process'))
-},{"./EventConstants":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/EventConstants.js","./EventPropagators":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/EventPropagators.js","./ReactMount":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactMount.js","./SyntheticClipboardEvent":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/SyntheticClipboardEvent.js","./SyntheticDragEvent":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/SyntheticDragEvent.js","./SyntheticEvent":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/SyntheticEvent.js","./SyntheticFocusEvent":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/SyntheticFocusEvent.js","./SyntheticKeyboardEvent":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/SyntheticKeyboardEvent.js","./SyntheticMouseEvent":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/SyntheticMouseEvent.js","./SyntheticTouchEvent":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/SyntheticTouchEvent.js","./SyntheticUIEvent":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/SyntheticUIEvent.js","./SyntheticWheelEvent":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/SyntheticWheelEvent.js","./getEventCharCode":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/getEventCharCode.js","_process":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/watchify/node_modules/browserify/node_modules/process/browser.js","fbjs/lib/EventListener":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/EventListener.js","fbjs/lib/emptyFunction":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/emptyFunction.js","fbjs/lib/invariant":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/invariant.js","fbjs/lib/keyOf":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/keyOf.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/SyntheticClipboardEvent.js":[function(require,module,exports){
+},{"./EventConstants":21,"./EventPropagators":25,"./ReactMount":72,"./SyntheticClipboardEvent":96,"./SyntheticDragEvent":98,"./SyntheticEvent":99,"./SyntheticFocusEvent":100,"./SyntheticKeyboardEvent":102,"./SyntheticMouseEvent":103,"./SyntheticTouchEvent":104,"./SyntheticUIEvent":105,"./SyntheticWheelEvent":106,"./getEventCharCode":117,"_process":6,"fbjs/lib/EventListener":135,"fbjs/lib/emptyFunction":142,"fbjs/lib/invariant":150,"fbjs/lib/keyOf":154}],96:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -15052,7 +15158,7 @@ function SyntheticClipboardEvent(dispatchConfig, dispatchMarker, nativeEvent, na
 SyntheticEvent.augmentClass(SyntheticClipboardEvent, ClipboardEventInterface);
 
 module.exports = SyntheticClipboardEvent;
-},{"./SyntheticEvent":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/SyntheticEvent.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/SyntheticCompositionEvent.js":[function(require,module,exports){
+},{"./SyntheticEvent":99}],97:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -15090,7 +15196,7 @@ function SyntheticCompositionEvent(dispatchConfig, dispatchMarker, nativeEvent, 
 SyntheticEvent.augmentClass(SyntheticCompositionEvent, CompositionEventInterface);
 
 module.exports = SyntheticCompositionEvent;
-},{"./SyntheticEvent":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/SyntheticEvent.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/SyntheticDragEvent.js":[function(require,module,exports){
+},{"./SyntheticEvent":99}],98:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -15128,7 +15234,7 @@ function SyntheticDragEvent(dispatchConfig, dispatchMarker, nativeEvent, nativeE
 SyntheticMouseEvent.augmentClass(SyntheticDragEvent, DragEventInterface);
 
 module.exports = SyntheticDragEvent;
-},{"./SyntheticMouseEvent":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/SyntheticMouseEvent.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/SyntheticEvent.js":[function(require,module,exports){
+},{"./SyntheticMouseEvent":103}],99:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -15308,7 +15414,7 @@ PooledClass.addPoolingTo(SyntheticEvent, PooledClass.fourArgumentPooler);
 
 module.exports = SyntheticEvent;
 }).call(this,require('_process'))
-},{"./Object.assign":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/Object.assign.js","./PooledClass":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/PooledClass.js","_process":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/watchify/node_modules/browserify/node_modules/process/browser.js","fbjs/lib/emptyFunction":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/emptyFunction.js","fbjs/lib/warning":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/warning.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/SyntheticFocusEvent.js":[function(require,module,exports){
+},{"./Object.assign":29,"./PooledClass":30,"_process":6,"fbjs/lib/emptyFunction":142,"fbjs/lib/warning":161}],100:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -15346,7 +15452,7 @@ function SyntheticFocusEvent(dispatchConfig, dispatchMarker, nativeEvent, native
 SyntheticUIEvent.augmentClass(SyntheticFocusEvent, FocusEventInterface);
 
 module.exports = SyntheticFocusEvent;
-},{"./SyntheticUIEvent":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/SyntheticUIEvent.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/SyntheticInputEvent.js":[function(require,module,exports){
+},{"./SyntheticUIEvent":105}],101:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -15385,7 +15491,7 @@ function SyntheticInputEvent(dispatchConfig, dispatchMarker, nativeEvent, native
 SyntheticEvent.augmentClass(SyntheticInputEvent, InputEventInterface);
 
 module.exports = SyntheticInputEvent;
-},{"./SyntheticEvent":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/SyntheticEvent.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/SyntheticKeyboardEvent.js":[function(require,module,exports){
+},{"./SyntheticEvent":99}],102:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -15471,7 +15577,7 @@ function SyntheticKeyboardEvent(dispatchConfig, dispatchMarker, nativeEvent, nat
 SyntheticUIEvent.augmentClass(SyntheticKeyboardEvent, KeyboardEventInterface);
 
 module.exports = SyntheticKeyboardEvent;
-},{"./SyntheticUIEvent":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/SyntheticUIEvent.js","./getEventCharCode":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/getEventCharCode.js","./getEventKey":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/getEventKey.js","./getEventModifierState":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/getEventModifierState.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/SyntheticMouseEvent.js":[function(require,module,exports){
+},{"./SyntheticUIEvent":105,"./getEventCharCode":117,"./getEventKey":118,"./getEventModifierState":119}],103:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -15545,7 +15651,7 @@ function SyntheticMouseEvent(dispatchConfig, dispatchMarker, nativeEvent, native
 SyntheticUIEvent.augmentClass(SyntheticMouseEvent, MouseEventInterface);
 
 module.exports = SyntheticMouseEvent;
-},{"./SyntheticUIEvent":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/SyntheticUIEvent.js","./ViewportMetrics":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ViewportMetrics.js","./getEventModifierState":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/getEventModifierState.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/SyntheticTouchEvent.js":[function(require,module,exports){
+},{"./SyntheticUIEvent":105,"./ViewportMetrics":108,"./getEventModifierState":119}],104:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -15592,7 +15698,7 @@ function SyntheticTouchEvent(dispatchConfig, dispatchMarker, nativeEvent, native
 SyntheticUIEvent.augmentClass(SyntheticTouchEvent, TouchEventInterface);
 
 module.exports = SyntheticTouchEvent;
-},{"./SyntheticUIEvent":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/SyntheticUIEvent.js","./getEventModifierState":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/getEventModifierState.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/SyntheticUIEvent.js":[function(require,module,exports){
+},{"./SyntheticUIEvent":105,"./getEventModifierState":119}],105:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -15653,7 +15759,7 @@ function SyntheticUIEvent(dispatchConfig, dispatchMarker, nativeEvent, nativeEve
 SyntheticEvent.augmentClass(SyntheticUIEvent, UIEventInterface);
 
 module.exports = SyntheticUIEvent;
-},{"./SyntheticEvent":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/SyntheticEvent.js","./getEventTarget":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/getEventTarget.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/SyntheticWheelEvent.js":[function(require,module,exports){
+},{"./SyntheticEvent":99,"./getEventTarget":120}],106:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -15709,7 +15815,7 @@ function SyntheticWheelEvent(dispatchConfig, dispatchMarker, nativeEvent, native
 SyntheticMouseEvent.augmentClass(SyntheticWheelEvent, WheelEventInterface);
 
 module.exports = SyntheticWheelEvent;
-},{"./SyntheticMouseEvent":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/SyntheticMouseEvent.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/Transaction.js":[function(require,module,exports){
+},{"./SyntheticMouseEvent":103}],107:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -15943,7 +16049,7 @@ var Transaction = {
 
 module.exports = Transaction;
 }).call(this,require('_process'))
-},{"_process":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/watchify/node_modules/browserify/node_modules/process/browser.js","fbjs/lib/invariant":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/invariant.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ViewportMetrics.js":[function(require,module,exports){
+},{"_process":6,"fbjs/lib/invariant":150}],108:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -15971,7 +16077,7 @@ var ViewportMetrics = {
 };
 
 module.exports = ViewportMetrics;
-},{}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/accumulateInto.js":[function(require,module,exports){
+},{}],109:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -16033,7 +16139,7 @@ function accumulateInto(current, next) {
 
 module.exports = accumulateInto;
 }).call(this,require('_process'))
-},{"_process":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/watchify/node_modules/browserify/node_modules/process/browser.js","fbjs/lib/invariant":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/invariant.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/adler32.js":[function(require,module,exports){
+},{"_process":6,"fbjs/lib/invariant":150}],110:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -16076,7 +16182,7 @@ function adler32(data) {
 }
 
 module.exports = adler32;
-},{}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/dangerousStyleValue.js":[function(require,module,exports){
+},{}],111:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -16132,7 +16238,7 @@ function dangerousStyleValue(name, value) {
 }
 
 module.exports = dangerousStyleValue;
-},{"./CSSProperty":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/CSSProperty.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/deprecated.js":[function(require,module,exports){
+},{"./CSSProperty":10}],112:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -16183,7 +16289,7 @@ function deprecated(fnName, newModule, newPackage, ctx, fn) {
 
 module.exports = deprecated;
 }).call(this,require('_process'))
-},{"./Object.assign":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/Object.assign.js","_process":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/watchify/node_modules/browserify/node_modules/process/browser.js","fbjs/lib/warning":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/warning.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/escapeTextContentForBrowser.js":[function(require,module,exports){
+},{"./Object.assign":29,"_process":6,"fbjs/lib/warning":161}],113:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -16222,7 +16328,7 @@ function escapeTextContentForBrowser(text) {
 }
 
 module.exports = escapeTextContentForBrowser;
-},{}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/findDOMNode.js":[function(require,module,exports){
+},{}],114:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -16274,7 +16380,7 @@ function findDOMNode(componentOrElement) {
 
 module.exports = findDOMNode;
 }).call(this,require('_process'))
-},{"./ReactCurrentOwner":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactCurrentOwner.js","./ReactInstanceMap":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactInstanceMap.js","./ReactMount":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactMount.js","_process":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/watchify/node_modules/browserify/node_modules/process/browser.js","fbjs/lib/invariant":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/invariant.js","fbjs/lib/warning":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/warning.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/flattenChildren.js":[function(require,module,exports){
+},{"./ReactCurrentOwner":41,"./ReactInstanceMap":69,"./ReactMount":72,"_process":6,"fbjs/lib/invariant":150,"fbjs/lib/warning":161}],115:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -16325,7 +16431,7 @@ function flattenChildren(children) {
 
 module.exports = flattenChildren;
 }).call(this,require('_process'))
-},{"./traverseAllChildren":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/traverseAllChildren.js","_process":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/watchify/node_modules/browserify/node_modules/process/browser.js","fbjs/lib/warning":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/warning.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/forEachAccumulated.js":[function(require,module,exports){
+},{"./traverseAllChildren":133,"_process":6,"fbjs/lib/warning":161}],116:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -16355,7 +16461,7 @@ var forEachAccumulated = function (arr, cb, scope) {
 };
 
 module.exports = forEachAccumulated;
-},{}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/getEventCharCode.js":[function(require,module,exports){
+},{}],117:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -16406,7 +16512,7 @@ function getEventCharCode(nativeEvent) {
 }
 
 module.exports = getEventCharCode;
-},{}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/getEventKey.js":[function(require,module,exports){
+},{}],118:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -16510,7 +16616,7 @@ function getEventKey(nativeEvent) {
 }
 
 module.exports = getEventKey;
-},{"./getEventCharCode":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/getEventCharCode.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/getEventModifierState.js":[function(require,module,exports){
+},{"./getEventCharCode":117}],119:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -16555,7 +16661,7 @@ function getEventModifierState(nativeEvent) {
 }
 
 module.exports = getEventModifierState;
-},{}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/getEventTarget.js":[function(require,module,exports){
+},{}],120:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -16585,7 +16691,7 @@ function getEventTarget(nativeEvent) {
 }
 
 module.exports = getEventTarget;
-},{}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/getIteratorFn.js":[function(require,module,exports){
+},{}],121:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -16626,7 +16732,7 @@ function getIteratorFn(maybeIterable) {
 }
 
 module.exports = getIteratorFn;
-},{}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/getNodeForCharacterOffset.js":[function(require,module,exports){
+},{}],122:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -16700,7 +16806,7 @@ function getNodeForCharacterOffset(root, offset) {
 }
 
 module.exports = getNodeForCharacterOffset;
-},{}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/getTextContentAccessor.js":[function(require,module,exports){
+},{}],123:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -16734,7 +16840,7 @@ function getTextContentAccessor() {
 }
 
 module.exports = getTextContentAccessor;
-},{"fbjs/lib/ExecutionEnvironment":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/ExecutionEnvironment.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/instantiateReactComponent.js":[function(require,module,exports){
+},{"fbjs/lib/ExecutionEnvironment":136}],124:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -16849,7 +16955,7 @@ function instantiateReactComponent(node) {
 
 module.exports = instantiateReactComponent;
 }).call(this,require('_process'))
-},{"./Object.assign":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/Object.assign.js","./ReactCompositeComponent":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactCompositeComponent.js","./ReactEmptyComponent":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactEmptyComponent.js","./ReactNativeComponent":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactNativeComponent.js","_process":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/watchify/node_modules/browserify/node_modules/process/browser.js","fbjs/lib/invariant":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/invariant.js","fbjs/lib/warning":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/warning.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/isEventSupported.js":[function(require,module,exports){
+},{"./Object.assign":29,"./ReactCompositeComponent":40,"./ReactEmptyComponent":61,"./ReactNativeComponent":75,"_process":6,"fbjs/lib/invariant":150,"fbjs/lib/warning":161}],125:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -16910,7 +17016,7 @@ function isEventSupported(eventNameSuffix, capture) {
 }
 
 module.exports = isEventSupported;
-},{"fbjs/lib/ExecutionEnvironment":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/ExecutionEnvironment.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/isTextInputElement.js":[function(require,module,exports){
+},{"fbjs/lib/ExecutionEnvironment":136}],126:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -16951,7 +17057,7 @@ function isTextInputElement(elem) {
 }
 
 module.exports = isTextInputElement;
-},{}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/onlyChild.js":[function(require,module,exports){
+},{}],127:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -16987,7 +17093,7 @@ function onlyChild(children) {
 
 module.exports = onlyChild;
 }).call(this,require('_process'))
-},{"./ReactElement":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactElement.js","_process":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/watchify/node_modules/browserify/node_modules/process/browser.js","fbjs/lib/invariant":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/invariant.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/quoteAttributeValueForBrowser.js":[function(require,module,exports){
+},{"./ReactElement":59,"_process":6,"fbjs/lib/invariant":150}],128:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -17014,7 +17120,7 @@ function quoteAttributeValueForBrowser(value) {
 }
 
 module.exports = quoteAttributeValueForBrowser;
-},{"./escapeTextContentForBrowser":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/escapeTextContentForBrowser.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/renderSubtreeIntoContainer.js":[function(require,module,exports){
+},{"./escapeTextContentForBrowser":113}],129:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -17031,7 +17137,7 @@ module.exports = quoteAttributeValueForBrowser;
 var ReactMount = require('./ReactMount');
 
 module.exports = ReactMount.renderSubtreeIntoContainer;
-},{"./ReactMount":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactMount.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/setInnerHTML.js":[function(require,module,exports){
+},{"./ReactMount":72}],130:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -17122,7 +17228,7 @@ if (ExecutionEnvironment.canUseDOM) {
 }
 
 module.exports = setInnerHTML;
-},{"fbjs/lib/ExecutionEnvironment":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/ExecutionEnvironment.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/setTextContent.js":[function(require,module,exports){
+},{"fbjs/lib/ExecutionEnvironment":136}],131:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -17163,7 +17269,7 @@ if (ExecutionEnvironment.canUseDOM) {
 }
 
 module.exports = setTextContent;
-},{"./escapeTextContentForBrowser":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/escapeTextContentForBrowser.js","./setInnerHTML":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/setInnerHTML.js","fbjs/lib/ExecutionEnvironment":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/ExecutionEnvironment.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/shouldUpdateReactComponent.js":[function(require,module,exports){
+},{"./escapeTextContentForBrowser":113,"./setInnerHTML":130,"fbjs/lib/ExecutionEnvironment":136}],132:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -17207,7 +17313,7 @@ function shouldUpdateReactComponent(prevElement, nextElement) {
 }
 
 module.exports = shouldUpdateReactComponent;
-},{}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/traverseAllChildren.js":[function(require,module,exports){
+},{}],133:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -17399,7 +17505,7 @@ function traverseAllChildren(children, callback, traverseContext) {
 
 module.exports = traverseAllChildren;
 }).call(this,require('_process'))
-},{"./ReactCurrentOwner":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactCurrentOwner.js","./ReactElement":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactElement.js","./ReactInstanceHandles":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/ReactInstanceHandles.js","./getIteratorFn":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/getIteratorFn.js","_process":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/watchify/node_modules/browserify/node_modules/process/browser.js","fbjs/lib/invariant":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/invariant.js","fbjs/lib/warning":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/warning.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/validateDOMNesting.js":[function(require,module,exports){
+},{"./ReactCurrentOwner":41,"./ReactElement":59,"./ReactInstanceHandles":68,"./getIteratorFn":121,"_process":6,"fbjs/lib/invariant":150,"fbjs/lib/warning":161}],134:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2015, Facebook, Inc.
@@ -17765,7 +17871,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 module.exports = validateDOMNesting;
 }).call(this,require('_process'))
-},{"./Object.assign":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/Object.assign.js","_process":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/watchify/node_modules/browserify/node_modules/process/browser.js","fbjs/lib/emptyFunction":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/emptyFunction.js","fbjs/lib/warning":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/warning.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/EventListener.js":[function(require,module,exports){
+},{"./Object.assign":29,"_process":6,"fbjs/lib/emptyFunction":142,"fbjs/lib/warning":161}],135:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -17852,7 +17958,7 @@ var EventListener = {
 
 module.exports = EventListener;
 }).call(this,require('_process'))
-},{"./emptyFunction":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/emptyFunction.js","_process":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/watchify/node_modules/browserify/node_modules/process/browser.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/ExecutionEnvironment.js":[function(require,module,exports){
+},{"./emptyFunction":142,"_process":6}],136:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -17889,7 +17995,7 @@ var ExecutionEnvironment = {
 };
 
 module.exports = ExecutionEnvironment;
-},{}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/camelize.js":[function(require,module,exports){
+},{}],137:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -17922,7 +18028,7 @@ function camelize(string) {
 }
 
 module.exports = camelize;
-},{}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/camelizeStyleName.js":[function(require,module,exports){
+},{}],138:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -17963,7 +18069,7 @@ function camelizeStyleName(string) {
 }
 
 module.exports = camelizeStyleName;
-},{"./camelize":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/camelize.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/containsNode.js":[function(require,module,exports){
+},{"./camelize":137}],139:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -18019,7 +18125,7 @@ function containsNode(_x, _x2) {
 }
 
 module.exports = containsNode;
-},{"./isTextNode":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/isTextNode.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/createArrayFromMixed.js":[function(require,module,exports){
+},{"./isTextNode":152}],140:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -18105,7 +18211,7 @@ function createArrayFromMixed(obj) {
 }
 
 module.exports = createArrayFromMixed;
-},{"./toArray":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/toArray.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/createNodesFromMarkup.js":[function(require,module,exports){
+},{"./toArray":160}],141:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -18192,7 +18298,7 @@ function createNodesFromMarkup(markup, handleScript) {
 
 module.exports = createNodesFromMarkup;
 }).call(this,require('_process'))
-},{"./ExecutionEnvironment":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/ExecutionEnvironment.js","./createArrayFromMixed":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/createArrayFromMixed.js","./getMarkupWrap":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/getMarkupWrap.js","./invariant":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/invariant.js","_process":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/watchify/node_modules/browserify/node_modules/process/browser.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/emptyFunction.js":[function(require,module,exports){
+},{"./ExecutionEnvironment":136,"./createArrayFromMixed":140,"./getMarkupWrap":146,"./invariant":150,"_process":6}],142:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -18231,7 +18337,7 @@ emptyFunction.thatReturnsArgument = function (arg) {
 };
 
 module.exports = emptyFunction;
-},{}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/emptyObject.js":[function(require,module,exports){
+},{}],143:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -18254,7 +18360,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 module.exports = emptyObject;
 }).call(this,require('_process'))
-},{"_process":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/watchify/node_modules/browserify/node_modules/process/browser.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/focusNode.js":[function(require,module,exports){
+},{"_process":6}],144:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -18281,7 +18387,7 @@ function focusNode(node) {
 }
 
 module.exports = focusNode;
-},{}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/getActiveElement.js":[function(require,module,exports){
+},{}],145:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -18315,7 +18421,7 @@ function getActiveElement() /*?DOMElement*/{
 }
 
 module.exports = getActiveElement;
-},{}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/getMarkupWrap.js":[function(require,module,exports){
+},{}],146:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -18413,7 +18519,7 @@ function getMarkupWrap(nodeName) {
 
 module.exports = getMarkupWrap;
 }).call(this,require('_process'))
-},{"./ExecutionEnvironment":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/ExecutionEnvironment.js","./invariant":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/invariant.js","_process":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/watchify/node_modules/browserify/node_modules/process/browser.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/getUnboundedScrollPosition.js":[function(require,module,exports){
+},{"./ExecutionEnvironment":136,"./invariant":150,"_process":6}],147:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -18452,7 +18558,7 @@ function getUnboundedScrollPosition(scrollable) {
 }
 
 module.exports = getUnboundedScrollPosition;
-},{}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/hyphenate.js":[function(require,module,exports){
+},{}],148:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -18486,7 +18592,7 @@ function hyphenate(string) {
 }
 
 module.exports = hyphenate;
-},{}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/hyphenateStyleName.js":[function(require,module,exports){
+},{}],149:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -18526,7 +18632,7 @@ function hyphenateStyleName(string) {
 }
 
 module.exports = hyphenateStyleName;
-},{"./hyphenate":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/hyphenate.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/invariant.js":[function(require,module,exports){
+},{"./hyphenate":148}],150:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -18578,7 +18684,7 @@ var invariant = function (condition, format, a, b, c, d, e, f) {
 
 module.exports = invariant;
 }).call(this,require('_process'))
-},{"_process":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/watchify/node_modules/browserify/node_modules/process/browser.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/isNode.js":[function(require,module,exports){
+},{"_process":6}],151:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -18602,7 +18708,7 @@ function isNode(object) {
 }
 
 module.exports = isNode;
-},{}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/isTextNode.js":[function(require,module,exports){
+},{}],152:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -18628,7 +18734,7 @@ function isTextNode(object) {
 }
 
 module.exports = isTextNode;
-},{"./isNode":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/isNode.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/keyMirror.js":[function(require,module,exports){
+},{"./isNode":151}],153:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -18679,7 +18785,7 @@ var keyMirror = function (obj) {
 
 module.exports = keyMirror;
 }).call(this,require('_process'))
-},{"./invariant":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/invariant.js","_process":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/watchify/node_modules/browserify/node_modules/process/browser.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/keyOf.js":[function(require,module,exports){
+},{"./invariant":150,"_process":6}],154:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -18715,7 +18821,7 @@ var keyOf = function (oneKeyObj) {
 };
 
 module.exports = keyOf;
-},{}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/mapObject.js":[function(require,module,exports){
+},{}],155:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -18767,7 +18873,7 @@ function mapObject(object, callback, context) {
 }
 
 module.exports = mapObject;
-},{}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/memoizeStringOnly.js":[function(require,module,exports){
+},{}],156:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -18799,7 +18905,7 @@ function memoizeStringOnly(callback) {
 }
 
 module.exports = memoizeStringOnly;
-},{}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/performance.js":[function(require,module,exports){
+},{}],157:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -18823,7 +18929,7 @@ if (ExecutionEnvironment.canUseDOM) {
 }
 
 module.exports = performance || {};
-},{"./ExecutionEnvironment":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/ExecutionEnvironment.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/performanceNow.js":[function(require,module,exports){
+},{"./ExecutionEnvironment":136}],158:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -18853,7 +18959,7 @@ if (!curPerformance || !curPerformance.now) {
 var performanceNow = curPerformance.now.bind(curPerformance);
 
 module.exports = performanceNow;
-},{"./performance":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/performance.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/shallowEqual.js":[function(require,module,exports){
+},{"./performance":157}],159:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -18904,7 +19010,7 @@ function shallowEqual(objA, objB) {
 }
 
 module.exports = shallowEqual;
-},{}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/toArray.js":[function(require,module,exports){
+},{}],160:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -18964,7 +19070,7 @@ function toArray(obj) {
 
 module.exports = toArray;
 }).call(this,require('_process'))
-},{"./invariant":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/invariant.js","_process":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/watchify/node_modules/browserify/node_modules/process/browser.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/warning.js":[function(require,module,exports){
+},{"./invariant":150,"_process":6}],161:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -19024,74 +19130,9 @@ if (process.env.NODE_ENV !== 'production') {
 
 module.exports = warning;
 }).call(this,require('_process'))
-},{"./emptyFunction":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/node_modules/fbjs/lib/emptyFunction.js","_process":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/watchify/node_modules/browserify/node_modules/process/browser.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/react.js":[function(require,module,exports){
+},{"./emptyFunction":142,"_process":6}],162:[function(require,module,exports){
 'use strict';
 
 module.exports = require('./lib/React');
 
-},{"./lib/React":"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/react/lib/React.js"}],"/Users/bernardwang/Documents/code/github/cs242portfolio/node_modules/watchify/node_modules/browserify/node_modules/process/browser.js":[function(require,module,exports){
-// shim for using process in browser
-
-var process = module.exports = {};
-
-process.nextTick = (function () {
-    var canSetImmediate = typeof window !== 'undefined'
-    && window.setImmediate;
-    var canPost = typeof window !== 'undefined'
-    && window.postMessage && window.addEventListener
-    ;
-
-    if (canSetImmediate) {
-        return function (f) { return window.setImmediate(f) };
-    }
-
-    if (canPost) {
-        var queue = [];
-        window.addEventListener('message', function (ev) {
-            var source = ev.source;
-            if ((source === window || source === null) && ev.data === 'process-tick') {
-                ev.stopPropagation();
-                if (queue.length > 0) {
-                    var fn = queue.shift();
-                    fn();
-                }
-            }
-        }, true);
-
-        return function nextTick(fn) {
-            queue.push(fn);
-            window.postMessage('process-tick', '*');
-        };
-    }
-
-    return function nextTick(fn) {
-        setTimeout(fn, 0);
-    };
-})();
-
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-}
-
-// TODO(shtylman)
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-
-},{}]},{},["/Users/bernardwang/Documents/code/github/cs242portfolio/app/app.jsx"]);
+},{"./lib/React":31}]},{},[1]);

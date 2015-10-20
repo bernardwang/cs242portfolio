@@ -7,35 +7,27 @@
 var React = require('react');
 
 var CommitDetail = React.createClass({
-	getInitialState: function() {
-    return {
-      open: false
-    };
-  },
 	
   render: function() {
 		
-		var open = this.state.open;
-		console.log(open);
-		
 		// Build list of file changes
+		var classname = this.props.show ? 'detail' : 'detail hidden';
 		var entry = this.props.entry;
 		var changes = entry.changes.map(function(change, i){
-      return (
+     	return (
 				<li key={i}>
 					<p>{change}</p>
-      	</li>
-      )
+     		</li>
+     	)
     });
 		
 		return (
-			<div className={"detail"}>
+			<div className={classname}>
 				<h3>{entry._id}</h3>
-				<ul>
-					{changes}
-				</ul>
+				<ul>{changes}</ul>
 			</div>
 		)
+		
   }
 });
 
