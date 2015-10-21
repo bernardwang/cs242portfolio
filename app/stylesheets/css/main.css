@@ -1,1 +1,48 @@
-html,body{margin:0;padding:0;font-size:62.5%}.hidden{display:none}@font-face{font-family:Dosis;src:url(https://fonts.googleapis.com/css?family=Dosis);font-weight:400}html,body{font-family:Dosis}#wrapper{width:100vw;height:100vh;margin:0 auto}
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: Dosis;
+  font-size: 62.5%; }
+
+.hidden {
+  display: none; }
+
+#react-app {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-direction: normal;
+  -webkit-box-orient: vertical;
+  -webkit-flex-direction: column;
+  -moz-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-flex-wrap: nowrap;
+  -moz-flex-wrap: nowrap;
+  -ms-flex-wrap: none;
+  flex-wrap: nowrap;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  -moz-align-items: center;
+  align-items: center; }
+
+.history {
+  padding: 0;
+  margin: 0;
+  max-width: 500px;
+  list-style: none; }
+
+.entry {
+  margin: auto;
+  width: 100%;
+  font-size: 1.333rem;
+  line-height: 2.5rem; }
+
+.detail {
+  font-size: 1rem;
+  line-height: 1.25rem; }
+
+/*# sourceMappingURL=../../../public/css/main.css.map */

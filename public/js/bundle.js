@@ -89,7 +89,7 @@ var CommitEntry = React.createClass({displayName: "CommitEntry",
 				React.createElement("p", null, this.state.showDetail), 
 				React.createElement("h2", null, entry.msg), 
 				React.createElement("h3", null, entry.date), 
-				React.createElement("button", {className: "toggle-detail", onClick: this.onToggleClick}, "Details"), 
+				React.createElement("button", {className: "toggle", onClick: this.onToggleClick}, "Details"), 
 				React.createElement(CommitDetail, {show: this.state.showDetail, entry: entry})
       )
 		)
@@ -144,9 +144,7 @@ var CommitsApp = React.createClass({displayName: "CommitsApp",
 	render: function() {
 		
 		return (
-			React.createElement("div", {className: "react-app"}, 
-				React.createElement(CommitHistory, {history: this.props.commits})
-			)
+			React.createElement(CommitHistory, {history: this.props.commits})
 		);
 		
   }

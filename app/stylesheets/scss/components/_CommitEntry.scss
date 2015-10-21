@@ -1,0 +1,7 @@
+.entry{
+	margin: auto;
+	
+	width: 100%;
+	
+	@include type-setting(1);
+}

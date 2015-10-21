@@ -32,7 +32,7 @@ var CommitEntry = React.createClass({
 				<p>{this.state.showDetail}</p>
 				<h2>{entry.msg}</h2>
 				<h3>{entry.date}</h3>
-				<button className={"toggle-detail"} onClick={this.onToggleClick}>Details</button>
+				<button className={"toggle"} onClick={this.onToggleClick}>Details</button>
 				<CommitDetail show={this.state.showDetail} entry={entry} /> 
       </li>
 		)

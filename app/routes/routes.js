@@ -38,7 +38,8 @@ module.exports = {
 	index: function(req, res) {
 			
 		// Pass commits as parameter and render CommitsApp component to string
-		Commit.getCommits(null, function(err, commits){
+		var numQuery = 10;
+		Commit.getCommits(null, numQuery, function(err, commits){
 			var markup = ReactDOMServer.renderToString(
 				CommitsApp({ commits : commits })
 			);

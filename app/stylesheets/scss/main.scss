@@ -1,14 +1,4 @@
+@import 'utils/all';
 @import 'base/all';
 @import 'layout/all';
 @import 'components/all';
-@import 'utils/all';
-
-html,body{
-	font-family: Dosis;
-}
-
-#wrapper {
-	width: 100vw;
-	height: 100vh;
-	margin: 0 auto;
-}

@@ -20,6 +20,8 @@
     "xml2js": "^0.4.12"
   },
   "devDependencies": {
+    "browserify": "~11.2.0",
+    "del": "^2.0.2",
     "gulp": "^3.9.0",
     "gulp-concat-css": "^2.2.0",
     "gulp-jshint": "^1.11.2",
@@ -30,9 +32,7 @@
     "gulp-uglify": "^1.4.2",
     "nodemon": "^1.7.1",
     "reactify": "~1.1.1",
-    "watchify": "~3.4.0",
-    "browserify": "~11.2.0",
-    "del": "^2.0.2"
+    "watchify": "~3.4.0"
   },
   "browserify": {
     "transform": [

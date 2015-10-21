@@ -12,9 +12,7 @@ var CommitsApp = React.createClass({
 	render: function() {
 		
 		return (
-			<div className="react-app">
-				<CommitHistory history = {this.props.commits}/>
-			</div>
+			<CommitHistory history = {this.props.commits}/>
 		);
 		
   }
