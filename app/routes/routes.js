@@ -36,7 +36,6 @@ var reloadDB = function() {
 
 module.exports = {
 	index: function(req, res) {
-			
 		// Pass commits as parameter and render CommitsApp component to string
 		var numQuery = 10;
 		Commit.getCommits(null, numQuery, function(err, commits){

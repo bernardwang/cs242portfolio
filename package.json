@@ -4,7 +4,7 @@
   "description": "CS242 SVN Portfolio",
   "scripts": {
     "watch": "watchify app/app.jsx --extension=.jsx -o public/js/bundle.js -v",
-    "browserify": "browserify app/app.jsx --extension=.jsx > public/js/bundle.js",
+    "browserify": "browserify app/app.jsx --extension=.jsx | uglifyjs > public/js/bundle.js",
     "start": "npm run watch & nodemon server.js"
   },
   "author": "Bernard Wang",
@@ -20,6 +20,7 @@
     "xml2js": "^0.4.12"
   },
   "devDependencies": {
+    "browser-sync": "^2.9.11",
     "browserify": "~11.2.0",
     "del": "^2.0.2",
     "gulp": "^3.9.0",
@@ -32,6 +33,7 @@
     "gulp-uglify": "^1.4.2",
     "nodemon": "^1.7.1",
     "reactify": "~1.1.1",
+    "uglify-js": "^2.5.0",
     "watchify": "~3.4.0"
   },
   "browserify": {

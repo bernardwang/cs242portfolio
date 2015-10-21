@@ -20,12 +20,8 @@ var sass					= require('gulp-sass');
 var sourcemaps		= require('gulp-sourcemaps');
 var min						= require('gulp-minify-css');
 var concatCSS 		= require('gulp-concat-css');
-var lint          = require('gulp-jshint');
-var uglify 				= require('gulp-uglify');
 var notify        = require('gulp-notify');
-var browserify 		= require('browserify');
-var reactify 			= require('reactify');
-var watchify 			= require('watchify');
+var sync 					= require('browser-sync').create();
 
 // *************************************
 //
@@ -48,47 +44,31 @@ var DIST_JS				= './public/';
 //
 // *************************************
 
-// convert sass to css
-gulp.task('sass', function(){
+// convert scss to css
+gulp.task('scss', function(){
 	gulp.src(ALL_SCSS)
 		.pipe(sourcemaps.init())
   	.pipe(sass())
-		.pipe(sourcemaps.write(DEST_SOURCEMAP))
+		.pipe(sourcemaps.write('../../../'+DIST_CSS))
   	.pipe(gulp.dest(DEST_CSS))
-  	.pipe(notify({ message: 'sass complete' }));
+  	.pipe(notify({ message: 'scss complete' }));
 });
 
-// concat & min css, pipe to dist/css
-gulp.task('style', ['sass'],  function(){
+// concat & min css, pipe to dist
+gulp.task('css', ['scss'],  function(){
 	gulp.src(ALL_CSS)
   	.pipe(concatCSS('bundle.min.css'))
   	.pipe(min())
   	.pipe(gulp.dest(DIST_CSS))
-  	.pipe(notify({ message: 'styles complete' }));
+  	.pipe(notify({ message: 'css complete' }));
 });
 
-// browserify js
-gulp.task('browserify', function () {
-	var bundler = browserify({
-		entries: [REACT], 
-		transform: [reactify], 
-		debug: true, 
-		fullPaths: true
-  });
-	var watcher = watchify(bundler);
-	return watcher
-    .on('update', function () { // When any files update
-        var updateStart = Date.now();
-        console.log('Up dating');
-        watcher.bundle() // Create new bundle that uses the cache for high performance
-        .pipe(source(REACT))
-				.pipe(uglify())
-        .pipe(gulp.dest(DEST_REACT));
-        console.log('Update Done');
-    })
-    .bundle() // Create the initial bundle when starting the task
-    .pipe(source(REACT))
-    .pipe(gulp.dest('./build/'));
+// setup browser sync
+gulp.task('sync', ['css'], function() {
+	sync.init({
+		proxy: 'http://localhost:3000'
+	});
+	gulp.watch(ALL_SCSS, ['css']).on('change', sync.reload);
 });
 
-gulp.task('default', ['style']);
+gulp.task('default', ['sync']);
