@@ -41,37 +41,11 @@ var CommitApp = React.createClass({displayName: "CommitApp",
 
 module.exports = CommitApp;
 
-},{"./CommitHistory":6,"react":164}],3:[function(require,module,exports){
-// 
-//	Comment.jsx
-//
-//	Thread comment component
-//
-
-var React = require('react');
-
-var CommitComment = React.createClass({displayName: "CommitComment",
-	
-  render: function() {
-		
-		var comment = this.props.comment;
-		
-		return (
-			React.createElement("div", {className: "comment"}, 
-				React.createElement("p", null, comment.text)
-			)
-		)
-		
-  }
-});
-
-module.exports = CommitComment;
-
-},{"react":164}],4:[function(require,module,exports){
+},{"./CommitHistory":5,"react":164}],3:[function(require,module,exports){
 // 
 //	CommitDetails.jsx
 //
-//	Single commit detail component
+//	Single commit details
 //
 
 var React = require('react');
@@ -103,11 +77,11 @@ var CommitDetail = React.createClass({displayName: "CommitDetail",
 
 module.exports = CommitDetail;
 
-},{"react":164}],5:[function(require,module,exports){
+},{"react":164}],4:[function(require,module,exports){
 // 
 //	CommitEntry.jsx
 //
-//	Single commit entry component
+//	Single commit entry
 //
 
 var React = require('react');
@@ -148,11 +122,11 @@ var CommitEntry = React.createClass({displayName: "CommitEntry",
 
 module.exports = CommitEntry;
 
-},{"./CommitDetail":4,"./CommitThread":7,"react":164}],6:[function(require,module,exports){
+},{"./CommitDetail":3,"./CommitThread":6,"react":164}],5:[function(require,module,exports){
 // 
 //	CommitHistory.jsx
 //
-//	Entire commit history component
+//	Entire commit history
 //
 
 var React = require('react');
@@ -179,7 +153,7 @@ var CommitHistory = React.createClass({displayName: "CommitHistory",
 
 module.exports = CommitHistory;
 
-},{"./CommitEntry":5,"react":164}],7:[function(require,module,exports){
+},{"./CommitEntry":4,"react":164}],6:[function(require,module,exports){
 // 
 //	CommitThread.jsx
 //
@@ -187,16 +161,16 @@ module.exports = CommitHistory;
 //
 
 var React = require('react');
-var CommitComment = require('./CommitComment');
+var ThreadComment = require('./ThreadComment');
 
 var CommitThread = React.createClass({displayName: "CommitThread",
   render: function() {
 		
 		var comments = this.props.comments;
-		var commentThread = comments.map(function(comment, i){
+		var threadComments = comments.map(function(comment, i){
      	return (
 				React.createElement("li", {key: i}, 
-					React.createElement(CommitComment, {comment: comment})
+					React.createElement(ThreadComment, {comment: comment})
      		)
      	)
     });
@@ -204,8 +178,9 @@ var CommitThread = React.createClass({displayName: "CommitThread",
     return (
 			React.createElement("div", null, 
       	React.createElement("ul", {className: "comments"}, 
-					commentThread
-				)
+					threadComments
+				), 
+				React.createElement(ThreadForm, null)
 			)
     )
 
@@ -214,7 +189,33 @@ var CommitThread = React.createClass({displayName: "CommitThread",
 
 module.exports = CommitThread;
 
-},{"./CommitComment":3,"react":164}],8:[function(require,module,exports){
+},{"./ThreadComment":7,"react":164}],7:[function(require,module,exports){
+// 
+//	ThreadComment.jsx
+//
+//	Single comment
+//
+
+var React = require('react');
+
+var ThreadComment = React.createClass({displayName: "ThreadComment",
+	
+  render: function() {
+		
+		var comment = this.props.comment;
+		
+		return (
+			React.createElement("div", {className: "comment"}, 
+				React.createElement("p", null, comment.text)
+			)
+		)
+		
+  }
+});
+
+module.exports = ThreadComment;
+
+},{"react":164}],8:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};

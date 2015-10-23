@@ -1,7 +1,7 @@
 // 
 //	CommitEntry.jsx
 //
-//	Single commit entry component
+//	Single commit entry
 //
 
 var React = require('react');

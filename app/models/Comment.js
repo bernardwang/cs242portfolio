@@ -9,7 +9,6 @@ var Schema = mongoose.Schema;
 
 var CommentSchema = new Schema({
 	_date			: String,
-	user			: String,
 	text			: String
 });
 

@@ -1,7 +1,7 @@
 // 
 //	CommitHistory.jsx
 //
-//	Entire commit history component
+//	Entire commit history
 //
 
 var React = require('react');

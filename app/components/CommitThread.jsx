@@ -5,16 +5,16 @@
 //
 
 var React = require('react');
-var CommitComment = require('./CommitComment');
+var ThreadComment = require('./ThreadComment');
 
 var CommitThread = React.createClass({
   render: function() {
 		
 		var comments = this.props.comments;
-		var commentThread = comments.map(function(comment, i){
+		var threadComments = comments.map(function(comment, i){
      	return (
 				<li key={i}>
-					<CommitComment comment={comment} />
+					<ThreadComment comment={comment} />
      		</li>
      	)
     });
@@ -22,8 +22,9 @@ var CommitThread = React.createClass({
     return (
 			<div>
       	<ul className='comments'>
-					{commentThread}
+					{threadComments}
 				</ul>
+				<ThreadForm/>
 			</div>
     )
 

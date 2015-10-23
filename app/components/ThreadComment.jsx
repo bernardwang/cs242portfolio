@@ -1,12 +1,12 @@
 // 
-//	Comment.jsx
+//	ThreadComment.jsx
 //
-//	Thread comment component
+//	Single comment
 //
 
 var React = require('react');
 
-var CommitComment = React.createClass({
+var ThreadComment = React.createClass({
 	
   render: function() {
 		
@@ -21,4 +21,4 @@ var CommitComment = React.createClass({
   }
 });
 
-module.exports = CommitComment;
+module.exports = ThreadComment;

@@ -1,7 +1,7 @@
 // 
 //	CommitDetails.jsx
 //
-//	Single commit detail component
+//	Single commit details
 //
 
 var React = require('react');
