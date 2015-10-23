@@ -5,7 +5,7 @@
 
 var React = require('react');
 var ReactDOM = require('react-dom');
-var CommitsApp = require('./components/CommitsApp');
+var CommitApp = require('./components/CommitApp');
 
 // Get initial state that was passed from the server side
 var initialState = JSON.parse(document.getElementById('initial-state').innerHTML);
@@ -14,5 +14,5 @@ var mountNode = document.getElementById('react-app');
 
 // Render the app, picking up where react left off on the server
 ReactDOM.render(
-	<CommitsApp commits = {initialState}/>, mountNode
+	<CommitApp commits = {initialState}/>, mountNode
 );

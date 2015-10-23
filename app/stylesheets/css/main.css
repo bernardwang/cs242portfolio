@@ -44,7 +44,8 @@ html, body {
   width: 100%;
   font-size: 1.333rem;
   line-height: 2.5rem;
-  background-color: white; }
+  background-color: white;
+  box-shadow: 0 1px 3px #ccc; }
 
 .detail {
   font-size: 1rem;

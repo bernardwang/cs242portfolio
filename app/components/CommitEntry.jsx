@@ -6,6 +6,7 @@
 
 var React = require('react');
 var CommitDetail = require('./CommitDetail');
+var CommitThread = require('./CommitThread');
 
 var CommitEntry = React.createClass({
 	
@@ -15,8 +16,8 @@ var CommitEntry = React.createClass({
     };
   },
 	
-	// toggles show detail state
-	onToggleClick: function(evt) {
+	// Toggles show detail state
+	toggleDetail: function(evt) {
     this.setState({ 
 			showDetail: !this.state.showDetail
     })
@@ -25,15 +26,15 @@ var CommitEntry = React.createClass({
   render: function() {
 		var entry = this.props.entry;
 		
-		// Hides CommitDetail based on state
 		return (
-			<li className={"entry"}>
+			<li className='entry'>
 				<div onClick={this.onClick}></div>
 				<p>{this.state.showDetail}</p>
 				<h2>{entry.msg}</h2>
 				<h3>{entry.date}</h3>
-				<button className={"toggle"} onClick={this.onToggleClick}>Details</button>
+				<button className='detail-button' onClick={this.toggleDetail}>Details</button>
 				<CommitDetail show={this.state.showDetail} entry={entry} /> 
+				<CommitThread comments={entry.comments} />
       </li>
 		)
   }

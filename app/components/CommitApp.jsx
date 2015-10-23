@@ -7,7 +7,7 @@
 var React = require('react');
 var CommitHistory = require('./CommitHistory');
 
-var CommitsApp = React.createClass({
+var CommitApp = React.createClass({
  
 	render: function() {
 		
@@ -18,4 +18,4 @@ var CommitsApp = React.createClass({
   }
 });
 
-module.exports = CommitsApp;
+module.exports = CommitApp;

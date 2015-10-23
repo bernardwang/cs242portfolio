@@ -18,7 +18,7 @@ var CommitHistory = React.createClass({
     });
 
     return (
-      <ul className="history">
+      <ul className='history'>
 				{history}
 			</ul>
     )

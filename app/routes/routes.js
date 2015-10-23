@@ -7,7 +7,7 @@
 var React = require('react');
 var ReactDOMServer = require('react-dom/server');
 var Babel = require("babel/register");
-var CommitsApp = React.createFactory(require('../components/CommitsApp'));
+var CommitApp = React.createFactory(require('../components/CommitApp'));
 var Commit = require('../models/Commit');	
 var loadXML = require('../utils/loadXML');
 
@@ -40,7 +40,7 @@ module.exports = {
 		var numQuery = 10;
 		Commit.getCommits(null, numQuery, function(err, commits){
 			var markup = ReactDOMServer.renderToString(
-				CommitsApp({ commits : commits })
+				CommitApp({ commits : commits })
 			);
 			// Render home handlebars template
 			res.render('home', {

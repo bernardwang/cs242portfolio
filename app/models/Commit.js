@@ -1,16 +1,19 @@
 //
 //	Commit.js
 //
-//	Mongoose schema used in MongoDB
+//	Mongoose schema for commit entry
 //
 
 var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
+var Comment = require('./Comment');
 
-var CommitSchema = new mongoose.Schema({
+var CommitSchema = new Schema({
 	_id				: Number,
 	msg				: String,
 	date			: String,
-	changes		: [String]
+	changes		: [String],
+	comments	: [Comment]
 });
 
 
@@ -23,7 +26,8 @@ CommitSchema.statics.storeCommits = function(err, data, callback) {
 			_id				: item._id,
 			msg				: item.msg,
 			date			: item.date,
-			changes		: item.changes  
+			changes		: item.changes,
+			comments	: []
 		}, function(err) {
 			if(err) {
 				callback(err);
@@ -54,5 +58,8 @@ CommitSchema.statics.deleteCommits = function(err, callback) {
 	callback(null);
 };
 
+/**
+ * Deletes entire database contents
+ */
 var Commit = mongoose.model('Commit', CommitSchema);
 module.exports = Commit;
