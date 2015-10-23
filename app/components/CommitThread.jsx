@@ -6,6 +6,7 @@
 
 var React = require('react');
 var ThreadComment = require('./ThreadComment');
+var ThreadForm = require('./ThreadForm');
 
 var CommitThread = React.createClass({
   render: function() {
@@ -20,8 +21,8 @@ var CommitThread = React.createClass({
     });
 
     return (
-			<div>
-      	<ul className='comments'>
+			<div className='comments'>
+      	<ul>
 					{threadComments}
 				</ul>
 				<ThreadForm/>

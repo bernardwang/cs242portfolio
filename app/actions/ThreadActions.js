@@ -5,7 +5,7 @@ var ThreadConstants = require('../constants/ThreadConstants');
 var FluxCartActions = {
 
   // Add item to cart
-  addComment: function(,update) {
+  addComment: function(update) {
     AppDispatcher.handleAction({
       actionType: ThreadConstants.COMMENT_ADD,
       update: update

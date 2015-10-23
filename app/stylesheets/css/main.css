@@ -39,7 +39,6 @@ html, body {
 .entry {
   margin: auto;
   margin-top: 20px;
-  margin-bottom: 20px;
   padding: 20px;
   width: 100%;
   font-size: 1.333rem;
@@ -50,5 +49,16 @@ html, body {
 .detail {
   font-size: 1rem;
   line-height: 1.25rem; }
+
+.comments {
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 20px;
+  background-color: #f8f8f6;
+  box-shadow: inset 0 0 3px #ccc; }
+
+.form {
+  font-size: 1.333rem;
+  line-height: 2.5rem; }
 
 /*# sourceMappingURL=../../../public/css/main.css.map */

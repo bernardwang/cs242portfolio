@@ -1,12 +1,13 @@
 var ThreadDispatcher = require('../dispatcher/ThreadDispatcher');
 var EventEmitter = require('events').EventEmitter;
 var ThreadConstants = require('../constants/ThreadConstants');
+var assign = require('object-assign');
 
 var _commits = {};
 var _comments = [];
 
 // Method to load product data from mock API
-function loadCommits(data) {
+function initCommits(data) {
 }
 
 function addComment(text) {
@@ -19,8 +20,14 @@ function addComment(text) {
 }
 
 var CommitStore = assign({}, EventEmitter.prototype, {
+	
+	// Inits commit state
+	initState: function(initial) {
+		_commits = initial;
+	},
+	
 	// Return Product data
- 	getCommits: function() {
+ 	getState: function() {
  	  return _commits;
  	},	
 	
@@ -45,10 +52,6 @@ ThreadDispatcher.register(function(payload) {
   var text;
 
   switch(action.actionType) {
-
-    case ThreadConstants.COMMIT_INIT:
-      loadCommits(action.data);
-      break;
 
     case ThreadConstants.COMMENT_ADD:
       addComment(action.data);

@@ -27,15 +27,17 @@ var CommitEntry = React.createClass({
 		var entry = this.props.entry;
 		
 		return (
-			<li className='entry'>
-				<div onClick={this.onClick}></div>
-				<p>{this.state.showDetail}</p>
-				<h2>{entry.msg}</h2>
-				<h3>{entry.date}</h3>
-				<button className='detail-button' onClick={this.toggleDetail}>Details</button>
-				<CommitDetail show={this.state.showDetail} entry={entry} /> 
+			<section>
+				<li className='entry'>
+					<div onClick={this.onClick}></div>
+					<p>{this.state.showDetail}</p>
+					<h2>{entry.msg}</h2>
+					<h3>{entry.date}</h3>
+					<button className='detail-button' onClick={this.toggleDetail}>Details</button>
+					<CommitDetail show={this.state.showDetail} entry={entry} /> 
+      	</li>
 				<CommitThread comments={entry.comments} />
-      </li>
+			</section>
 		)
   }
 });

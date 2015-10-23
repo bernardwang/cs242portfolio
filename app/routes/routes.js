@@ -40,7 +40,7 @@ module.exports = {
 		var numQuery = 10;
 		Commit.getCommits(null, numQuery, function(err, commits){
 			var markup = ReactDOMServer.renderToString(
-				CommitApp({ commits : commits })
+				CommitApp({ initial : commits })
 			);
 			// Render home handlebars template
 			res.render('home', {
