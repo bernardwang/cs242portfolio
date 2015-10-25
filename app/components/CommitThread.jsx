@@ -7,25 +7,56 @@
 var React = require('react');
 var ThreadComment = require('./ThreadComment');
 var ThreadForm = require('./ThreadForm');
+var ThreadActions = require('../actions/ThreadActions');
 
 var CommitThread = React.createClass({
-  render: function() {
+  		
+	getInitialState: function() {
+		return {
+      count: this.props.comments.length
+    };
+	},
+	
+	incrementState: function() {
+		this.setState({
+      count: count + 1
+    });	
+	},
+	
+	decrementState: function() {
+		if(this.state.count > 0) {
+			this.setState({
+      	count: count - 1
+    	});	
+		}
+	},
+	
+	submitCommentAction: function(text) {
+		thread_id = this.props.id;
+		ThreadActions.submitComment(thread_id, text);
+		incrementState();
+  },
+	
+	deleteCommentAction: function(event) {
+		decrementState();
+	},
 		
+	render: function() {
 		var comments = this.props.comments;
 		var threadComments = comments.map(function(comment, i){
-     	return (
+  		return (
 				<li key={i}>
-					<ThreadComment comment={comment} />
-     		</li>
-     	)
-    });
-
+					<ThreadComment deleteAction={this.deleteCommentAction} comment={comment} />
+    		</li>
+    	)
+  	});
+		
     return (
 			<div className='comments'>
       	<ul>
 					{threadComments}
 				</ul>
-				<ThreadForm/>
+				<ThreadForm submitAction={this.submitCommentAction}/>
 			</div>
     )
 

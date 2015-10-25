@@ -2,26 +2,31 @@ var ThreadDispatcher = require('../dispatcher/ThreadDispatcher');
 var EventEmitter = require('events').EventEmitter;
 var ThreadConstants = require('../constants/ThreadConstants');
 var assign = require('object-assign');
+var Comment = require('../models/Comment');
 
-var _commits = {};
+var _commits = [];
 var _comments = [];
 
-// Method to load product data from mock API
-function initCommits(data) {
-}
-
-function addComment(text) {
+function addComment(id, data) {
   // Using the current timestamp in place of a real id.
-  var id = Date.now();
-  _commits[id] = {
-    id: id,
-    text: text
-  };
+  //var id = Date.now()
+	var commit = _commits;
+	alert(commit);
+	var comment = commit.comments.create({
+    _id: Date.now(),
+    text: data
+  }, function(err, result) {
+			if(err) {
+				alert('Error creating comment');
+			}
+		print(result);
+		_commits[id].comments.append(result)
+	});
 }
 
 var CommitStore = assign({}, EventEmitter.prototype, {
 	
-	// Inits commit state
+	// Initializes commit state
 	initState: function(initial) {
 		_commits = initial;
 	},
@@ -48,15 +53,15 @@ var CommitStore = assign({}, EventEmitter.prototype, {
 });
 
 ThreadDispatcher.register(function(payload) {
-  var action = payload.action;
-  var text;
+	var action = payload.action;
 
   switch(action.actionType) {
 
-    case ThreadConstants.COMMENT_ADD:
-      addComment(action.data);
+		// COMMENT_ADD
+    case ThreadConstants.COMMENT_SUBMIT:
+			addComment(action.id, action.data);
       break;
-
+			
     default:
       return true;
   }

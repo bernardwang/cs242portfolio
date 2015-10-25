@@ -16,9 +16,8 @@ var CommitSchema = new Schema({
 	comments	: [Comment]
 });
 
-
 /**
- * Returns list of commits from database
+ * Stores commits to database
  */
 CommitSchema.statics.storeCommits = function(err, data, callback) {
 	data.forEach(function(item){

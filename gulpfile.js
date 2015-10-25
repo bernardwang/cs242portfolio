@@ -35,7 +35,7 @@ var DEST_CSS			= './app/stylesheets/css/';
 var	DIST_CSS			= './public/css/';
 var DEST_SOURCEMAP= '../../../public/css/';
 
-var ALL_JS				= './app/*.js';
+var ALL_JS				= './public/*.js';
 var DIST_JS				= './public/';
 
 // *************************************
@@ -71,4 +71,5 @@ gulp.task('sync', ['css'], function() {
 	gulp.watch(ALL_SCSS, ['css']).on('change', sync.reload);
 });
 
-gulp.task('default', ['sync']);
+gulp.task('style', ['css']); 
+gulp.task('serve', ['sync']);

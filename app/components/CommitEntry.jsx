@@ -36,7 +36,7 @@ var CommitEntry = React.createClass({
 					<button className='detail-button' onClick={this.toggleDetail}>Details</button>
 					<CommitDetail show={this.state.showDetail} entry={entry} /> 
       	</li>
-				<CommitThread comments={entry.comments} />
+				<CommitThread id={entry._id} comments={entry.comments} />
 			</section>
 		)
   }

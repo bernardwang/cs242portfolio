@@ -7,9 +7,10 @@
 var React = require('react');
 var ReactDOMServer = require('react-dom/server');
 var Babel = require("babel/register");
-var CommitApp = React.createFactory(require('../components/CommitApp'));
-var Commit = require('../models/Commit');	
 var loadXML = require('../utils/loadXML');
+
+var Commit = require('../models/Commit');	
+var CommitApp = React.createFactory(require('../components/CommitApp'));
 
 // Deletes database, and repopulates from xml file
 var reloadDB = function() {

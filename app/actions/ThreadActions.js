@@ -1,17 +1,18 @@
 var ThreadDispatcher = require('../dispatcher/ThreadDispatcher');
 var ThreadConstants = require('../constants/ThreadConstants');
 
-// Define actions object
-var FluxCartActions = {
+// Actions object
+var ThreadActions = {
 
-  // Add item to cart
-  addComment: function(update) {
-    AppDispatcher.handleAction({
-      actionType: ThreadConstants.COMMENT_ADD,
-      update: update
+  // Add item to commit thread
+  submitComment: function(thread_id, text) {
+    ThreadDispatcher.handleAction({
+      actionType: ThreadConstants.COMMENT_SUBMIT,
+			id: thread_id,
+			data: text
     })
   },
 
 };
 
-module.exports = FluxCartActions;
+module.exports = ThreadActions;
