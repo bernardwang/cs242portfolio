@@ -1,3 +1,9 @@
+// 
+//	CommitStore.js
+//
+//	Manages application state of commits
+//
+
 var ThreadDispatcher = require('../dispatcher/ThreadDispatcher');
 var EventEmitter = require('events').EventEmitter;
 var ThreadConstants = require('../constants/ThreadConstants');
@@ -6,6 +12,7 @@ var Comment = require('../models/Comment');
 
 var _commits = [];
 
+// Adds comment to specifed thread
 function submitComment(thread_id, commit) {
 	// quick and dirty loop
 	// consider replacing commits array with map of objects
@@ -18,6 +25,38 @@ function submitComment(thread_id, commit) {
 	}
 }
 
+// Removes comment from specifed thread
+function deleteComment(thread_id, comment_id) {
+	alert('doesnt do anything yet');
+}
+
+// Emitted action callbacks
+ThreadDispatcher.register(function(payload) {
+	var action = payload.action;
+
+  switch(action.actionType) {
+
+		// COMMENT_SUBMIT
+    case ThreadConstants.COMMENT_SUBMIT:
+			submitComment(action.id, action.data);
+      break;
+			
+		// COMMENT_DELETE
+    case ThreadConstants.COMMENT_DELETE:
+			deleteComment(action.id, action.data);
+      break;
+			
+    default:
+      return true;
+  }
+
+  // Emit change event
+  CommitStore.emitChange();
+  return true;
+});
+
+
+// Store functions
 var CommitStore = assign({}, EventEmitter.prototype, {
 	
 	// Initializes commit state
@@ -44,27 +83,6 @@ var CommitStore = assign({}, EventEmitter.prototype, {
  	removeChangeListener: function(callback) {
  	  this.removeListener('change', callback);
  	}
-});
-
-ThreadDispatcher.register(function(payload) {
-	var action = payload.action;
-
-  switch(action.actionType) {
-
-		// COMMENT_submit
-    case ThreadConstants.COMMENT_SUBMIT:
-			submitComment(action.id, action.data);
-      break;
-			
-    default:
-      return true;
-  }
-
-  // If action was responded to, emit change event
-  CommitStore.emitChange();
-
-  return true;
-
 });
 
 module.exports = CommitStore;

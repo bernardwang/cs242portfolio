@@ -1,3 +1,9 @@
+// 
+//	ThreadDispatcher.js
+//
+//	Handles comment thread actions
+//
+
 var Dispatcher = require('flux').Dispatcher;
 
 var ThreadDispatcher = new Dispatcher();

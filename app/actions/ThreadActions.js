@@ -1,14 +1,21 @@
+// 
+//	ThreadActions.js
+//
+//	Creates comment thread actions
+//
+
 var ThreadDispatcher = require('../dispatcher/ThreadDispatcher');
 var ThreadConstants = require('../constants/ThreadConstants');
 var $ = require('jQuery');
 
+// Ajax helper function for REST api calls
 var baseURL = 'http://localhost:3000/api/commits/';
 var ajaxWrapper = function(url, type, data, callback) {
 	$.ajax({
     url: url,
     type: type,
     data: data,
-    success: callback(data)
+    success: callback
 	});
 }
 
@@ -26,7 +33,7 @@ var ThreadActions = {
 				data: data
     	});	
 		});
-  },
+	},
 	
 	deleteComment: function(thread_id, comment_id) {
 		var url = baseURL+thread_id;
@@ -34,5 +41,4 @@ var ThreadActions = {
 	}
 
 };
-
 module.exports = ThreadActions;

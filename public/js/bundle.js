@@ -1,15 +1,22 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+// 
+//	ThreadActions.js
+//
+//	Creates comment thread actions
+//
+
 var ThreadDispatcher = require('../dispatcher/ThreadDispatcher');
 var ThreadConstants = require('../constants/ThreadConstants');
 var $ = require('jQuery');
 
+// Ajax helper function for REST api calls
 var baseURL = 'http://localhost:3000/api/commits/';
 var ajaxWrapper = function(url, type, data, callback) {
 	$.ajax({
     url: url,
     type: type,
     data: data,
-    success: callback(data)
+    success: callback
 	});
 }
 
@@ -27,7 +34,7 @@ var ThreadActions = {
 				data: data
     	});	
 		});
-  },
+	},
 	
 	deleteComment: function(thread_id, comment_id) {
 		var url = baseURL+thread_id;
@@ -35,7 +42,6 @@ var ThreadActions = {
 	}
 
 };
-
 module.exports = ThreadActions;
 
 },{"../constants/ThreadConstants":10,"../dispatcher/ThreadDispatcher":11,"jQuery":26}],2:[function(require,module,exports){
@@ -353,14 +359,28 @@ var ThreadForm = React.createClass({displayName: "ThreadForm",
 module.exports = ThreadForm;
 
 },{"react":266}],10:[function(require,module,exports){
+// 
+//	ThreadConstants.js
+//
+//	Comment thread action constants
+//
+
+// used to create 'constants'
 var keyMirror = require('keyMirror');
 
 // Define action constants
 module.exports = keyMirror({
-	COMMENT_SUBMIT: null	// add comment to a CommitThread
+	COMMENT_SUBMIT: null,
+	COMMENT_DELETE: null
 });
 
 },{"keyMirror":27}],11:[function(require,module,exports){
+// 
+//	ThreadDispatcher.js
+//
+//	Handles comment thread actions
+//
+
 var Dispatcher = require('flux').Dispatcher;
 
 var ThreadDispatcher = new Dispatcher();
@@ -393,6 +413,12 @@ var CommentSchema = new Schema({
 module.exports = CommentSchema;
 
 },{"mongoose":29}],13:[function(require,module,exports){
+// 
+//	CommitStore.js
+//
+//	Manages application state of commits
+//
+
 var ThreadDispatcher = require('../dispatcher/ThreadDispatcher');
 var EventEmitter = require('events').EventEmitter;
 var ThreadConstants = require('../constants/ThreadConstants');
@@ -401,6 +427,7 @@ var Comment = require('../models/Comment');
 
 var _commits = [];
 
+// Adds comment to specifed thread
 function submitComment(thread_id, commit) {
 	// quick and dirty loop
 	// consider replacing commits array with map of objects
@@ -413,6 +440,38 @@ function submitComment(thread_id, commit) {
 	}
 }
 
+// Removes comment from specifed thread
+function deleteComment(thread_id, comment_id) {
+	alert('doesnt do anything yet');
+}
+
+// Emitted action callbacks
+ThreadDispatcher.register(function(payload) {
+	var action = payload.action;
+
+  switch(action.actionType) {
+
+		// COMMENT_SUBMIT
+    case ThreadConstants.COMMENT_SUBMIT:
+			submitComment(action.id, action.data);
+      break;
+			
+		// COMMENT_DELETE
+    case ThreadConstants.COMMENT_DELETE:
+			deleteComment(action.id, action.data);
+      break;
+			
+    default:
+      return true;
+  }
+
+  // Emit change event
+  CommitStore.emitChange();
+  return true;
+});
+
+
+// Store functions
 var CommitStore = assign({}, EventEmitter.prototype, {
 	
 	// Initializes commit state
@@ -439,27 +498,6 @@ var CommitStore = assign({}, EventEmitter.prototype, {
  	removeChangeListener: function(callback) {
  	  this.removeListener('change', callback);
  	}
-});
-
-ThreadDispatcher.register(function(payload) {
-	var action = payload.action;
-
-  switch(action.actionType) {
-
-		// COMMENT_submit
-    case ThreadConstants.COMMENT_SUBMIT:
-			submitComment(action.id, action.data);
-      break;
-			
-    default:
-      return true;
-  }
-
-  // If action was responded to, emit change event
-  CommitStore.emitChange();
-
-  return true;
-
 });
 
 module.exports = CommitStore;
