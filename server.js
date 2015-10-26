@@ -38,9 +38,10 @@ mongoose.connection.once('open', function() {
 // index route
 app.get('/', routes.index);
 
-// set static content directory
+// set static directory
 app.use('/', express.static(__dirname + "/public/"));
 
+// use RESTful api
 api(app);
 
 // start server

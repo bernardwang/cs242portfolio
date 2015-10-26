@@ -5,23 +5,17 @@ var assign = require('object-assign');
 var Comment = require('../models/Comment');
 
 var _commits = [];
-var _comments = [];
 
-function addComment(id, data) {
-  // Using the current timestamp in place of a real id.
-  //var id = Date.now()
-	var commit = _commits;
-	alert(commit);
-	var comment = commit.comments.create({
-    _id: Date.now(),
-    text: data
-  }, function(err, result) {
-			if(err) {
-				alert('Error creating comment');
+function addComment(thread_id, commit) {
+	// quick and dirty loop
+	// consider replacing commits array with map of objects
+	for(var i = 0; i < _commits.length; i++) {
+		if(_commits[i].hasOwnProperty('_id')) {
+			if(_commits[i]['_id'] == thread_id) {
+				_commits[i] = commit;
 			}
-		print(result);
-		_commits[id].comments.append(result)
-	});
+		}
+	}
 }
 
 var CommitStore = assign({}, EventEmitter.prototype, {

@@ -34,19 +34,21 @@ var CommitThread = React.createClass({
 	submitCommentAction: function(text) {
 		thread_id = this.props.id;
 		ThreadActions.submitComment(thread_id, text);
-		incrementState();
+		this.incrementState;
   },
 	
 	deleteCommentAction: function(event) {
+		thread_id = this.props.id;
 		decrementState();
 	},
 		
 	render: function() {
 		var comments = this.props.comments;
+		// Problem with the 'this' keyword, using CommitThread temporarily
 		var threadComments = comments.map(function(comment, i){
   		return (
 				<li key={i}>
-					<ThreadComment deleteAction={this.deleteCommentAction} comment={comment} />
+					<ThreadComment deleteAction={CommitThread.deleteCommentAction} comment={comment} />
     		</li>
     	)
   	});

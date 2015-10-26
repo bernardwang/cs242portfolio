@@ -9,7 +9,7 @@ var React = require('react');
 var ThreadComment = React.createClass({
 	
   render: function() {
-		
+		var deleteAction = this.props.deleteAction;
 		var comment = this.props.comment;
 		
 		return (

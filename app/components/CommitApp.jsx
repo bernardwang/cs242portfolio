@@ -30,7 +30,7 @@ var CommitApp = React.createClass({
 
 	// Method to setState based upon Store changes
   _onChange: function() {
-    this.setState(getState());
+    this.setState(CommitStore.getState());
   },
 		
 	render: function() {
