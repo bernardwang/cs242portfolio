@@ -6,7 +6,7 @@ var Comment = require('../models/Comment');
 
 var _commits = [];
 
-function addComment(thread_id, commit) {
+function submitComment(thread_id, commit) {
 	// quick and dirty loop
 	// consider replacing commits array with map of objects
 	for(var i = 0; i < _commits.length; i++) {
@@ -51,9 +51,9 @@ ThreadDispatcher.register(function(payload) {
 
   switch(action.actionType) {
 
-		// COMMENT_ADD
+		// COMMENT_submit
     case ThreadConstants.COMMENT_SUBMIT:
-			addComment(action.id, action.data);
+			submitComment(action.id, action.data);
       break;
 			
     default:

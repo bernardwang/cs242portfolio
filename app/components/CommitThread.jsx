@@ -44,9 +44,9 @@ var CommitThread = React.createClass({
 		
 	render: function() {
 		var comments = this.props.comments;
-		// Problem with the 'this' keyword, using CommitThread temporarily
 		var threadComments = comments.map(function(comment, i){
-  		return (
+  		// Using 'CommitThread' instead of 'this' keyword
+			return (
 				<li key={i}>
 					<ThreadComment deleteAction={CommitThread.deleteCommentAction} comment={comment} />
     		</li>

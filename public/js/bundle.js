@@ -3,26 +3,36 @@ var ThreadDispatcher = require('../dispatcher/ThreadDispatcher');
 var ThreadConstants = require('../constants/ThreadConstants');
 var $ = require('jQuery');
 
+var baseURL = 'http://localhost:3000/api/commits/';
+var ajaxWrapper = function(url, type, data, callback) {
+	$.ajax({
+    url: url,
+    type: type,
+    data: data,
+    success: callback(data)
+	});
+}
+
 // Actions object
 var ThreadActions = {
 	
   // Add item to commit thread
   submitComment: function(thread_id, text) {
-		
-		$.ajax({
-    	url: 'http://localhost:3000/api/commits/'+thread_id,
-    	type: 'PUT',
-    	data: { text: text },
-    	success: function(data) { 
-				alert('PUT completed'); 
-				ThreadDispatcher.handleAction({
+		var url = baseURL+thread_id;
+		var data = { text: text };
+		ajaxWrapper(url, 'PUT', data, function(data){
+			ThreadDispatcher.handleAction({
       	actionType: ThreadConstants.COMMENT_SUBMIT,
-					id: thread_id,
-					data: data
-    		})	
-			}
+				id: thread_id,
+				data: data
+    	});	
 		});
   },
+	
+	deleteComment: function(thread_id, comment_id) {
+		var url = baseURL+thread_id;
+		var data = { id: comment_id };
+	}
 
 };
 
@@ -261,9 +271,9 @@ var CommitThread = React.createClass({displayName: "CommitThread",
 		
 	render: function() {
 		var comments = this.props.comments;
-		// Problem with the 'this' keyword, using CommitThread temporarily
 		var threadComments = comments.map(function(comment, i){
-  		return (
+  		// Using 'CommitThread' instead of 'this' keyword
+			return (
 				React.createElement("li", {key: i}, 
 					React.createElement(ThreadComment, {deleteAction: CommitThread.deleteCommentAction, comment: comment})
     		)
@@ -391,7 +401,7 @@ var Comment = require('../models/Comment');
 
 var _commits = [];
 
-function addComment(thread_id, commit) {
+function submitComment(thread_id, commit) {
 	// quick and dirty loop
 	// consider replacing commits array with map of objects
 	for(var i = 0; i < _commits.length; i++) {
@@ -436,9 +446,9 @@ ThreadDispatcher.register(function(payload) {
 
   switch(action.actionType) {
 
-		// COMMENT_ADD
+		// COMMENT_submit
     case ThreadConstants.COMMENT_SUBMIT:
-			addComment(action.id, action.data);
+			submitComment(action.id, action.data);
       break;
 			
     default:
