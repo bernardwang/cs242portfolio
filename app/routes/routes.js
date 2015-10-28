@@ -39,8 +39,7 @@ var reloadDB = function() {
 module.exports = {
 	index: function(req, res) {
 		// Pass commits as parameter and render CommitsApp component to string
-
-		var numQuery = 10;
+		var numQuery = 5;	// FIX CSS
 		Commit.getCommits(null, numQuery, function(err, commits){
 			var markup = ReactDOMServer.renderToString(
 				CommitApp({ initial : commits })

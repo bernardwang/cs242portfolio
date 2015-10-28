@@ -42,8 +42,11 @@ CommitSchema.statics.storeCommits = function(err, data, callback) {
  * Returns list of commits from database
  */
 CommitSchema.statics.getCommits = function(err, num, callback) {
-	var query = Commit.find().limit(num);
-	query.exec(function(err, res) {
+	Commit
+	.find({}) 
+	.sort({'order': 1})
+	.limit(num)
+	.exec(function(err, res) {
   	if(err) {
 			callback(err);
 		}
