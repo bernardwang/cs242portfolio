@@ -6,7 +6,7 @@
 
 var React = require('react');
 var ReactDOMServer = require('react-dom/server');
-var Babel = require("babel/register");
+var Babel = require('babel/register');
 var loadXML = require('../utils/loadXML');
 
 var Commit = require('../models/Commit');	
@@ -22,14 +22,15 @@ var reloadDB = function() {
 		var path = __dirname+'/../data/svn_log.xml';
 		loadXML(null, path, function(err, commits){
 			if(err){
-				console.log("Error loading commits from xml");
+				console.log('Error loading commits from xml');
 				return;
 			}
 			Commit.storeCommits(null, commits, function(err) {
 				if(err){
-					console.log("Error storing commit");
+					console.log('Error storing commit');
 					return;
 				}
+				console.log('Database reloaded');
 			});
 		});
 	});
@@ -38,6 +39,7 @@ var reloadDB = function() {
 module.exports = {
 	index: function(req, res) {
 		// Pass commits as parameter and render CommitsApp component to string
+
 		var numQuery = 10;
 		Commit.getCommits(null, numQuery, function(err, commits){
 			var markup = ReactDOMServer.renderToString(

@@ -9,7 +9,8 @@ var Schema = mongoose.Schema;
 var Comment = require('./Comment');
 
 var CommitSchema = new Schema({
-	_id				: Number,
+	order			: Number,
+	revision	: Number,
 	msg				: String,
 	date			: String,
 	changes		: [String],
@@ -22,7 +23,8 @@ var CommitSchema = new Schema({
 CommitSchema.statics.storeCommits = function(err, data, callback) {
 	data.forEach(function(item){
 		Commit.create({
-			_id				: item._id,
+			order			: item.order,
+			revision	: item.revision,
 			msg				: item.msg,
 			date			: item.date,
 			changes		: item.changes,

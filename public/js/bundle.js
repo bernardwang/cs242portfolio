@@ -140,7 +140,7 @@ var CommitDetail = React.createClass({displayName: "CommitDetail",
 		
 		return (
 			React.createElement("div", {className: classname}, 
-				React.createElement("h3", null, "Revision: ", entry._id), 
+				React.createElement("h3", null, "Revision: ", entry.revision), 
 				React.createElement("ul", null, changes)
 			)
 		)

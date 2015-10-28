@@ -23,7 +23,8 @@ var parseCommits = function(err, data, callback) {
 		}
 		// initialize commit object with array of changes
 		var commit = {
-			_id				: curr['$']['revision'],
+			order			: i,
+			revision	: curr['$']['revision'],
 			msg				: curr['msg'],
 			date			: curr['date'],
 			changes		: paths
