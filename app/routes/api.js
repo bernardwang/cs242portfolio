@@ -9,16 +9,16 @@ var Comment = require('../models/Comment');
 
 module.exports = function(app) {
 	
-	// Add comment to commit
-	app.put('/api/commits/:id', function(req, res) {
-  	Commit.findById( req.params.id, function(err, commit) {
+	// Add comment to specified commit
+	app.post('/api/commits/:id/comments', function(req, res) {
+  	Commit.findById(req.params.id, function(err, commit) {
 			if(err) {
       	res.send(err);
 			}	
 			// Append new comment sub document
 			var comment = commit.comments.create({
-				comment_id	: Date.now(),
-				text				: req.body.text
+				id		: Date.now(),
+				text	: req.body.text
 			});
 			commit.comments.push(comment);
 			
@@ -32,5 +32,29 @@ module.exports = function(app) {
     });
   }); 
     
+	// Delete comment from specified commit
+	app.delete('/api/commits/:id/comments/:comment_id', function(req, res) {
+		Commit.findById(req.params.id, function(err, commit) {
+			if(err) {
+      	res.send(err);
+			}	
+			
+			// Removes matching comment
+			for(var i = 0; i<commit.comments.length; i++) {
+				if(commit.comments[i]._id == req.params.comment_id) {
+					commit.comments[i].splice(i,1);
+					continue; // should be only one
+				}
+			}
+			
+			// Save to db
+			commit.save(function(err) {
+      	if(err) {
+					res.send(err);
+				}
+				res.json(commit);
+			});
+		});
+	});
  
 }

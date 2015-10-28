@@ -15,6 +15,7 @@ var ThreadComment = React.createClass({
 		return (
 			<div className='comment'>
 				<p>{comment.text}</p>
+				<button onClick={deleteAction(comment.id)}>X</button>
 			</div>
 		)
 		

@@ -25,9 +25,9 @@ var ThreadActions = {
 	
   // Add item to commit thread
   submitComment: function(thread_id, text) {
-		var url = baseURL+thread_id;
+		var url = baseURL+thread_id+'/comments';
 		var data = { text: text };
-		ajaxWrapper(url, 'PUT', data, function(data){
+		ajaxWrapper(url, 'POST', data, function(data){
 			ThreadDispatcher.handleAction({
       	actionType: ThreadConstants.COMMENT_SUBMIT,
 				id: thread_id,
@@ -252,36 +252,40 @@ var CommitThread = React.createClass({displayName: "CommitThread",
 	
 	incrementState: function() {
 		this.setState({
-      count: count + 1
+      count: this.state.count + 1
     });	
 	},
 	
 	decrementState: function() {
 		if(this.state.count > 0) {
 			this.setState({
-      	count: count - 1
+      	count: this.state.count - 1
     	});	
 		}
 	},
 	
 	submitCommentAction: function(text) {
-		thread_id = this.props.id;
+		var thread_id = this.props.id;
 		ThreadActions.submitComment(thread_id, text);
-		this.incrementState;
+		//this.incrementState();
   },
 	
-	deleteCommentAction: function(event) {
-		thread_id = this.props.id;
-		decrementState();
+	deleteCommentAction: function(comment_id) {
+		var thread_id = this.props.id;
+		ThreadActions.deleteComment(thread_id, comment_id);
+		//this.decrementState();
 	},
 		
 	render: function() {
 		var comments = this.props.comments;
+		var deleteAction = this.deleteCommentAction;
+		var submitAction = this.submitCommentAction;
+		
 		var threadComments = comments.map(function(comment, i){
   		// Using 'CommitThread' instead of 'this' keyword
 			return (
 				React.createElement("li", {key: i}, 
-					React.createElement(ThreadComment, {deleteAction: CommitThread.deleteCommentAction, comment: comment})
+					React.createElement(ThreadComment, {deleteAction: deleteAction, comment: comment})
     		)
     	)
   	});
@@ -291,7 +295,7 @@ var CommitThread = React.createClass({displayName: "CommitThread",
       	React.createElement("ul", null, 
 					threadComments
 				), 
-				React.createElement(ThreadForm, {submitAction: this.submitCommentAction})
+				React.createElement(ThreadForm, {submitAction: submitAction})
 			)
     )
 
@@ -317,7 +321,8 @@ var ThreadComment = React.createClass({displayName: "ThreadComment",
 		
 		return (
 			React.createElement("div", {className: "comment"}, 
-				React.createElement("p", null, comment.text)
+				React.createElement("p", null, comment.text), 
+				React.createElement("button", {onClick: deleteAction(comment.id)}, "X")
 			)
 		)
 		
@@ -406,8 +411,8 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var CommentSchema = new Schema({
-	comment_id	: String,
-	text				: String
+	id		: String,
+	text	: String
 });
 
 module.exports = CommentSchema;
@@ -422,7 +427,7 @@ module.exports = CommentSchema;
 var ThreadDispatcher = require('../dispatcher/ThreadDispatcher');
 var EventEmitter = require('events').EventEmitter;
 var ThreadConstants = require('../constants/ThreadConstants');
-var assign = require('object-assign');
+var assign = require('object-assign'); // to assign event emitter to commitstore
 var Comment = require('../models/Comment');
 
 var _commits = [];
@@ -453,6 +458,7 @@ ThreadDispatcher.register(function(payload) {
 
 		// COMMENT_SUBMIT
     case ThreadConstants.COMMENT_SUBMIT:
+			alert(1);
 			submitComment(action.id, action.data);
       break;
 			

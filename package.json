@@ -14,7 +14,6 @@
     "body-parser": "~1.0.1",
     "express": "~4.13.3",
     "express-handlebars": "~2.0.1",
-    "jQuery": "^1.7.4",
     "jquery": "^2.1.4",
     "mongoose": "^4.1.10",
     "react": "^0.14.0",

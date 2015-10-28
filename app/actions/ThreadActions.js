@@ -24,9 +24,9 @@ var ThreadActions = {
 	
   // Add item to commit thread
   submitComment: function(thread_id, text) {
-		var url = baseURL+thread_id;
+		var url = baseURL+thread_id+'/comments';
 		var data = { text: text };
-		ajaxWrapper(url, 'PUT', data, function(data){
+		ajaxWrapper(url, 'POST', data, function(data){
 			ThreadDispatcher.handleAction({
       	actionType: ThreadConstants.COMMENT_SUBMIT,
 				id: thread_id,

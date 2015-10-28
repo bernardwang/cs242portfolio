@@ -7,7 +7,7 @@
 var ThreadDispatcher = require('../dispatcher/ThreadDispatcher');
 var EventEmitter = require('events').EventEmitter;
 var ThreadConstants = require('../constants/ThreadConstants');
-var assign = require('object-assign');
+var assign = require('object-assign'); // to assign event emitter to commitstore
 var Comment = require('../models/Comment');
 
 var _commits = [];
@@ -38,6 +38,7 @@ ThreadDispatcher.register(function(payload) {
 
 		// COMMENT_SUBMIT
     case ThreadConstants.COMMENT_SUBMIT:
+			alert(1);
 			submitComment(action.id, action.data);
       break;
 			

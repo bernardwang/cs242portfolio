@@ -19,36 +19,40 @@ var CommitThread = React.createClass({
 	
 	incrementState: function() {
 		this.setState({
-      count: count + 1
+      count: this.state.count + 1
     });	
 	},
 	
 	decrementState: function() {
 		if(this.state.count > 0) {
 			this.setState({
-      	count: count - 1
+      	count: this.state.count - 1
     	});	
 		}
 	},
 	
 	submitCommentAction: function(text) {
-		thread_id = this.props.id;
+		var thread_id = this.props.id;
 		ThreadActions.submitComment(thread_id, text);
-		this.incrementState;
+		//this.incrementState();
   },
 	
-	deleteCommentAction: function(event) {
-		thread_id = this.props.id;
-		decrementState();
+	deleteCommentAction: function(comment_id) {
+		var thread_id = this.props.id;
+		ThreadActions.deleteComment(thread_id, comment_id);
+		//this.decrementState();
 	},
 		
 	render: function() {
 		var comments = this.props.comments;
+		var deleteAction = this.deleteCommentAction;
+		var submitAction = this.submitCommentAction;
+		
 		var threadComments = comments.map(function(comment, i){
   		// Using 'CommitThread' instead of 'this' keyword
 			return (
 				<li key={i}>
-					<ThreadComment deleteAction={CommitThread.deleteCommentAction} comment={comment} />
+					<ThreadComment deleteAction={deleteAction} comment={comment} />
     		</li>
     	)
   	});
@@ -58,7 +62,7 @@ var CommitThread = React.createClass({
       	<ul>
 					{threadComments}
 				</ul>
-				<ThreadForm submitAction={this.submitCommentAction}/>
+				<ThreadForm submitAction={submitAction}/>
 			</div>
     )
 
