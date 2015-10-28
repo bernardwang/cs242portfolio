@@ -38,12 +38,13 @@ module.exports = function(app) {
 			if(err) {
       	res.send(err);
 			}	
-			
+
 			// Removes matching comment
 			for(var i = 0; i<commit.comments.length; i++) {
 				if(commit.comments[i]._id == req.params.comment_id) {
-					commit.comments[i].splice(i,1);
-					continue; // should be only one
+					commit.comments.splice(i,1);
+					console.log('Comment deleted');
+					continue; // Only one comment to delete
 				}
 			}
 			

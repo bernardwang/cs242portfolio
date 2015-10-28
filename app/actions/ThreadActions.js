@@ -6,38 +6,36 @@
 
 var ThreadDispatcher = require('../dispatcher/ThreadDispatcher');
 var ThreadConstants = require('../constants/ThreadConstants');
-var $ = require('jQuery');
+var ajaxWrapper = require('../utils/ajaxWrapper');
 
 // Ajax helper function for REST api calls
 var baseURL = 'http://localhost:3000/api/commits/';
-var ajaxWrapper = function(url, type, data, callback) {
-	$.ajax({
-    url: url,
-    type: type,
-    data: data,
-    success: callback
-	});
-}
 
 // Actions object
 var ThreadActions = {
 	
   // Add item to commit thread
   submitComment: function(thread_id, text) {
-		var url = baseURL+thread_id+'/comments';
+		var url = baseURL+thread_id+'/comments/';
 		var data = { text: text };
-		ajaxWrapper(url, 'POST', data, function(data){
+		ajaxWrapper(url, 'POST', data, function(res) {
 			ThreadDispatcher.handleAction({
       	actionType: ThreadConstants.COMMENT_SUBMIT,
 				id: thread_id,
-				data: data
+				data: res
     	});	
 		});
 	},
 	
 	deleteComment: function(thread_id, comment_id) {
-		var url = baseURL+thread_id;
-		var data = { id: comment_id };
+		var url = baseURL+thread_id+'/comments/'+comment_id;
+		ajaxWrapper(url, 'DELETE', null, function(res) {
+			ThreadDispatcher.handleAction({
+      	actionType: ThreadConstants.COMMENT_DELETE,
+				id: thread_id,
+				data: comment_id
+    	});	
+		});
 	}
 
 };

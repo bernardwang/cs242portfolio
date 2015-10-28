@@ -38,7 +38,6 @@ ThreadDispatcher.register(function(payload) {
 
 		// COMMENT_SUBMIT
     case ThreadConstants.COMMENT_SUBMIT:
-			alert(1);
 			submitComment(action.id, action.data);
       break;
 			
