@@ -36,7 +36,7 @@ var CommitThread = React.createClass({
   	});
 		
     return (
-			<div className='comments'>
+			<div className='thread'>
       	<ul>
 					{threadComments}
 				</ul>

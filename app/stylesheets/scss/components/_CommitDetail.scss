@@ -1,3 +1,6 @@
 .detail{
 	@include type-setting(0);	
+	margin-top: spacing(0);
+	
+	word-break: break-all;
 }

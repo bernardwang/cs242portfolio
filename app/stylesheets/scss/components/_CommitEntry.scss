@@ -1,12 +1,38 @@
+.commit{
+	margin: 0;
+	margin-top: spacing(0);
+}
+
 .entry{
-	margin: auto;
-	margin-top: $entry-spacing;
-	padding: $entry-spacing;
-	
 	width: 100%;
+	height: 100%;
 	
-	@include type-setting(1);
+	margin: 0;
+	padding: spacing(0);
+	
+	@include flexbox;
+	@include flex-dir(row);
+	@include flex-wrap(wrap);
+	@include flex-just(space-between);	
+	
+	@include type-setting(2);
 	
 	background-color: white;
-	box-shadow: 0 1px 3px #ccc;
+	box-shadow: 0 1px .3rem #ccc;
+}
+
+.entry .msg{
+	width: 100%;
+	margin: 0;
+}
+
+.entry .date{
+	margin: 0;
+}
+
+.entry .detail-button{
+	padding: 0;
+	height: spacing(1);
+	background-color: white;
+	border: 1px #ccc;
 }

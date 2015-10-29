@@ -181,12 +181,10 @@ var CommitEntry = React.createClass({displayName: "CommitEntry",
 		var entry = this.props.entry;
 		
 		return (
-			React.createElement("section", null, 
-				React.createElement("li", {className: "entry"}, 
-					React.createElement("div", {onClick: this.onClick}), 
-					React.createElement("p", null, this.state.showDetail), 
-					React.createElement("h2", null, entry.msg), 
-					React.createElement("h3", null, entry.date), 
+			React.createElement("article", {className: "commit"}, 
+				React.createElement("div", {className: "entry"}, 
+					React.createElement("h2", {className: "msg"}, entry.msg), 
+					React.createElement("h3", {className: "date"}, entry.date), 
 					React.createElement("button", {className: "detail-button", onClick: this.toggleDetail}, "Details"), 
 					React.createElement(CommitDetail, {show: this.state.showDetail, entry: entry})
       	), 
@@ -219,7 +217,7 @@ var CommitHistory = React.createClass({displayName: "CommitHistory",
     });
 
     return (
-      React.createElement("ul", {className: "history"}, 
+      React.createElement("section", {className: "history"}, 
 				history
 			)
     )
@@ -268,7 +266,7 @@ var CommitThread = React.createClass({displayName: "CommitThread",
   	});
 		
     return (
-			React.createElement("div", {className: "comments"}, 
+			React.createElement("div", {className: "thread"}, 
       	React.createElement("ul", null, 
 					threadComments
 				), 
@@ -331,6 +329,7 @@ var ThreadForm = React.createClass({displayName: "ThreadForm",
 		var text = this.refs.text.value.trim();
 		var submitAction = this.props.submitAction;
 		submitAction(text);
+		this.refs.text.value = '';
 	},
 	
   render: function() {

@@ -1,23 +1,23 @@
 // font and line height consistency
 $base-font-size: 1rem;
-$base-line-height: 1.25 * $base-font-size;
+$base-line-height: 2 * $base-font-size;
 
 $type-settings: (
   -1: (
-    font-size: 0.75rem,
-    line-height: $base-line-height
+    font-size: 3/4 * $base-font-size,
+    line-height: 1 * $base-line-height
   ),
   0: (
-    font-size: 1rem,
-    line-height: $base-line-height
+    font-size: 1.0 * $base-font-size,
+    line-height: 1 * $base-line-height
   ),
   1: (
-    font-size: 1.333rem,
-    line-height: $base-line-height * 2
+    font-size: 4/3 * $base-font-size,
+    line-height: 2 * $base-line-height
   ),
   2: (
-    font-size: 1.778rem,
-    line-height: $base-line-height * 2
+    font-size: 5/3 * $base-font-size,
+    line-height: 2 * $base-line-height
   )
 );
 

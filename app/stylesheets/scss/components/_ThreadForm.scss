@@ -1,3 +1,10 @@
 .form{
 	@include type-setting(1);
+	@include flexbox;
+	@include flex-dir(row);
+	@include flex-just(flex-start);	
+}
+
+.form input[type='text']{
+	width: 100%;
 }

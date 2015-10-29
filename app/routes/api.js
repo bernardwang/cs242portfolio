@@ -18,7 +18,7 @@ module.exports = function(app) {
 			
 			// Append new comment sub document
 			var comment = commit.comments.create({
-				text	: req.body.text
+				text: req.body.text
 			});
 			commit.comments.push(comment);
 			
