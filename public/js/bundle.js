@@ -10,7 +10,8 @@ var ThreadConstants = require('../constants/ThreadConstants');
 var ajaxWrapper = require('../utils/ajaxWrapper');
 
 // Ajax helper function for REST api calls
-var baseURL = 'http://localhost:3000/api/commits/';
+// 3000 for local dev, 3001 for browser-sync
+var baseURL = 'http://localhost:3001/api/commits/';
 
 // Actions object
 var ThreadActions = {
@@ -416,20 +417,29 @@ var _commits = [];
 
 // Adds comment to specifed thread
 function submitComment(thread_id, commit) {
-	// quick and dirty loop
-	// consider replacing commits array with map of objects
 	for(var i = 0; i < _commits.length; i++) {
-		if(_commits[i].hasOwnProperty('_id')) {
-			if(_commits[i]['_id'] == thread_id) {
-				_commits[i] = commit;
-			}
+		if(_commits[i]['_id'] == thread_id) {
+			_commits[i] = commit;
+			return;
 		}
 	}
 }
 
 // Removes comment from specifed thread
 function deleteComment(thread_id, comment_id) {
-	alert('doesnt do anything yet');
+	var commit;
+	for(var i = 0; i < _commits.length; i++) {
+		if(_commits[i]['_id'] == thread_id) {
+			commit = _commits[i];
+			continue;
+		}
+	}
+	for(var i = 0; i < commit.comments.length; i++) {
+		if(commit.comments[i]._id == comment_id) {
+			commit.comments.splice(i,1);
+			return;
+		}
+	}
 }
 
 // Emitted action callbacks

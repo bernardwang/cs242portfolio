@@ -9,7 +9,8 @@ var ThreadConstants = require('../constants/ThreadConstants');
 var ajaxWrapper = require('../utils/ajaxWrapper');
 
 // Ajax helper function for REST api calls
-var baseURL = 'http://localhost:3000/api/commits/';
+// 3000 for local dev, 3001 for browser-sync
+var baseURL = 'http://localhost:3001/api/commits/';
 
 // Actions object
 var ThreadActions = {

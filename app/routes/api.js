@@ -15,6 +15,7 @@ module.exports = function(app) {
 			if(err) {
       	res.send(err);
 			}	
+			
 			// Append new comment sub document
 			var comment = commit.comments.create({
 				text	: req.body.text
@@ -42,7 +43,6 @@ module.exports = function(app) {
 			for(var i = 0; i<commit.comments.length; i++) {
 				if(commit.comments[i]._id == req.params.comment_id) {
 					commit.comments.splice(i,1);
-					console.log('Comment deleted');
 					continue; // Only one comment to delete
 				}
 			}
