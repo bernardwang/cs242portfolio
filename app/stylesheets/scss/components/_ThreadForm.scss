@@ -9,8 +9,14 @@
 
 .form input[type='text']{
 	width: 100%;
+	border: 1px solid #ccc;
+	border-radius: 2px 0 0 2px;
+	color: $orange;
 }
 
 .form input[type='submit']{
-	
+	border: 1px solid $orange;
+	background-color: white;
+	border-radius: 0 2px 2px 0;
+	color: $orange;
 }

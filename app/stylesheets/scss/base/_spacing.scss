@@ -1,14 +1,5 @@
 $base-spacing: 2rem;
 
-$spacing-settings: (
- -1: 0.5 * $base-spacing,
-  0: 1.0 * $base-spacing,
-  1: 1.5 * $base-spacing,
-  2: 2.0 * $base-spacing,
-	3: 2.5 * $base-spacing,
-	4: 3.0 * $base-spacing
-);
-
 @function spacing($level) {
-  @return map-get($spacing-settings, $level);
+  @return (((0.5 * $level) + 1) * $base-spacing);
 }

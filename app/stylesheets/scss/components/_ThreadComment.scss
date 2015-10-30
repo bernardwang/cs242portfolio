@@ -7,6 +7,8 @@
 	
 	word-break: break-all;
 	@include type-setting(0);
+	
+	color: $grey;
 }
 
 .comment p{

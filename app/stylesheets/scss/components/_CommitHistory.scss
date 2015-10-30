@@ -9,4 +9,5 @@
 .history .title{
 	margin-top: spacing(0);
 	@include type-setting(2);
+	color: $grey;
 }
