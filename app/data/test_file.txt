@@ -1,0 +1,46 @@
+__author__ = 'bernardwang'
+
+import route
+
+class City(object):
+
+    def __init__(self, code, name, country, continent, timezone, coordinates, population, region):
+        self.code = code
+        self.name = name
+        self.country = country
+        self.continent = continent
+        self.timezone = timezone
+        self.coordinates = coordinates
+        self.population = population
+        self.region = region
+        self.routes = []
+
+    def add_route(self, route):
+        self.routes.append(route)
+
+    def remove_route(self, city):
+        for i in self.routes:
+            if i.dest == city:
+                self.routes.remove(i)
+
+    def print_info(self, str):
+        if str == "a":
+            print self.name
+        elif str == "b":
+            print self.country
+        elif str == "c":
+            print self.continent
+        elif str == "d":
+            print self.timezone
+        elif str == "e":
+            print self.coordinates
+        elif str == "f":
+            print self.population
+        elif str == "g":
+            print self.region
+        elif str == "h":
+            for i in self.routes:
+                print "Dest: "+i.dest+", Dist: ",i.dist
+        else:
+            print "Invalid input"
+        print "\n"

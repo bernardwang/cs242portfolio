@@ -17,7 +17,7 @@ var CommitEntry = React.createClass({
   },
 	
 	// Toggles show detail state
-	toggleDetail: function(evt) {
+	toggleDetail: function(event) {
     this.setState({ 
 			showDetail: !this.state.showDetail
     })
@@ -25,13 +25,14 @@ var CommitEntry = React.createClass({
 	
   render: function() {
 		var entry = this.props.entry;
+		var detailArrow = this.state.showDetail ? '∧' : '∨';
 		
 		return (
 			<article className='commit'>
 				<div className='entry'>
 					<h2 className='msg'>{entry.msg}</h2>
 					<h3 className='date'>{entry.date}</h3>
-					<button className='detail-button' onClick={this.toggleDetail}>Details</button>
+					<button className='detail-button' onClick={this.toggleDetail}>{detailArrow}</button>
 					<CommitDetail show={this.state.showDetail} entry={entry} /> 
       	</div>
 				<CommitThread id={entry._id} comments={entry.comments} />

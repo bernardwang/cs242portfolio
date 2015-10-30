@@ -11,9 +11,11 @@ var ThreadForm = React.createClass({
 	onSubmit: function(event) {
 		event.preventDefault();
 		var text = this.refs.text.value.trim();
-		var submitAction = this.props.submitAction;
-		submitAction(text);
-		this.refs.text.value = '';
+		if(text){
+			var submitAction = this.props.submitAction;
+			submitAction(text);
+			this.refs.text.value = '';
+		}
 	},
 	
   render: function() {

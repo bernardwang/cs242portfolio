@@ -3,8 +3,13 @@
 	@include flexbox;
 	@include flex-dir(row);
 	@include flex-just(flex-start);	
+	width: 100%;
 }
 
 .form input[type='text']{
 	width: 100%;
+}
+
+.form input[type='submit']{
+
 }

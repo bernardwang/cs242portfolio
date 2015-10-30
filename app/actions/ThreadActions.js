@@ -34,8 +34,8 @@ var ThreadActions = {
 			ThreadDispatcher.handleAction({
       	actionType: ThreadConstants.COMMENT_DELETE,
 				id: thread_id,
-				data: comment_id
-    	});	
+				data: res
+			});	
 		});
 	}
 

@@ -1,12 +1,11 @@
 .commit{
 	margin: 0;
 	margin-top: spacing(0);
+	width: 100%;
 }
 
 .entry{
 	width: 100%;
-	height: 100%;
-	
 	margin: 0;
 	padding: spacing(0);
 	
@@ -16,7 +15,6 @@
 	@include flex-just(space-between);	
 	
 	@include type-setting(2);
-	
 	background-color: white;
 	box-shadow: 0 1px .3rem #ccc;
 }
@@ -32,7 +30,9 @@
 
 .entry .detail-button{
 	padding: 0;
-	height: spacing(1);
+	height: spacing(2);
+	border: 0;
+	
 	background-color: white;
-	border: 1px #ccc;
+	font-size: 3 * $base-font-size;
 }

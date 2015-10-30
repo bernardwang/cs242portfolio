@@ -43,17 +43,16 @@ module.exports = function(app) {
 			for(var i = 0; i<commit.comments.length; i++) {
 				if(commit.comments[i]._id == req.params.comment_id) {
 					commit.comments.splice(i,1);
-					continue; // Only one comment to delete
+					// Save to db
+					commit.save(function(err) {
+      			if(err) {
+							res.send(err);
+						}
+						res.json(commit);
+					});
 				}
 			}
 			
-			// Save to db
-			commit.save(function(err) {
-      	if(err) {
-					res.send(err);
-				}
-				res.json(commit);
-			});
 		});
 	});
  

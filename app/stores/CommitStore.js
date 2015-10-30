@@ -12,28 +12,11 @@ var Comment = require('../models/Comment');
 
 var _commits = [];
 
-// Adds comment to specifed thread
-function submitComment(thread_id, commit) {
+// Updates specifed commit
+function updateCommit(thread_id, commit) {
 	for(var i = 0; i < _commits.length; i++) {
 		if(_commits[i]['_id'] == thread_id) {
 			_commits[i] = commit;
-			return;
-		}
-	}
-}
-
-// Removes comment from specifed thread
-function deleteComment(thread_id, comment_id) {
-	var commit;
-	for(var i = 0; i < _commits.length; i++) {
-		if(_commits[i]['_id'] == thread_id) {
-			commit = _commits[i];
-			continue;
-		}
-	}
-	for(var i = 0; i < commit.comments.length; i++) {
-		if(commit.comments[i]._id == comment_id) {
-			commit.comments.splice(i,1);
 			return;
 		}
 	}
@@ -47,12 +30,12 @@ ThreadDispatcher.register(function(payload) {
 
 		// COMMENT_SUBMIT
     case ThreadConstants.COMMENT_SUBMIT:
-			submitComment(action.id, action.data);
+			updateCommit(action.id, action.data);
       break;
 			
 		// COMMENT_DELETE
     case ThreadConstants.COMMENT_DELETE:
-			deleteComment(action.id, action.data);
+			updateCommit(action.id, action.data);
       break;
 			
     default:
