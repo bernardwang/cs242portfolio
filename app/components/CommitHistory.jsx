@@ -18,7 +18,8 @@ var CommitHistory = React.createClass({
     });
 
     return (
-      <section className='history'>
+			<section className='history'>
+				<p className='title'> Recent Commit History </p>
 				{history}
 			</section>
     )

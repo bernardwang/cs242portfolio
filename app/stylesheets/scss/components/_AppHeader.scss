@@ -1,0 +1,14 @@
+header{
+	width: 100%;
+	height: spacing(4);
+	margin: 0;
+	padding-left: spacing(1);
+	padding-right: spacing(2);
+	
+	background-color: $orange;
+	color: white;
+}
+
+header .title{
+	@include type-setting(3);
+}

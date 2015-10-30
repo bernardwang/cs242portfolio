@@ -4,6 +4,7 @@
 	@include flex-dir(row);
 	@include flex-just(flex-start);	
 	width: 100%;
+	margin-top: spacing(-1);
 }
 
 .form input[type='text']{
@@ -11,5 +12,5 @@
 }
 
 .form input[type='submit']{
-
+	
 }

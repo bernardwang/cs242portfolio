@@ -4,11 +4,11 @@ $base-line-height: 2 * $base-font-size;
 
 $type-settings: (
   -1: (
-    font-size: 3/4 * $base-font-size,
+    font-size: 2/3 * $base-font-size,
     line-height: 1 * $base-line-height
   ),
   0: (
-    font-size: 1.0 * $base-font-size,
+    font-size: 3/3 * $base-font-size,
     line-height: 1 * $base-line-height
   ),
   1: (
@@ -18,6 +18,14 @@ $type-settings: (
   2: (
     font-size: 5/3 * $base-font-size,
     line-height: 2 * $base-line-height
+  ),
+	3: (
+    font-size: 6/3 * $base-font-size,
+    line-height: 3 * $base-line-height
+  ),
+	4: (
+    font-size: 7/3 * $base-font-size,
+    line-height: 3 * $base-line-height
   )
 );
 

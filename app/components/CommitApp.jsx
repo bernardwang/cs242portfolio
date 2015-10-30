@@ -7,6 +7,7 @@
 var React = require('react');
 var CommitStore = require('../stores/CommitStore');
 var CommitHistory = require('./CommitHistory');
+var AppHeader = require('./AppHeader');
 
 var CommitApp = React.createClass({
   
@@ -34,9 +35,13 @@ var CommitApp = React.createClass({
   },
 		
 	render: function() {
-		
 		return (
-			<CommitHistory history = {this.props.initial}/>
+			<div>
+				<AppHeader/>
+				<main id="app">
+					<CommitHistory history = {this.props.initial}/>
+				</main>
+			</div>
 		);
 		
   }

@@ -1,8 +1,8 @@
 html,body{
-	width: 100%;
   margin: 0;
   padding: 0;
-	font-family: Open Sans, Helvetica;
+	width: 100%;
+	font-family: OpenSans, Helvetica;
 	font-size: 62.5%;
 		
 	background-color: $off-white;
@@ -10,4 +10,8 @@ html,body{
 
 .hidden{
 	display: none;
+}
+
+p{
+	margin: 0;
 }

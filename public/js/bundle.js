@@ -58,17 +58,41 @@ var script = document.getElementById('initial-state');
 var initialState = JSON.parse(script.innerHTML);
 
 // Remove element used to pass initial state
-script.parentNode.removeChild(script);
+document.body.removeChild(script);
 
 // DOM node react component will be added to
-var mountNode = document.getElementById('react-app');
+var mountNode = document.body;
 
 // Render the app, picking up where react left off on the server
 ReactDOM.render(
 	React.createElement(CommitApp, {initial: initialState}), mountNode
 );
 
-},{"./components/CommitApp":3,"react":268,"react-dom":113}],3:[function(require,module,exports){
+},{"./components/CommitApp":4,"react":268,"react-dom":113}],3:[function(require,module,exports){
+// 
+//	AppHeader.jsx
+//
+//	Site header bar
+//
+
+var React = require('react');
+
+var ThreadComment = React.createClass({displayName: "ThreadComment",
+	
+  render: function() {
+		
+		return (
+			React.createElement("header", null, 
+				React.createElement("p", {className: "title"}, "CS242 SVN Commits")
+			)
+		)
+		
+  }
+});
+
+module.exports = ThreadComment;
+
+},{"react":268}],4:[function(require,module,exports){
 // 
 //	CommitsApp.jsx
 //
@@ -78,7 +102,7 @@ ReactDOM.render(
 var React = require('react');
 var CommitStore = require('../stores/CommitStore');
 var CommitHistory = require('./CommitHistory');
-var Header = require('./Header');
+var AppHeader = require('./AppHeader');
 
 var CommitApp = React.createClass({displayName: "CommitApp",
   
@@ -106,9 +130,13 @@ var CommitApp = React.createClass({displayName: "CommitApp",
   },
 		
 	render: function() {
-		
 		return (
-			React.createElement(CommitHistory, {history: this.props.initial})
+			React.createElement("div", null, 
+				React.createElement(AppHeader, null), 
+				React.createElement("main", {id: "app"}, 
+					React.createElement(CommitHistory, {history: this.props.initial})
+				)
+			)
 		);
 		
   }
@@ -116,7 +144,7 @@ var CommitApp = React.createClass({displayName: "CommitApp",
 
 module.exports = CommitApp;
 
-},{"../stores/CommitStore":14,"./CommitHistory":6,"./Header":8,"react":268}],4:[function(require,module,exports){
+},{"../stores/CommitStore":14,"./AppHeader":3,"./CommitHistory":7,"react":268}],5:[function(require,module,exports){
 // 
 //	CommitDetails.jsx
 //
@@ -152,7 +180,7 @@ var CommitDetail = React.createClass({displayName: "CommitDetail",
 
 module.exports = CommitDetail;
 
-},{"react":268}],5:[function(require,module,exports){
+},{"react":268}],6:[function(require,module,exports){
 // 
 //	CommitEntry.jsx
 //
@@ -185,8 +213,8 @@ var CommitEntry = React.createClass({displayName: "CommitEntry",
 		return (
 			React.createElement("article", {className: "commit"}, 
 				React.createElement("div", {className: "entry"}, 
-					React.createElement("h2", {className: "msg"}, entry.msg), 
-					React.createElement("h3", {className: "date"}, entry.date), 
+					React.createElement("p", {className: "msg"}, entry.msg), 
+					React.createElement("p", {className: "date"}, entry.date), 
 					React.createElement("button", {className: "detail-button", onClick: this.toggleDetail}, detailArrow), 
 					React.createElement(CommitDetail, {show: this.state.showDetail, entry: entry})
       	), 
@@ -198,7 +226,7 @@ var CommitEntry = React.createClass({displayName: "CommitEntry",
 
 module.exports = CommitEntry;
 
-},{"./CommitDetail":4,"./CommitThread":7,"react":268}],6:[function(require,module,exports){
+},{"./CommitDetail":5,"./CommitThread":8,"react":268}],7:[function(require,module,exports){
 // 
 //	CommitHistory.jsx
 //
@@ -219,7 +247,8 @@ var CommitHistory = React.createClass({displayName: "CommitHistory",
     });
 
     return (
-      React.createElement("section", {className: "history"}, 
+			React.createElement("section", {className: "history"}, 
+				React.createElement("p", {className: "title"}, " Recent Commit History "), 
 				history
 			)
     )
@@ -229,7 +258,7 @@ var CommitHistory = React.createClass({displayName: "CommitHistory",
 
 module.exports = CommitHistory;
 
-},{"./CommitEntry":5,"react":268}],7:[function(require,module,exports){
+},{"./CommitEntry":6,"react":268}],8:[function(require,module,exports){
 // 
 //	CommitThread.jsx
 //
@@ -281,9 +310,7 @@ var CommitThread = React.createClass({displayName: "CommitThread",
 
 module.exports = CommitThread;
 
-},{"../actions/ThreadActions":1,"./ThreadComment":9,"./ThreadForm":10,"react":268}],8:[function(require,module,exports){
-
-},{}],9:[function(require,module,exports){
+},{"../actions/ThreadActions":1,"./ThreadComment":9,"./ThreadForm":10,"react":268}],9:[function(require,module,exports){
 // 
 //	ThreadComment.jsx
 //

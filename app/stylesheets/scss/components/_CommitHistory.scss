@@ -5,3 +5,8 @@
 	
 	max-width: 50rem;
 }
+
+.history .title{
+	margin-top: spacing(0);
+	@include type-setting(2);
+}
